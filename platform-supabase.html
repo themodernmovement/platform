@@ -1,0 +1,1774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Modern Movement — Community Platform</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231e293b'/><circle cx='32' cy='32' r='16' fill='none' stroke='%2338bdf8' stroke-width='4'/><circle cx='32' cy='32' r='6' fill='%2338bdf8'/></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<!-- Supabase JS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+/* ═══════════ TOKENS ═══════════ */
+:root{
+  --bg:#0c0f18;--bg2:#131720;--bg3:#1a2030;--bg4:#1f2638;--panel:#151b27;
+  --border:#252d40;--border2:#2e3a52;
+  --sky:#38bdf8;--sky-dim:rgba(56,189,248,.12);--sky-glow:rgba(56,189,248,.25);
+  --green:#22c55e;--green-dim:rgba(34,197,94,.12);
+  --red:#ef4444;--red-dim:rgba(239,68,68,.12);
+  --amber:#f59e0b;--amber-dim:rgba(245,158,11,.12);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,.12);
+  --text:#e2e8f0;--text-mid:#94a3b8;--text-dim:#475569;
+  --syne:'Syne',sans-serif;--sans:'IBM Plex Sans',sans-serif;--mono:'IBM Plex Mono',monospace;
+  --r:8px;--r2:12px;--sidebar:260px;--topbar:56px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:15px;line-height:1.6;overflow-x:hidden;min-height:100vh;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg2);}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
+
+/* ═══════════ SETUP SCREEN ═══════════ */
+#setup-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:2rem;
+  background-image:radial-gradient(ellipse 60% 50% at 20% 30%,rgba(56,189,248,.05) 0%,transparent 60%),
+                   radial-gradient(ellipse 50% 40% at 80% 70%,rgba(167,139,250,.04) 0%,transparent 60%);
+}
+.setup-box{
+  background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+  padding:2.5rem;width:100%;max-width:560px;box-shadow:0 25px 60px rgba(0,0,0,.5);
+}
+.setup-step{
+  display:flex;align-items:flex-start;gap:.875rem;padding:1rem;
+  background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
+  margin-bottom:.75rem;
+}
+.step-num{
+  width:28px;height:28px;border-radius:50%;background:var(--sky-dim);
+  border:1px solid rgba(56,189,248,.3);color:var(--sky);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--syne);font-weight:700;font-size:.85rem;flex-shrink:0;
+}
+.step-text h4{font-family:var(--syne);font-weight:700;font-size:.9rem;margin-bottom:.2rem;}
+.step-text p{font-size:.8rem;color:var(--text-mid);}
+.step-text code{
+  display:inline-block;background:var(--bg4);border:1px solid var(--border);
+  border-radius:4px;padding:.1rem .4rem;font-family:var(--mono);font-size:.75rem;
+  color:var(--sky);margin:.25rem 0;
+}
+.config-test{
+  display:flex;align-items:center;gap:.5rem;padding:.6rem .875rem;
+  border-radius:var(--r);margin-top:.75rem;font-family:var(--mono);font-size:.78rem;
+}
+.test-ok  {background:var(--green-dim);border:1px solid rgba(34,197,94,.3);color:var(--green);}
+.test-fail{background:var(--red-dim);border:1px solid rgba(239,68,68,.3);color:var(--red);}
+.test-idle{background:var(--bg3);border:1px solid var(--border);color:var(--text-dim);}
+
+/* ═══════════ AUTH ═══════════ */
+#auth-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:2rem;
+  background-image:radial-gradient(ellipse 60% 50% at 15% 25%,rgba(56,189,248,.06) 0%,transparent 60%),
+                   radial-gradient(ellipse 50% 40% at 85% 75%,rgba(167,139,250,.05) 0%,transparent 60%);
+}
+.auth-box{
+  background:var(--bg2);border:1px solid var(--border);border-radius:16px;
+  padding:2.5rem;width:100%;max-width:420px;box-shadow:0 25px 60px rgba(0,0,0,.5);
+}
+.auth-logo{text-align:center;margin-bottom:2rem;}
+.auth-logo h1{font-family:var(--syne);font-weight:800;font-size:1.75rem;letter-spacing:-.02em;}
+.auth-logo h1 span{color:var(--sky);}
+.auth-logo p{font-size:.8rem;color:var(--text-dim);font-family:var(--mono);margin-top:.2rem;}
+.auth-tabs{display:flex;background:var(--bg3);border-radius:var(--r);padding:3px;margin-bottom:1.75rem;}
+.auth-tab{
+  flex:1;padding:.5rem;border:none;background:transparent;color:var(--text-mid);
+  font-family:var(--syne);font-weight:600;font-size:.875rem;cursor:pointer;border-radius:6px;transition:all .2s;
+}
+.auth-tab.active{background:var(--bg4);color:var(--text);}
+
+/* ═══════════ FORMS ═══════════ */
+.ff{margin-bottom:1rem;}
+.ff label{
+  display:block;font-family:var(--mono);font-size:.68rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text-dim);margin-bottom:.4rem;
+}
+.ff input,.ff select,.ff textarea{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r);color:var(--text);font-family:var(--sans);
+  font-size:.95rem;padding:.65rem .875rem;outline:none;transition:border-color .2s;
+}
+.ff input:focus,.ff select:focus,.ff textarea:focus{border-color:var(--sky);}
+.ff textarea{resize:vertical;min-height:90px;}
+.ff select option{background:var(--bg3);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+
+/* ═══════════ BUTTONS ═══════════ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  font-family:var(--syne);font-weight:700;font-size:.875rem;
+  padding:.7rem 1.5rem;border-radius:var(--r);border:none;cursor:pointer;
+  transition:all .2s;text-decoration:none;white-space:nowrap;letter-spacing:.01em;
+}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-sky{background:var(--sky);color:#0c0f18;}
+.btn-sky:hover:not(:disabled){background:#7dd3fc;transform:translateY(-1px);}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--text-mid);}
+.btn-ghost:hover:not(:disabled){border-color:var(--sky);color:var(--sky);}
+.btn-green{background:var(--green);color:#0c0f18;}
+.btn-green:hover:not(:disabled){background:#4ade80;}
+.btn-red{background:var(--red);color:white;}
+.btn-red:hover:not(:disabled){background:#f87171;}
+.btn-amber{background:var(--amber);color:#0c0f18;}
+.btn-amber:hover:not(:disabled){background:#fbbf24;}
+.btn-sm{font-size:.78rem;padding:.4rem .875rem;}
+.btn-full{width:100%;}
+
+.alert{
+  border-radius:var(--r);padding:.7rem 1rem;font-size:.85rem;margin-bottom:.875rem;
+  display:none;border:1px solid;
+}
+.alert-error{background:var(--red-dim);border-color:rgba(239,68,68,.3);color:var(--red);}
+.alert-success{background:var(--green-dim);border-color:rgba(34,197,94,.3);color:var(--green);}
+
+/* ═══════════ APP SHELL ═══════════ */
+#app{display:none;min-height:100vh;}
+
+/* TOPBAR */
+.topbar{
+  position:fixed;top:0;left:0;right:0;height:var(--topbar);
+  background:rgba(12,15,24,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 1.25rem;z-index:200;gap:1rem;
+}
+.topbar-logo{font-family:var(--syne);font-weight:800;font-size:1.1rem;letter-spacing:-.01em;white-space:nowrap;}
+.topbar-logo span{color:var(--sky);}
+.topbar-search{flex:1;max-width:380px;position:relative;}
+.topbar-search input{
+  width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);
+  color:var(--text);font-family:var(--sans);font-size:.875rem;
+  padding:.45rem .875rem .45rem 2.25rem;outline:none;transition:border-color .2s;
+}
+.topbar-search input:focus{border-color:var(--sky);}
+.topbar-search .si{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(--text-dim);font-size:.85rem;pointer-events:none;}
+.topbar-right{margin-left:auto;display:flex;align-items:center;gap:.75rem;}
+.live-pill{
+  display:flex;align-items:center;gap:.4rem;
+  font-family:var(--mono);font-size:.65rem;letter-spacing:.06em;color:var(--green);
+  padding:.25rem .65rem;background:var(--green-dim);border:1px solid rgba(34,197,94,.25);
+  border-radius:50px;
+}
+.live-pill::before{
+  content:'';width:6px;height:6px;border-radius:50%;background:var(--green);
+  animation:livepulse 2s infinite;flex-shrink:0;
+}
+@keyframes livepulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(.7);}}
+.notif-btn{
+  position:relative;width:36px;height:36px;
+  border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);
+  color:var(--text-mid);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;font-size:1rem;
+}
+.notif-btn:hover{border-color:var(--sky);color:var(--sky);}
+.notif-badge{
+  position:absolute;top:-4px;right:-4px;width:16px;height:16px;
+  background:var(--red);border-radius:50%;font-size:.6rem;font-weight:700;
+  color:white;display:none;align-items:center;justify-content:center;font-family:var(--mono);
+}
+.topbar-user{
+  display:flex;align-items:center;gap:.6rem;padding:.35rem .75rem;
+  border:1px solid var(--border);border-radius:var(--r);background:var(--bg3);
+  cursor:pointer;transition:border-color .2s;
+}
+.topbar-user:hover{border-color:var(--sky);}
+.user-avatar{
+  width:26px;height:26px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sky),var(--purple));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--syne);font-weight:700;font-size:.7rem;color:white;flex-shrink:0;
+}
+.user-name{font-family:var(--syne);font-weight:600;font-size:.82rem;}
+.role-badge{font-family:var(--mono);font-size:.6rem;padding:.1rem .4rem;border-radius:3px;}
+.role-admin{background:var(--purple-dim);color:var(--purple);border:1px solid rgba(167,139,250,.3);}
+.role-mod{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.3);}
+.role-member{background:var(--sky-dim);color:var(--sky);border:1px solid rgba(56,189,248,.3);}
+.hamburger{
+  display:none;width:36px;height:36px;border:1px solid var(--border);
+  border-radius:var(--r);background:var(--bg3);color:var(--text-mid);
+  align-items:center;justify-content:center;cursor:pointer;font-size:1.1rem;
+  flex-shrink:0;
+}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;top:var(--topbar);left:0;bottom:0;width:var(--sidebar);
+  background:var(--panel);border-right:1px solid var(--border);
+  overflow-y:auto;z-index:100;padding:1.25rem 0;transition:transform .3s;
+}
+.sb-section{padding:0 .75rem;margin-bottom:1.5rem;}
+.sb-label{
+  font-family:var(--mono);font-size:.63rem;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--text-dim);padding:0 .5rem;margin-bottom:.4rem;display:block;
+}
+.nav-item{
+  display:flex;align-items:center;gap:.75rem;padding:.6rem .75rem;border-radius:var(--r);
+  color:var(--text-mid);cursor:pointer;transition:all .2s;font-family:var(--sans);
+  font-weight:500;font-size:.875rem;border:none;background:none;width:100%;text-align:left;
+}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:var(--sky-dim);color:var(--sky);}
+.nav-icon{font-size:1rem;width:20px;text-align:center;}
+.nav-badge{
+  margin-left:auto;font-family:var(--mono);font-size:.62rem;padding:.1rem .45rem;
+  border-radius:50px;background:var(--red);color:white;font-weight:600;
+}
+.nav-badge.amber{background:var(--amber);color:#0c0f18;}
+.nav-badge.sky{background:var(--sky);color:#0c0f18;}
+.sb-divider{height:1px;background:var(--border);margin:.5rem 1.25rem 1.5rem;}
+.sb-links{padding:0 .75rem;}
+.site-link{
+  display:flex;align-items:center;gap:.6rem;padding:.5rem .75rem;border-radius:var(--r);
+  font-size:.82rem;color:var(--text-dim);text-decoration:none;transition:all .2s;
+  border:1px solid transparent;margin-bottom:.4rem;
+}
+.site-link:hover{color:var(--text);border-color:var(--border);background:var(--bg3);}
+.site-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.logout-btn{
+  margin:1rem .75rem 0;width:calc(100% - 1.5rem);padding:.6rem .75rem;
+  background:transparent;border:1px solid var(--border);border-radius:var(--r);
+  color:var(--text-dim);font-family:var(--sans);font-size:.85rem;cursor:pointer;
+  transition:all .2s;display:flex;align-items:center;gap:.5rem;
+}
+.logout-btn:hover{border-color:var(--red);color:var(--red);}
+
+/* MAIN */
+.main{margin-left:var(--sidebar);padding-top:var(--topbar);min-height:100vh;}
+.main-inner{padding:2rem;max-width:1100px;}
+
+/* LOADING SKELETON */
+.skeleton{
+  background:linear-gradient(90deg,var(--bg3) 25%,var(--bg4) 50%,var(--bg3) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:var(--r);
+}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.skeleton-card{height:220px;margin-bottom:1rem;}
+
+/* PAGE HEADER */
+.page-header{
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:2rem;gap:1rem;flex-wrap:wrap;
+}
+.page-title{font-family:var(--syne);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;}
+.page-sub{font-size:.875rem;color:var(--text-mid);margin-top:.25rem;}
+
+/* STAT CARDS */
+.stats-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1rem;margin-bottom:2rem;}
+.stat-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;}
+.stat-label{font-family:var(--mono);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:.5rem;}
+.stat-value{font-family:var(--syne);font-weight:700;font-size:2rem;line-height:1;display:block;}
+.stat-delta{font-family:var(--mono);font-size:.68rem;margin-top:.3rem;display:block;}
+.up{color:var(--green);}.dn{color:var(--red);}
+
+/* FEED */
+.feed{display:flex;flex-direction:column;gap:1rem;}
+.filter-row{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem;align-items:center;}
+.ftab{
+  padding:.4rem .875rem;border-radius:50px;font-family:var(--syne);font-weight:600;
+  font-size:.78rem;border:1px solid var(--border);background:transparent;
+  color:var(--text-mid);cursor:pointer;transition:all .2s;
+}
+.ftab.active{background:var(--sky-dim);border-color:rgba(56,189,248,.4);color:var(--sky);}
+.ftab:hover:not(.active){border-color:var(--border2);color:var(--text);}
+.sort-sel{
+  margin-left:auto;background:var(--bg3);border:1px solid var(--border);
+  border-radius:var(--r);color:var(--text-mid);font-family:var(--mono);
+  font-size:.73rem;padding:.4rem .75rem;outline:none;cursor:pointer;
+}
+
+/* INITIATIVE CARD */
+.icard{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);
+  overflow:hidden;transition:border-color .2s,box-shadow .2s;
+  animation:slideIn .3s ease both;
+}
+@keyframes slideIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.icard:hover{border-color:var(--border2);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.icard.live-update{border-color:rgba(56,189,248,.5);transition:border-color .8s;}
+.icard.active{border-left:3px solid var(--sky);}
+.icard.pending{border-left:3px solid var(--amber);}
+.icard-head{padding:1.25rem 1.25rem 0;display:flex;align-items:flex-start;gap:1rem;}
+.ic-av{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--syne);font-weight:700;font-size:.8rem;color:white;
+}
+.ic-meta{flex:1;min-width:0;}
+.ic-author{font-family:var(--syne);font-weight:600;font-size:.875rem;}
+.ic-time{font-family:var(--mono);font-size:.65rem;color:var(--text-dim);}
+.ic-badges{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.3rem;}
+.badge{
+  font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;
+  padding:.13rem .45rem;border-radius:4px;text-transform:uppercase;font-weight:500;
+}
+.b-no{background:rgba(239,68,68,.1);color:#f87171;border:1px solid rgba(239,68,68,.2);}
+.b-yes{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.2);}
+.b-cat{background:var(--bg4);color:var(--text-dim);border:1px solid var(--border);}
+.b-pending{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.3);}
+.b-active{background:var(--sky-dim);color:var(--sky);border:1px solid rgba(56,189,248,.3);}
+.b-flagged{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.3);}
+.b-ai-ok{background:rgba(34,197,94,.08);color:#4ade80;border:1px solid rgba(34,197,94,.2);}
+.b-ai-warn{background:var(--amber-dim);color:var(--amber);border:1px solid rgba(245,158,11,.25);}
+
+.icard-body{padding:1rem 1.25rem;}
+.ic-title{font-family:var(--syne);font-weight:700;font-size:1.05rem;line-height:1.3;margin-bottom:.5rem;}
+.ic-desc{font-size:.875rem;color:var(--text-mid);line-height:1.6;margin-bottom:.875rem;}
+.ic-loc{font-family:var(--mono);font-size:.7rem;color:var(--text-dim);margin-bottom:.75rem;}
+.ic-chips{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:.875rem;}
+.chip{font-family:var(--mono);font-size:.62rem;padding:.18rem .45rem;background:var(--bg4);border:1px solid var(--border);border-radius:4px;color:var(--text-dim);}
+
+/* Vote bar */
+.vbar-wrap{margin-bottom:.4rem;}
+.vbar-labels{
+  display:flex;justify-content:space-between;
+  font-family:var(--mono);font-size:.68rem;color:var(--text-dim);margin-bottom:.3rem;
+}
+.vbar-track{height:5px;background:var(--bg4);border-radius:3px;overflow:hidden;display:flex;}
+.vbar-yes{background:var(--green);border-radius:3px 0 0 3px;transition:width .5s cubic-bezier(.4,0,.2,1);}
+.vbar-no{background:var(--red);border-radius:0 3px 3px 0;transition:width .5s cubic-bezier(.4,0,.2,1);}
+
+/* Card footer */
+.icard-foot{
+  display:flex;align-items:center;gap:.625rem;padding:.875rem 1.25rem;
+  background:var(--bg3);border-top:1px solid var(--border);flex-wrap:wrap;
+}
+.vbtn{
+  display:flex;align-items:center;gap:.35rem;padding:.45rem .9rem;border-radius:var(--r);
+  font-family:var(--syne);font-weight:700;font-size:.8rem;cursor:pointer;
+  border:1.5px solid transparent;transition:all .2s;
+}
+.vbtn-yes{background:var(--green-dim);border-color:rgba(34,197,94,.25);color:var(--green);}
+.vbtn-yes:hover,.vbtn-yes.voted{background:var(--green);border-color:var(--green);color:#0c0f18;}
+.vbtn-no{background:var(--red-dim);border-color:rgba(239,68,68,.25);color:var(--red);}
+.vbtn-no:hover,.vbtn-no.voted{background:var(--red);border-color:var(--red);color:white;}
+.vbtn:disabled{opacity:.6;cursor:default;}
+.flag-btn{
+  margin-left:auto;padding:.38rem .7rem;background:transparent;
+  border:1px solid var(--border);border-radius:var(--r);color:var(--text-dim);
+  font-family:var(--mono);font-size:.68rem;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:.3rem;
+}
+.flag-btn:hover{border-color:var(--amber);color:var(--amber);}
+.flag-btn.flagged{border-color:var(--amber);color:var(--amber);background:var(--amber-dim);}
+.vote-status-txt{font-family:var(--mono);font-size:.68rem;color:var(--text-dim);}
+
+/* ═══════════ SUBMIT FORM ═══════════ */
+.submit-layout{display:grid;grid-template-columns:1fr 300px;gap:1.5rem;align-items:start;}
+.form-panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;}
+.form-panel h3{font-family:var(--syne);font-weight:700;font-size:1.05rem;margin-bottom:1.25rem;padding-bottom:.75rem;border-bottom:1px solid var(--border);}
+.info-cards{display:flex;flex-direction:column;gap:1rem;}
+.info-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;}
+.info-card h4{font-family:var(--syne);font-weight:700;font-size:.875rem;color:var(--sky);margin-bottom:.75rem;}
+.info-card ul{list-style:none;}
+.info-card ul li{font-size:.8rem;color:var(--text-mid);padding:.3rem 0;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:.5rem;}
+.info-card ul li:last-child{border-bottom:none;}
+.info-card ul li::before{content:'→';color:var(--sky);flex-shrink:0;}
+.ai-panel{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;margin-top:1rem;display:none;}
+.ai-panel.show{display:block;}
+.ai-header{display:flex;align-items:center;gap:.6rem;margin-bottom:1rem;}
+.ai-header h4{font-family:var(--syne);font-weight:700;font-size:.9rem;}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--sky);animation:livepulse 1.5s infinite;}
+.ai-dot.done{animation:none;background:var(--green);}
+.ai-loading{display:flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.78rem;color:var(--sky);}
+.ai-spinner{width:14px;height:14px;border:2px solid var(--border);border-top-color:var(--sky);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.ai-scores{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:.75rem 0;}
+.ai-score-item{text-align:center;padding:.625rem .5rem;background:var(--bg4);border-radius:6px;border:1px solid var(--border);}
+.ai-score-num{font-family:var(--syne);font-weight:700;font-size:1.3rem;line-height:1;display:block;}
+.ai-score-lbl{font-family:var(--mono);font-size:.58rem;color:var(--text-dim);text-transform:uppercase;display:block;margin-top:.25rem;}
+.ai-text{font-size:.82rem;color:var(--text-mid);line-height:1.55;font-style:italic;}
+
+/* ═══════════ MOD DASHBOARD ═══════════ */
+.mod-layout{display:grid;grid-template-columns:1fr 300px;gap:1.5rem;align-items:start;}
+.mod-queue{display:flex;flex-direction:column;gap:1rem;}
+.mod-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);overflow:hidden;animation:slideIn .3s ease;}
+.mod-head{padding:1rem 1.25rem;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;}
+.mod-head h4{font-family:var(--syne);font-weight:700;font-size:.9rem;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.mod-body{padding:1rem 1.25rem;}
+.mod-body p{font-size:.85rem;color:var(--text-mid);line-height:1.6;margin-bottom:.75rem;}
+.flag-list{margin-bottom:.75rem;}
+.flag-item{display:flex;align-items:flex-start;gap:.6rem;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:.78rem;}
+.flag-item:last-child{border-bottom:none;}
+.flag-who{color:var(--text);font-weight:500;}
+.flag-why{color:var(--text-mid);flex:1;}
+.flag-when{color:var(--text-dim);font-family:var(--mono);font-size:.62rem;white-space:nowrap;}
+.mod-actions{display:flex;gap:.5rem;padding:.875rem 1.25rem;border-top:1px solid var(--border);background:var(--bg3);flex-wrap:wrap;}
+.mod-stats{display:flex;flex-direction:column;gap:1rem;}
+.stat-mini{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;}
+.stat-mini h4{font-family:var(--syne);font-weight:600;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:.875rem;}
+.mini-list{list-style:none;}
+.mini-list li{display:flex;align-items:center;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid var(--border);font-size:.82rem;}
+.mini-list li:last-child{border-bottom:none;}
+.ml-k{color:var(--text-mid);}
+.ml-v{color:var(--text);font-family:var(--mono);font-weight:500;}
+
+/* ACTIVITY LOG */
+.act-log{display:flex;flex-direction:column;gap:.35rem;}
+.act-item{display:flex;align-items:flex-start;gap:.5rem;padding:.5rem;border-radius:var(--r);font-size:.78rem;}
+.act-icon{font-size:.875rem;flex-shrink:0;margin-top:.1rem;}
+.act-text{color:var(--text-mid);flex:1;line-height:1.4;}
+.act-text strong{color:var(--text);}
+.act-time{color:var(--text-dim);font-family:var(--mono);font-size:.62rem;white-space:nowrap;}
+
+/* ═══════════ ANALYTICS ═══════════ */
+.analytics-grid{display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:1.5rem;}
+.chart-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.5rem;}
+.chart-card h3{font-family:var(--syne);font-weight:700;font-size:.95rem;margin-bottom:1.25rem;}
+.bar-chart{display:flex;flex-direction:column;gap:.6rem;}
+.bar-row{display:flex;align-items:center;gap:.625rem;}
+.bar-label{font-family:var(--mono);font-size:.67rem;color:var(--text-dim);width:120px;text-align:right;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.bar-track{flex:1;height:20px;background:var(--bg4);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:.4rem;font-family:var(--mono);font-size:.62rem;color:rgba(0,0,0,.55);font-weight:600;transition:width .8s cubic-bezier(.4,0,.2,1);min-width:1.5rem;}
+.donut-rows{display:flex;flex-direction:column;gap:.625rem;padding:.25rem 0;}
+.donut-row{display:flex;align-items:center;gap:.625rem;}
+.donut-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;}
+.donut-label{font-size:.85rem;color:var(--text-mid);flex:1;}
+.donut-val{font-family:var(--mono);font-size:.82rem;color:var(--text);}
+.donut-pct{font-family:var(--mono);font-size:.68rem;color:var(--text-dim);}
+
+/* ═══════════ PROFILE ═══════════ */
+.profile-layout{display:grid;grid-template-columns:280px 1fr;gap:1.5rem;align-items:start;}
+.profile-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.75rem;text-align:center;}
+.profile-av-lg{
+  width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--syne);font-weight:700;font-size:1.5rem;color:white;
+}
+.profile-name{font-family:var(--syne);font-weight:700;font-size:1.2rem;margin-bottom:.2rem;}
+.profile-email{font-family:var(--mono);font-size:.72rem;color:var(--text-dim);margin-bottom:.875rem;}
+.p-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin:1.1rem 0;}
+.p-stat{padding:.625rem .4rem;background:var(--bg3);border-radius:var(--r);border:1px solid var(--border);text-align:center;}
+.ps-n{font-family:var(--syne);font-weight:700;font-size:1.3rem;color:var(--sky);display:block;}
+.ps-l{font-family:var(--mono);font-size:.58rem;color:var(--text-dim);text-transform:uppercase;display:block;}
+.p-joined{font-family:var(--mono);font-size:.68rem;color:var(--text-dim);margin-top:.5rem;}
+
+/* ═══════════ MODAL ═══════════ */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(4px);
+  z-index:1000;display:none;align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.open{display:flex;}
+.modal{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);
+  padding:1.75rem;width:100%;max-width:440px;box-shadow:0 25px 60px rgba(0,0,0,.6);
+  animation:modalIn .2s ease;
+}
+@keyframes modalIn{from{opacity:0;transform:scale(.96);}to{opacity:1;transform:scale(1);}}
+.modal h3{font-family:var(--syne);font-weight:700;font-size:1.1rem;margin-bottom:1.25rem;}
+.modal-actions{display:flex;gap:.625rem;justify-content:flex-end;margin-top:1.25rem;}
+.flag-opts{display:flex;flex-direction:column;gap:.45rem;}
+.flag-opt{
+  display:flex;align-items:center;gap:.75rem;padding:.75rem;
+  border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .2s;
+}
+.flag-opt:hover,.flag-opt.sel{border-color:var(--amber);background:var(--amber-dim);}
+.fo-icon{font-size:1.05rem;}
+.fo-title{font-weight:500;font-size:.875rem;}
+.fo-sub{font-size:.75rem;color:var(--text-dim);}
+
+/* ═══════════ TOAST ═══════════ */
+.toast-wrap{position:fixed;bottom:1.5rem;right:1.5rem;z-index:2000;display:flex;flex-direction:column;gap:.4rem;align-items:flex-end;}
+.toast{
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
+  padding:.7rem 1.1rem;font-size:.85rem;box-shadow:0 8px 24px rgba(0,0,0,.4);
+  display:flex;align-items:center;gap:.45rem;animation:toastIn .3s ease;max-width:300px;
+}
+@keyframes toastIn{from{opacity:0;transform:translateX(16px);}to{opacity:1;transform:translateX(0);}}
+.toast.ok{border-color:rgba(34,197,94,.4);color:var(--green);}
+.toast.err{border-color:rgba(239,68,68,.4);color:var(--red);}
+.toast.info{border-color:rgba(56,189,248,.4);color:var(--sky);}
+.toast.warn{border-color:rgba(245,158,11,.4);color:var(--amber);}
+
+/* EMPTY STATE */
+.empty-state{
+  text-align:center;padding:3.5rem 2rem;
+  border:1px dashed var(--border2);border-radius:var(--r2);color:var(--text-dim);
+}
+.es-icon{font-size:2.5rem;margin-bottom:.875rem;display:block;}
+.empty-state h3{font-family:var(--syne);font-weight:600;font-size:1.05rem;margin-bottom:.4rem;color:var(--text-mid);}
+.empty-state p{font-size:.875rem;}
+
+/* ═══════════ RESPONSIVE ═══════════ */
+@media(max-width:900px){
+  :root{--sidebar:0px;}
+  .sidebar{transform:translateX(-260px);width:260px;}
+  .sidebar.open{transform:translateX(0);}
+  .main{margin-left:0;}
+  .hamburger{display:flex;}
+  .submit-layout,.mod-layout,.analytics-grid,.profile-layout{grid-template-columns:1fr;}
+}
+@media(max-width:600px){
+  .main-inner{padding:1rem;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .topbar-search{display:none;}
+  .form-row{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ SETUP SCREEN ═══ -->
+<div id="setup-screen" style="display:none;">
+  <div class="setup-box">
+    <div class="auth-logo">
+      <h1>MM<span>.</span>Platform</h1>
+      <p>// Supabase Setup Required</p>
+    </div>
+    <p style="font-size:.875rem;color:var(--text-mid);margin-bottom:1.5rem;line-height:1.65;">
+      This platform needs a Supabase project to store data, authenticate users, and stream live votes. 
+      Follow these steps — takes about 5 minutes.
+    </p>
+    <div class="setup-step">
+      <div class="step-num">1</div>
+      <div class="step-text">
+        <h4>Create a free Supabase project</h4>
+        <p>Go to <a href="https://supabase.com" target="_blank" style="color:var(--sky)">supabase.com</a> → New Project. Choose a region close to your users (US East or West).</p>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">2</div>
+      <div class="step-text">
+        <h4>Run the database schema</h4>
+        <p>In your project: <strong>SQL Editor → New Query</strong>. Paste the contents of <code>schema.sql</code> and click Run. This creates all tables, policies, and seed data.</p>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">3</div>
+      <div class="step-text">
+        <h4>Enable Realtime</h4>
+        <p>Go to <strong>Database → Replication</strong> and enable the <code>votes</code> and <code>initiatives</code> tables for realtime updates.</p>
+      </div>
+    </div>
+    <div class="setup-step">
+      <div class="step-num">4</div>
+      <div class="step-text">
+        <h4>Enter your project credentials</h4>
+        <p>Find these in <strong>Project Settings → API</strong>.</p>
+      </div>
+    </div>
+    <div class="ff" style="margin-top:1rem;">
+      <label>Project URL</label>
+      <input type="text" id="setup-url" placeholder="https://xxxxxxxxxxxx.supabase.co"/>
+    </div>
+    <div class="ff">
+      <label>Anon / Public Key</label>
+      <input type="text" id="setup-key" placeholder="eyJhbGciOiJIUzI1NiIs..."/>
+    </div>
+    <div id="setup-test-result" class="config-test test-idle" style="display:none;"></div>
+    <div style="display:flex;gap:.75rem;margin-top:1rem;">
+      <button class="btn btn-ghost" onclick="testConnection()">Test Connection</button>
+      <button class="btn btn-sky btn-full" onclick="saveConfig()">Save & Continue →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ AUTH SCREEN ═══ -->
+<div id="auth-screen" style="display:none;">
+  <div class="auth-box">
+    <div class="auth-logo">
+      <h1>Modern Movement<span>.</span></h1>
+      <p>// Community Platform</p>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" onclick="switchAuthTab('register')">Join Movement</button>
+    </div>
+
+    <div id="login-form">
+      <div class="alert alert-error" id="login-err"></div>
+      <div class="ff"><label>Email</label><input type="email" id="l-email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <div class="ff"><label>Password</label><input type="password" id="l-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"/></div>
+      <button class="btn btn-sky btn-full" id="login-btn" onclick="doLogin()">Sign In →</button>
+    </div>
+
+    <div id="reg-form" style="display:none;">
+      <div class="alert alert-error" id="reg-err"></div>
+      <div class="alert alert-success" id="reg-ok"></div>
+      <div class="form-row">
+        <div class="ff"><label>First Name *</label><input type="text" id="r-fname" placeholder="Jane"/></div>
+        <div class="ff"><label>Last Name *</label><input type="text" id="r-lname" placeholder="Smith"/></div>
+      </div>
+      <div class="ff"><label>Email *</label><input type="email" id="r-email" placeholder="you@example.com"/></div>
+      <div class="ff"><label>Password * (min 8 chars)</label><input type="password" id="r-pass" placeholder="••••••••"/></div>
+      <div class="ff"><label>Your City / State</label><input type="text" id="r-loc" placeholder="Austin, TX"/></div>
+      <button class="btn btn-sky btn-full" id="reg-btn" onclick="doRegister()">Create Account →</button>
+    </div>
+    <p style="font-size:.75rem;color:var(--text-dim);text-align:center;margin-top:1.25rem;">
+      <a href="#" onclick="showSetup()" style="color:var(--text-dim);">⚙️ Change Supabase config</a>
+    </p>
+  </div>
+</div>
+
+<!-- ═══ APP ═══ -->
+<div id="app">
+  <header class="topbar">
+    <button class="hamburger" onclick="toggleSB()">☰</button>
+    <div class="topbar-logo">MM<span>.</span>Platform</div>
+    <div class="topbar-search">
+      <span class="si">🔍</span>
+      <input type="text" placeholder="Search initiatives…" oninput="handleSearch(this.value)"/>
+    </div>
+    <div class="topbar-right">
+      <div class="live-pill" id="live-pill" style="display:none;">LIVE</div>
+      <button class="notif-btn" onclick="nav('notifications')">
+        🔔<span class="notif-badge" id="notif-badge"></span>
+      </button>
+      <div class="topbar-user" onclick="nav('profile')">
+        <div class="user-avatar" id="tb-av">?</div>
+        <span class="user-name" id="tb-name">–</span>
+        <span class="role-badge" id="tb-role"></span>
+      </div>
+    </div>
+  </header>
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sb-section">
+      <span class="sb-label">Main</span>
+      <button class="nav-item active" data-v="feed"       onclick="nav('feed')"><span class="nav-icon">📋</span>Initiative Feed</button>
+      <button class="nav-item"        data-v="submit"     onclick="nav('submit')"><span class="nav-icon">✏️</span>Submit Initiative</button>
+      <button class="nav-item"        data-v="analytics"  onclick="nav('analytics')"><span class="nav-icon">📊</span>Analytics</button>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-section" id="mod-nav" style="display:none;">
+      <span class="sb-label">Moderation</span>
+      <button class="nav-item" data-v="modqueue" onclick="nav('modqueue')"><span class="nav-icon">🚩</span>Flag Queue<span class="nav-badge" id="b-flags">0</span></button>
+      <button class="nav-item" data-v="pending"  onclick="nav('pending')"><span class="nav-icon">⏳</span>Pending<span class="nav-badge amber" id="b-pending">0</span></button>
+      <button class="nav-item" data-v="members"  onclick="nav('members')"><span class="nav-icon">👥</span>Members</button>
+    </div>
+    <div class="sb-divider" id="mod-div" style="display:none;"></div>
+    <div class="sb-section">
+      <span class="sb-label">My Account</span>
+      <button class="nav-item" data-v="profile" onclick="nav('profile')"><span class="nav-icon">🧑</span>My Profile</button>
+      <button class="nav-item" data-v="myvotes" onclick="nav('myvotes')"><span class="nav-icon">🗳️</span>My Votes</button>
+    </div>
+    <div class="sb-divider"></div>
+    <div class="sb-links">
+      <span class="sb-label">Public Sites</span>
+      <a href="youcansayno.html" target="_blank" class="site-link"><span class="site-dot" style="background:#ef4444;"></span>YouCanSayNo.org</a>
+      <a href="icansayyes.html"  target="_blank" class="site-link"><span class="site-dot" style="background:#22c55e;"></span>ICanSayYes.org</a>
+    </div>
+    <button class="logout-btn" onclick="doLogout()">🚪 Sign Out</button>
+  </nav>
+
+  <main class="main"><div class="main-inner" id="content"></div></main>
+</div>
+
+<!-- ═══ MODALS ═══ -->
+<div class="modal-overlay" id="flag-modal">
+  <div class="modal">
+    <h3>🚩 Flag This Content</h3>
+    <div class="flag-opts">
+      <div class="flag-opt" onclick="selFlag(this,'spam')"><span class="fo-icon">🗑️</span><div><div class="fo-title">Spam or Bot</div><div class="fo-sub">Automated, repetitive or irrelevant</div></div></div>
+      <div class="flag-opt" onclick="selFlag(this,'harmful')"><span class="fo-icon">⚠️</span><div><div class="fo-title">Harmful / Dangerous</div><div class="fo-sub">Promotes harm, violence, or illegal activity</div></div></div>
+      <div class="flag-opt" onclick="selFlag(this,'misinformation')"><span class="fo-icon">❌</span><div><div class="fo-title">Misinformation</div><div class="fo-sub">Contains demonstrably false claims</div></div></div>
+      <div class="flag-opt" onclick="selFlag(this,'offtopic')"><span class="fo-icon">🔀</span><div><div class="fo-title">Off Topic</div><div class="fo-sub">Not related to the platform's civic mission</div></div></div>
+      <div class="flag-opt" onclick="selFlag(this,'astroturf')"><span class="fo-icon">🏢</span><div><div class="fo-title">Corporate Astroturfing</div><div class="fo-sub">Coordinated influence campaign</div></div></div>
+    </div>
+    <div class="ff" style="margin-top:1rem;"><label>Additional context (optional)</label><textarea id="flag-ctx" placeholder="Why are you flagging this?" style="min-height:65px;"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('flag-modal')">Cancel</button>
+      <button class="btn btn-amber" onclick="submitFlag()">Submit Flag</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="confirm-modal">
+  <div class="modal">
+    <h3 id="conf-title">Confirm Action</h3>
+    <p id="conf-body" style="color:var(--text-mid);font-size:.9rem;line-height:1.55;"></p>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('confirm-modal')">Cancel</button>
+      <button class="btn btn-red" id="conf-btn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-wrap" id="toasts"></div>
+<div id="sb-backdrop" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99;" onclick="closeSB()"></div>
+
+<!-- ════════════════════════════════════════════════════════════════
+     APPLICATION
+════════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+
+/* ── CONFIG ──────────────────────────────────────────────────────
+   For production: replace these with your actual Supabase values.
+   For Vercel: set SUPABASE_URL and SUPABASE_ANON_KEY as env vars
+   and inject them during build (or just hardcode them here).
+──────────────────────────────────────────────────────────────── */
+const DEFAULT_URL = 'https://voamzxavmzhgcgnkhfdj.supabase.co';   // e.g. 'https://abcdef.supabase.co'
+const DEFAULT_KEY = 'sb_publishable_JwL74tjqh_hGuPA4mI44cQ_dwnMK4Of';   // e.g. 'eyJhbGci...'
+
+/* ── STATE ───────────────────────────────────────────────────────*/
+let db = null;
+let currentUser  = null;
+let currentProfile = null;
+let userVotes    = {};   // { initiative_id: 'yes'|'no' }
+let userFlags    = new Set(); // initiative ids this user has flagged
+let currentView  = 'feed';
+let searchTerm   = '';
+let flagTargetId = null;
+let flagReason   = null;
+let realtimeSub  = null;
+let allColors    = ['#3b82f6','#8b5cf6','#ec4899','#14b8a6','#f97316','#84cc16','#38bdf8'];
+
+/* ── INIT ────────────────────────────────────────────────────────*/
+(function init() {
+  const url = DEFAULT_URL || localStorage.getItem('mm_supa_url') || '';
+  const key = DEFAULT_KEY || localStorage.getItem('mm_supa_key') || '';
+  if (!url || !key) { showSetup(); return; }
+  bootSupabase(url, key);
+})();
+
+function bootSupabase(url, key) {
+  const { createClient } = window.supabase;
+  db = createClient(url, key, {
+    auth: { persistSession: true, autoRefreshToken: true }
+  });
+  // Check auth state
+  db.auth.onAuthStateChange(async (event, session) => {
+    if (session?.user) {
+      const profile = await fetchProfile(session.user.id);
+      if (profile) startApp(session.user, profile);
+      else { showAuth(); }
+    } else {
+      showAuth();
+    }
+  });
+}
+
+/* ── SETUP SCREEN ────────────────────────────────────────────────*/
+function showSetup() {
+  hide('auth-screen'); hide('app'); hide('setup-screen');
+  document.getElementById('setup-screen').style.display = 'flex';
+}
+
+async function testConnection() {
+  const url = document.getElementById('setup-url').value.trim();
+  const key = document.getElementById('setup-key').value.trim();
+  const el  = document.getElementById('setup-test-result');
+  el.style.display = 'flex';
+  el.className = 'config-test test-idle';
+  el.textContent = 'Testing…';
+  try {
+    const { createClient } = window.supabase;
+    const test = createClient(url, key);
+    const { error } = await test.from('profiles').select('id').limit(1);
+    if (error && error.code !== 'PGRST116') throw error;
+    el.className = 'config-test test-ok';
+    el.textContent = '✓ Connection successful! Ready to save.';
+  } catch (e) {
+    el.className = 'config-test test-fail';
+    el.textContent = '✕ Connection failed: ' + (e.message || 'Check URL and key');
+  }
+}
+
+function saveConfig() {
+  const url = document.getElementById('setup-url').value.trim();
+  const key = document.getElementById('setup-key').value.trim();
+  if (!url || !key) { toast('Please enter both the URL and key.','warn'); return; }
+  localStorage.setItem('mm_supa_url', url);
+  localStorage.setItem('mm_supa_key', key);
+  bootSupabase(url, key);
+}
+
+/* ── AUTH ────────────────────────────────────────────────────────*/
+function showAuth() {
+  hide('setup-screen'); hide('app');
+  document.getElementById('auth-screen').style.display = 'flex';
+}
+
+function switchAuthTab(t) {
+  document.querySelectorAll('.auth-tab').forEach((b,i) => b.classList.toggle('active',(i===0&&t==='login')||(i===1&&t==='register')));
+  show('login-form', t==='login');
+  show('reg-form',   t==='register');
+}
+function show(id, visible=true) {
+  const el=document.getElementById(id);
+  if(el) el.style.display = visible ? '' : 'none';
+}
+function hide(id) { show(id, false); }
+
+async function doLogin() {
+  const email = document.getElementById('l-email').value.trim();
+  const pass  = document.getElementById('l-pass').value;
+  const btn   = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-err');
+  errEl.style.display='none';
+  btn.disabled = true; btn.textContent='Signing in…';
+  const { data, error } = await db.auth.signInWithPassword({ email, password: pass });
+  btn.disabled = false; btn.textContent='Sign In →';
+  if (error) { errEl.style.display='block'; errEl.textContent=error.message; }
+}
+
+async function doRegister() {
+  const fname = document.getElementById('r-fname').value.trim();
+  const lname = document.getElementById('r-lname').value.trim();
+  const email = document.getElementById('r-email').value.trim();
+  const pass  = document.getElementById('r-pass').value;
+  const loc   = document.getElementById('r-loc').value.trim();
+  const errEl = document.getElementById('reg-err');
+  const okEl  = document.getElementById('reg-ok');
+  const btn   = document.getElementById('reg-btn');
+  errEl.style.display='none'; okEl.style.display='none';
+  if (!fname||!email||!pass) { errEl.style.display='block'; errEl.textContent='Please fill in all required fields.'; return; }
+  if (pass.length<8) { errEl.style.display='block'; errEl.textContent='Password must be at least 8 characters.'; return; }
+  btn.disabled=true; btn.textContent='Creating account…';
+  const { error } = await db.auth.signUp({
+    email, password: pass,
+    options: { data: { fname, lname, location: loc } }
+  });
+  btn.disabled=false; btn.textContent='Create Account →';
+  if (error) { errEl.style.display='block'; errEl.textContent=error.message; return; }
+  okEl.style.display='block';
+  okEl.textContent='✓ Account created! Check your email to confirm, then sign in.';
+}
+
+async function doLogout() {
+  if (realtimeSub) { await db.removeChannel(realtimeSub); realtimeSub=null; }
+  await db.auth.signOut();
+  currentUser=null; currentProfile=null; userVotes={}; userFlags=new Set();
+}
+
+/* ── PROFILE ─────────────────────────────────────────────────────*/
+async function fetchProfile(userId) {
+  const { data, error } = await db.from('profiles').select('*').eq('id', userId).single();
+  if (error) return null;
+  return data;
+}
+
+/* ── APP START ───────────────────────────────────────────────────*/
+async function startApp(user, profile) {
+  currentUser    = user;
+  currentProfile = profile;
+  hide('auth-screen'); hide('setup-screen');
+  document.getElementById('app').style.display = 'block';
+
+  // Topbar
+  document.getElementById('tb-av').textContent   = (profile.fname[0]||'?') + (profile.lname[0]||'');
+  document.getElementById('tb-name').textContent  = profile.fname || user.email.split('@')[0];
+  document.getElementById('tb-role').textContent  = profile.role.toUpperCase();
+  document.getElementById('tb-role').className    = 'role-badge role-'+profile.role;
+
+  const canMod = ['mod','admin'].includes(profile.role);
+  document.getElementById('mod-nav').style.display = canMod ? '' : 'none';
+  document.getElementById('mod-div').style.display = canMod ? '' : 'none';
+
+  // Load user's own votes
+  const { data: myVotes } = await db.from('votes').select('initiative_id,choice').eq('user_id', currentProfile.id);
+  userVotes = {};
+  myVotes?.forEach(v => userVotes[v.initiative_id] = v.choice);
+
+  // Load user's own flags
+  const { data: myFlags } = await db.from('flags').select('initiative_id').eq('user_id', currentProfile.id);
+  userFlags = new Set(myFlags?.map(f => f.initiative_id) || []);
+
+  // Start realtime
+  startRealtime();
+  nav('feed');
+}
+
+/* ── REALTIME ────────────────────────────────────────────────────*/
+function startRealtime() {
+  if (realtimeSub) db.removeChannel(realtimeSub);
+  realtimeSub = db.channel('mm-live')
+    .on('postgres_changes', { event:'INSERT', schema:'public', table:'votes' }, payload => {
+      handleLiveVote(payload.new);
+    })
+    .on('postgres_changes', { event:'UPDATE', schema:'public', table:'initiatives' }, payload => {
+      if (currentView === 'feed') nav('feed');
+    })
+    .subscribe(status => {
+      const pill = document.getElementById('live-pill');
+      if (pill) pill.style.display = status==='SUBSCRIBED' ? 'flex' : 'none';
+    });
+}
+
+function handleLiveVote(vote) {
+  // Update the card in the DOM without a full re-render
+  const card = document.getElementById('card-'+vote.initiative_id);
+  if (!card) return;
+  const yesEl  = card.querySelector('.count-yes');
+  const noEl   = card.querySelector('.count-no');
+  const yesBar = card.querySelector('.vbar-yes');
+  const noBar  = card.querySelector('.vbar-no');
+  if (!yesEl||!noEl||!yesBar||!noBar) return;
+  let yes = parseInt(yesEl.dataset.val||0);
+  let no  = parseInt(noEl.dataset.val||0);
+  if (vote.choice==='yes') yes++; else no++;
+  const total = yes+no || 1;
+  const yPct  = Math.round(yes/total*100);
+  yesEl.textContent = yes.toLocaleString(); yesEl.dataset.val=yes;
+  noEl.textContent  = no.toLocaleString();  noEl.dataset.val=no;
+  yesBar.style.width = yPct+'%';
+  noBar.style.width  = (100-yPct)+'%';
+  // Flash border
+  card.classList.add('live-update');
+  setTimeout(() => card.classList.remove('live-update'), 900);
+}
+
+/* ── NAVIGATION ──────────────────────────────────────────────────*/
+function nav(view) {
+  currentView = view;
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('active', b.dataset.v===view));
+  closeSB();
+  const c = document.getElementById('content');
+  c.innerHTML = '';
+  switch(view) {
+    case 'feed':         renderFeed(c);    break;
+    case 'submit':       renderSubmit(c);  break;
+    case 'analytics':    renderAnalytics(c); break;
+    case 'modqueue':     renderModQueue(c,'flagged'); break;
+    case 'pending':      renderModQueue(c,'pending'); break;
+    case 'members':      renderMembers(c); break;
+    case 'profile':      renderProfile(c); break;
+    case 'myvotes':      renderMyVotes(c); break;
+    case 'notifications':renderNotifications(c); break;
+    default: renderFeed(c);
+  }
+}
+
+/* ── FEED ────────────────────────────────────────────────────────*/
+async function renderFeed(c) {
+  c.innerHTML = loading(3);
+  try {
+    let q = db.from('initiatives')
+      .select('*, author:profiles!author_id(fname,lname,role)')
+      .eq('status','active')
+      .order('created_at', {ascending:false});
+
+    const { data: initiatives, error } = await q;
+    if (error) throw error;
+
+    // Fetch vote counts for all active initiatives
+    const ids = (initiatives||[]).map(i=>i.id);
+    let vcMap={}, flagMap={};
+    if (ids.length) {
+      const { data: allVotes } = await db.from('votes').select('initiative_id,choice').in('initiative_id',ids);
+      allVotes?.forEach(v => {
+        if (!vcMap[v.initiative_id]) vcMap[v.initiative_id]={yes:0,no:0};
+        vcMap[v.initiative_id][v.choice]++;
+      });
+      const { data: allFlags } = await db.from('flags').select('initiative_id,user_id,reason,created_at, flagger:profiles!user_id(fname,lname)').in('initiative_id',ids);
+      allFlags?.forEach(f => {
+        if (!flagMap[f.initiative_id]) flagMap[f.initiative_id]=[];
+        flagMap[f.initiative_id].push(f);
+      });
+    }
+
+    const enriched = (initiatives||[]).map(i => ({
+      ...i,
+      vc: vcMap[i.id] || {yes:0,no:0},
+      flags: flagMap[i.id] || []
+    }));
+
+    const filtered = searchTerm
+      ? enriched.filter(i => i.title.toLowerCase().includes(searchTerm) || i.description.toLowerCase().includes(searchTerm) || i.location.toLowerCase().includes(searchTerm))
+      : enriched;
+
+    const totalVotes = Object.values(vcMap).reduce((s,v)=>s+v.yes+v.no,0);
+
+    c.innerHTML = `
+      <div class="page-header">
+        <div><h1 class="page-title">Initiative Feed</h1>
+          <p class="page-sub">${filtered.length} active initiative${filtered.length!==1?'s':''} — votes deliver certified reports to decision-makers</p>
+        </div>
+        <button class="btn btn-sky" onclick="nav('submit')">+ Submit Initiative</button>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-label">Total Votes</span><span class="stat-value" style="color:var(--sky)">${totalVotes.toLocaleString()}</span><span class="stat-delta up">↑ Live</span></div>
+        <div class="stat-card"><span class="stat-label">Active Initiatives</span><span class="stat-value" style="color:var(--green)">${filtered.length}</span></div>
+        <div class="stat-card"><span class="stat-label">Members</span><span class="stat-value" style="color:var(--purple)" id="member-count">–</span></div>
+        <div class="stat-card"><span class="stat-label">Your Votes</span><span class="stat-value" style="color:var(--amber)">${Object.keys(userVotes).length}</span></div>
+      </div>
+      <div class="filter-row">
+        <button class="ftab active" onclick="ftabFilter(this,'all')">All</button>
+        <button class="ftab" onclick="ftabFilter(this,'no')">🔴 SayNo</button>
+        <button class="ftab" onclick="ftabFilter(this,'yes')">🟢 SayYes</button>
+        <button class="ftab" onclick="ftabFilter(this,'Water Rights')">💧 Water</button>
+        <button class="ftab" onclick="ftabFilter(this,'Clean Energy')">☀️ Energy</button>
+        <button class="ftab" onclick="ftabFilter(this,'Education')">📚 Education</button>
+        <select class="sort-sel" onchange="sortFeed(this.value)">
+          <option value="newest">Most Recent</option>
+          <option value="votes">Most Votes</option>
+          <option value="yes">Highest YES %</option>
+        </select>
+      </div>
+      <div class="feed" id="feed-list">
+        ${filtered.length ? filtered.map(i=>iCard(i)).join('') : emptyState('🔍','No results','Try adjusting your search or filters.')}
+      </div>`;
+
+    // Async member count
+    db.from('profiles').select('id',{count:'exact',head:true}).then(({count}) => {
+      const el=document.getElementById('member-count');
+      if(el) el.textContent=count?.toLocaleString()||'–';
+    });
+
+    updateBadges();
+  } catch(e) { c.innerHTML = errState(e); }
+}
+
+function ftabFilter(btn, filter) {
+  document.querySelectorAll('.ftab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const list = document.getElementById('feed-list');
+  if (!list) return;
+  const cards = list.querySelectorAll('.icard');
+  cards.forEach(card => {
+    const site = card.dataset.site;
+    const cat  = card.dataset.cat;
+    const show = filter==='all'
+      || (filter==='no'&&site==='no')
+      || (filter==='yes'&&site==='yes')
+      || cat===filter;
+    card.style.display = show ? '' : 'none';
+  });
+}
+
+function sortFeed(val) { if(currentView==='feed') nav('feed'); }
+function handleSearch(v) { searchTerm=v.toLowerCase(); if(currentView==='feed') nav('feed'); }
+
+function iCard(i) {
+  const total = i.vc.yes + i.vc.no;
+  const yPct  = total>0 ? Math.round(i.vc.yes/total*100) : 50;
+  const nPct  = 100-yPct;
+  const voted = userVotes[i.id];
+  const flagged = userFlags.has(i.id);
+  const fname = i.author?.fname||'Community';
+  const lname = i.author?.lname||'Member';
+  const col   = allColors[(i.id.charCodeAt(0)||0)%allColors.length];
+  const fCount= i.flags?.length||0;
+  return `
+    <div class="icard active" id="card-${i.id}" data-site="${i.site}" data-cat="${escHtml(i.category||'')}">
+      <div class="icard-head">
+        <div class="ic-av" style="background:${col}">${fname[0]}${lname[0]}</div>
+        <div class="ic-meta">
+          <div class="ic-author">${escHtml(fname)} ${escHtml(lname)}</div>
+          <div class="ic-time">${timeAgo(i.created_at)}</div>
+          <div class="ic-badges">
+            <span class="badge b-${i.site}">${i.site==='no'?'✕ YouCanSayNo':'✓ ICanSayYes'}</span>
+            <span class="badge b-cat">${escHtml(i.category)}</span>
+            ${fCount>0?`<span class="badge b-flagged">🚩 ${fCount}</span>`:''}
+            ${i.ai_score>0?`<span class="badge ${i.ai_score>=80?'b-ai-ok':'b-ai-warn'}">AI ${i.ai_score}%</span>`:''}
+          </div>
+        </div>
+      </div>
+      <div class="icard-body">
+        <h3 class="ic-title">${escHtml(i.title)}</h3>
+        <p class="ic-desc">${escHtml((i.description||'').slice(0,280))}${(i.description||'').length>280?'…':''}</p>
+        <div class="ic-loc">📍 ${escHtml(i.location)}</div>
+        <div class="ic-chips">
+          ${i.impact?`<span class="chip">📊 ${escHtml(i.impact)}</span>`:''}
+          <span class="chip">🗳️ ${total.toLocaleString()} votes</span>
+          <span class="chip">${yPct}% YES</span>
+        </div>
+        <div class="vbar-wrap">
+          <div class="vbar-labels">
+            <span style="color:var(--green)">✓ YES: <span class="count-yes" data-val="${i.vc.yes}">${i.vc.yes.toLocaleString()}</span> (${yPct}%)</span>
+            <span style="color:var(--red)">✕ NO: <span class="count-no" data-val="${i.vc.no}">${i.vc.no.toLocaleString()}</span> (${nPct}%)</span>
+          </div>
+          <div class="vbar-track">
+            <div class="vbar-yes" style="width:${yPct}%"></div>
+            <div class="vbar-no"  style="width:${nPct}%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="icard-foot">
+        ${voted ? `
+          <button class="vbtn vbtn-yes ${voted==='yes'?'voted':''}" disabled>✓ YES</button>
+          <button class="vbtn vbtn-no  ${voted==='no' ?'voted':''}" disabled>✕ NO</button>
+          <span class="vote-status-txt">You voted ${voted.toUpperCase()}</span>
+        ` : `
+          <button class="vbtn vbtn-yes" onclick="castVote('${i.id}','yes')">✓ YES</button>
+          <button class="vbtn vbtn-no"  onclick="castVote('${i.id}','no')">✕ NO</button>
+        `}
+        <button class="flag-btn ${flagged?'flagged':''}" onclick="openFlagModal('${i.id}')">
+          ${flagged?'🚩 Flagged':'🚩 Flag'}
+        </button>
+      </div>
+    </div>`;
+}
+
+/* ── VOTING ──────────────────────────────────────────────────────*/
+async function castVote(initId, choice) {
+  if (userVotes[initId]) { toast('You already voted on this.','warn'); return; }
+  userVotes[initId] = choice;
+  // Optimistic update
+  const card = document.getElementById('card-'+initId);
+  if (card) {
+    card.querySelectorAll('.vbtn').forEach(b=>{b.disabled=true;});
+    const clicked = card.querySelector(`.vbtn-${choice}`);
+    if(clicked) clicked.classList.add('voted');
+  }
+  const { error } = await db.from('votes').insert({ user_id: currentProfile.id, initiative_id: initId, choice });
+  if (error) {
+    toast('Vote failed: '+(error.message||'Please try again.'),'err');
+    delete userVotes[initId];
+    nav('feed');
+    return;
+  }
+  // Log activity
+  await db.from('activity_log').insert({ user_id: currentProfile.id, initiative_id: initId, type:'vote', description:`voted ${choice.toUpperCase()}` }).catch(()=>{});
+  toast(`✓ Vote recorded — ${choice.toUpperCase()}`, 'ok');
+}
+
+/* ── FLAGGING ────────────────────────────────────────────────────*/
+function openFlagModal(initId) {
+  if (userFlags.has(initId)) { toast('You already flagged this content.','warn'); return; }
+  flagTargetId = initId; flagReason = null;
+  document.querySelectorAll('.flag-opt').forEach(o=>o.classList.remove('sel'));
+  document.getElementById('flag-ctx').value='';
+  document.getElementById('flag-modal').classList.add('open');
+}
+function selFlag(el, reason) {
+  flagReason = reason;
+  document.querySelectorAll('.flag-opt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+}
+async function submitFlag() {
+  if (!flagReason) { toast('Please select a reason.','warn'); return; }
+  const ctx = document.getElementById('flag-ctx').value.trim();
+  const { error } = await db.from('flags').insert({ user_id:currentProfile.id, initiative_id:flagTargetId, reason:flagReason, context:ctx });
+  if (error) { toast('Flag failed: '+error.message,'err'); return; }
+  userFlags.add(flagTargetId);
+  await db.from('activity_log').insert({ user_id:currentProfile.id, initiative_id:flagTargetId, type:'flag', description:`flagged for ${flagReason}` }).catch(()=>{});
+  closeModal('flag-modal');
+  updateBadges();
+  toast('🚩 Content flagged for moderator review.','warn');
+  if (currentView==='feed') nav('feed');
+}
+
+/* ── SUBMIT ──────────────────────────────────────────────────────*/
+function renderSubmit(c) {
+  c.innerHTML = `
+    <div class="page-header">
+      <div><h1 class="page-title">Submit an Initiative</h1>
+        <p class="page-sub">AI-screened, then reviewed by our team before going live.</p>
+      </div>
+    </div>
+    <div class="submit-layout">
+      <div>
+        <div class="form-panel">
+          <h3>📝 Initiative Details</h3>
+          <div class="ff"><label>Title *</label><input type="text" id="s-title" placeholder="Be specific — what exactly are you asking for or opposing?" maxlength="150"/></div>
+          <div class="form-row">
+            <div class="ff"><label>Platform *</label>
+              <select id="s-site">
+                <option value="no">YouCanSayNo.org — Stop something harmful</option>
+                <option value="yes">ICanSayYes.org — Advance something good</option>
+              </select>
+            </div>
+            <div class="ff"><label>Category *</label>
+              <select id="s-cat">
+                <option>Water Rights</option><option>Air Quality</option><option>Clean Energy</option>
+                <option>Education</option><option>Mental Health</option><option>Housing</option>
+                <option>Food Access</option><option>Environmental Justice</option><option>Public Safety</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="ff"><label>Location / Scope *</label><input type="text" id="s-loc" placeholder="e.g. Maricopa County, AZ — or Nationwide"/></div>
+          <div class="ff"><label>Full Description * — include evidence</label><textarea id="s-desc" style="min-height:130px;" placeholder="Describe the issue, who is affected, what action you're requesting, and any supporting evidence. Specific and cited submissions are far stronger."></textarea></div>
+          <div class="form-row">
+            <div class="ff"><label>Measurable Impact</label><input type="text" id="s-impact" placeholder="e.g. 2.1M gallons/day"/></div>
+            <div class="ff"><label>Decision Date (if known)</label><input type="date" id="s-date"/></div>
+          </div>
+          <div class="ff"><label>Evidence / Source URL</label><input type="url" id="s-ev" placeholder="https://…"/></div>
+          <div class="ai-panel" id="ai-panel">
+            <div class="ai-header">
+              <div class="ai-dot" id="ai-dot"></div>
+              <h4 id="ai-panel-title">AI Content Review</h4>
+            </div>
+            <div id="ai-panel-body"><div class="ai-loading"><div class="ai-spinner"></div>Analyzing…</div></div>
+          </div>
+          <div style="display:flex;gap:.75rem;margin-top:1.25rem;flex-wrap:wrap;">
+            <button class="btn btn-ghost" onclick="runAIReview()">🤖 Run AI Review</button>
+            <button class="btn btn-sky" onclick="submitInitiative()">Submit for Review →</button>
+          </div>
+        </div>
+      </div>
+      <div class="info-cards">
+        <div class="info-card">
+          <h4>📋 Submission Standards</h4>
+          <ul>
+            <li>Name the specific body or commission</li>
+            <li>Include verifiable evidence or citations</li>
+            <li>One clear, actionable ask</li>
+            <li>No personal attacks</li>
+            <li>No partisan political content</li>
+            <li>No commercial promotion</li>
+          </ul>
+        </div>
+        <div class="info-card">
+          <h4>🔄 What Happens Next</h4>
+          <ul>
+            <li>AI moderation screen (instant)</li>
+            <li>Human moderator review (24–48hr)</li>
+            <li>Published to public voting feed</li>
+            <li>Vote results certified &amp; delivered</li>
+          </ul>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function runAIReview() {
+  const title = document.getElementById('s-title')?.value.trim();
+  const desc  = document.getElementById('s-desc')?.value.trim();
+  if (!title||!desc) { toast('Add a title and description first.','warn'); return; }
+  const panel = document.getElementById('ai-panel');
+  const dot   = document.getElementById('ai-dot');
+  const body  = document.getElementById('ai-panel-body');
+  const titleEl = document.getElementById('ai-panel-title');
+  panel.classList.add('show');
+  dot.className='ai-dot';
+  titleEl.textContent='AI Content Review — Analyzing…';
+  body.innerHTML='<div class="ai-loading"><div class="ai-spinner"></div>Checking quality, relevance, and potential issues…</div>';
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:600,
+        system:`You are a content moderation AI for a nonpartisan civic engagement platform focused on community issues like data center impacts, water rights, clean energy, and democratic participation.
+
+Evaluate submissions for: legitimacy, civic relevance, quality, and risk (spam, misinformation, astroturfing, harmful content).
+
+Respond ONLY with valid JSON (no markdown fences, no preamble):
+{"score":0-100,"verdict":"approve"|"review"|"reject","civic_relevance":0-100,"quality":0-100,"risk":"low"|"medium"|"high","summary":"2-3 sentence assessment","flags":["specific concerns if any"],"recommendation":"one sentence for moderators"}`,
+        messages:[{role:'user',content:`TITLE: ${title}\n\nDESCRIPTION: ${desc}`}]
+      })
+    });
+    const data = await resp.json();
+    const r = JSON.parse(data.content?.[0]?.text||'{}');
+    dot.className='ai-dot done';
+    const sc=r.score||0; const col=sc>=80?'var(--green)':sc>=50?'var(--amber)':'var(--red)';
+    const ve={'approve':'✅ APPROVE','review':'⚠️ REVIEW','reject':'❌ REJECT'};
+    titleEl.textContent='AI Review — Complete';
+    body.innerHTML=`
+      <div class="ai-scores">
+        <div class="ai-score-item"><span class="ai-score-num" style="color:${col}">${sc}</span><span class="ai-score-lbl">Quality</span></div>
+        <div class="ai-score-item"><span class="ai-score-num" style="color:var(--sky)">${r.civic_relevance||0}</span><span class="ai-score-lbl">Civic Rel.</span></div>
+        <div class="ai-score-item"><span class="ai-score-num" style="font-size:.9rem;">${ve[r.verdict]||r.verdict}</span><span class="ai-score-lbl">Verdict</span></div>
+      </div>
+      <p class="ai-text">"${escHtml(r.summary||'')}"</p>
+      ${(r.flags||[]).map(f=>`<div style="font-size:.78rem;color:var(--amber);margin-top:.4rem;">⚠️ ${escHtml(f)}</div>`).join('')}
+      <p style="font-size:.75rem;color:var(--text-dim);margin-top:.625rem;font-style:italic;">Moderator note: ${escHtml(r.recommendation||'')}</p>`;
+  } catch(e) {
+    dot.className='ai-dot done';
+    titleEl.textContent='AI Review — Unavailable';
+    body.innerHTML=`<p class="ai-text" style="color:var(--amber);">⚠️ AI review unavailable. Submission will go to human review. (${e.message})</p>`;
+  }
+}
+
+async function submitInitiative() {
+  const title = document.getElementById('s-title')?.value.trim();
+  const desc  = document.getElementById('s-desc')?.value.trim();
+  const site  = document.getElementById('s-site')?.value;
+  const cat   = document.getElementById('s-cat')?.value;
+  const loc   = document.getElementById('s-loc')?.value.trim();
+  const impact= document.getElementById('s-impact')?.value.trim();
+  const ev    = document.getElementById('s-ev')?.value.trim();
+  if (!title||!desc||!loc) { toast('Please fill in title, description, and location.','warn'); return; }
+  const { error } = await db.from('initiatives').insert({
+    title, description:desc, site, category:cat, location:loc,
+    impact:impact||'', evidence_url:ev||'', author_id:currentProfile.id, status:'pending'
+  });
+  if (error) { toast('Submission failed: '+error.message,'err'); return; }
+  await db.from('activity_log').insert({ user_id:currentProfile.id, type:'submit', description:`submitted "${title.slice(0,60)}"` }).catch(()=>{});
+  toast('✓ Submitted! Review within 24–48 hours.','ok');
+  updateBadges();
+  nav('feed');
+}
+
+/* ── MODERATION ──────────────────────────────────────────────────*/
+async function renderModQueue(c, type) {
+  c.innerHTML = loading(2);
+  try {
+    let query = db.from('initiatives')
+      .select('*, author:profiles!author_id(fname,lname,email), flags(id,reason,context,created_at,flagger:profiles!user_id(fname,lname))')
+      .order('created_at',{ascending:false});
+
+    if (type==='flagged') query = query.not('flags','is',null).neq('status','removed');
+    if (type==='pending') query = query.eq('status','pending');
+
+    const { data: items, error } = await query;
+    if (error) throw error;
+
+    const filtered = type==='flagged'
+      ? (items||[]).filter(i=>i.flags&&i.flags.length>0&&i.status!=='removed')
+      : (items||[]);
+
+    const title = type==='flagged' ? '🚩 Flag Queue' : '⏳ Pending Review';
+    const sub   = type==='flagged' ? `${filtered.length} initiative${filtered.length!==1?'s':''} flagged` : `${filtered.length} awaiting approval`;
+
+    c.innerHTML = `
+      <div class="page-header"><div><h1 class="page-title">${title}</h1><p class="page-sub">${sub}</p></div></div>
+      <div class="mod-layout">
+        <div class="mod-queue">
+          ${filtered.length ? filtered.map(i=>modCard(i,type)).join('') : emptyState('✅','All clear','Nothing in queue right now.')}
+        </div>
+        <div class="mod-stats" id="mod-sidebar">${loading(2)}</div>
+      </div>`;
+
+    renderModSidebar();
+  } catch(e) { c.innerHTML = errState(e); }
+}
+
+function modCard(i, type) {
+  const fn = i.author?.fname||'Unknown'; const ln = i.author?.lname||'';
+  const flags = i.flags||[];
+  return `
+    <div class="mod-card" id="mc-${i.id}">
+      <div class="mod-head">
+        ${type==='flagged'?`<span class="badge b-flagged">🚩 ${flags.length} flag${flags.length!==1?'s':''}</span>`:''}
+        <span class="badge b-pending">${i.status.toUpperCase()}</span>
+        <span class="badge b-${i.site}">${i.site==='no'?'SayNo':'SayYes'}</span>
+        ${i.ai_score>0?`<span class="badge ${i.ai_score>=80?'b-ai-ok':'b-ai-warn'}">AI ${i.ai_score}%</span>`:''}
+        <h4>${escHtml(i.title)}</h4>
+      </div>
+      <div class="mod-body">
+        <p>${escHtml((i.description||'').slice(0,220))}…</p>
+        <div style="font-family:var(--mono);font-size:.7rem;color:var(--text-dim);margin-bottom:.625rem;">
+          By <strong style="color:var(--text)">${escHtml(fn)} ${escHtml(ln)}</strong> · 📍 ${escHtml(i.location)} · ${timeAgo(i.created_at)}
+        </div>
+        ${i.ai_summary?`<div style="background:var(--bg4);border:1px solid var(--border);border-radius:6px;padding:.75rem;margin-bottom:.75rem;font-size:.8rem;color:var(--text-mid);font-style:italic;">🤖 "${escHtml(i.ai_summary)}"</div>`:''}
+        ${flags.length?`<div class="flag-list"><div style="font-family:var(--mono);font-size:.65rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem;">Flag Reports</div>
+          ${flags.map(f=>`<div class="flag-item">
+            <span class="flag-who">${escHtml(f.flagger?.fname||'?')}</span>
+            <span class="flag-why">${escHtml(f.reason)}${f.context?' — "'+escHtml(f.context)+'"':''}</span>
+            <span class="flag-when">${timeAgo(f.created_at)}</span>
+          </div>`).join('')}</div>`:
+          `<button class="btn btn-ghost btn-sm" onclick="runQuickAI('${i.id}')">🤖 Run AI Review</button>`}
+      </div>
+      <div class="mod-actions">
+        ${i.status!=='active'?`<button class="btn btn-sky btn-sm" onclick="modAction('publish','${i.id}')">✓ Publish</button>`:''}
+        <button class="btn btn-green btn-sm" onclick="modAction('clear','${i.id}')">✓ Clear Flags</button>
+        <button class="btn btn-ghost btn-sm" onclick="modAction('hide','${i.id}')">👁 Hide</button>
+        <button class="btn btn-red btn-sm"   onclick="confirmRemove('${i.id}')">🗑 Remove</button>
+      </div>
+    </div>`;
+}
+
+async function renderModSidebar() {
+  const el = document.getElementById('mod-sidebar');
+  if (!el) return;
+  const [
+    {count:total}, {count:active}, {count:pending},
+    {count:members}, {data:recent}
+  ] = await Promise.all([
+    db.from('initiatives').select('id',{count:'exact',head:true}),
+    db.from('initiatives').select('id',{count:'exact',head:true}).eq('status','active'),
+    db.from('initiatives').select('id',{count:'exact',head:true}).eq('status','pending'),
+    db.from('profiles').select('id',{count:'exact',head:true}),
+    db.from('activity_log').select('*,user:profiles!user_id(fname,lname)').order('created_at',{ascending:false}).limit(8)
+  ]);
+  const icons={vote:'🗳️',submit:'📝',flag:'🚩',approve:'✅',remove:'🗑️',publish:'🚀'};
+  el.innerHTML=`
+    <div class="stat-mini">
+      <h4>Platform Health</h4>
+      <ul class="mini-list">
+        <li><span class="ml-k">Total initiatives</span><span class="ml-v">${total||0}</span></li>
+        <li><span class="ml-k">Active / Live</span><span class="ml-v" style="color:var(--green)">${active||0}</span></li>
+        <li><span class="ml-k">Pending review</span><span class="ml-v" style="color:var(--amber)">${pending||0}</span></li>
+        <li><span class="ml-k">Total members</span><span class="ml-v">${members||0}</span></li>
+      </ul>
+    </div>
+    <div class="stat-mini">
+      <h4>Recent Activity</h4>
+      <div class="act-log">
+        ${(recent||[]).map(a=>`<div class="act-item">
+          <span class="act-icon">${icons[a.type]||'📋'}</span>
+          <span class="act-text"><strong>${escHtml(a.user?.fname||'?')}</strong> ${escHtml(a.description||'')}</span>
+          <span class="act-time">${timeAgo(a.created_at)}</span>
+        </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+async function modAction(action, initId) {
+  const updates = {
+    publish: { status:'active', published_at: new Date().toISOString() },
+    clear:   {},   // Just delete flags
+    hide:    { status:'hidden' },
+  };
+  if (action==='clear') {
+    await db.from('flags').delete().eq('initiative_id', initId);
+  } else {
+    const { error } = await db.from('initiatives').update(updates[action]).eq('id',initId);
+    if (error) { toast('Action failed: '+error.message,'err'); return; }
+  }
+  const msgs={publish:'✓ Initiative is now live!',clear:'Flags cleared.',hide:'Hidden from public feed.'};
+  await db.from('activity_log').insert({user_id:currentProfile.id,initiative_id:initId,type:action,description:`${action} on initiative`}).catch(()=>{});
+  toast(msgs[action]||'Done.','ok');
+  updateBadges();
+  nav(currentView);
+}
+
+async function runQuickAI(initId) {
+  const { data:i } = await db.from('initiatives').select('title,description').eq('id',initId).single();
+  if (!i) return;
+  toast('Running AI review…','info');
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514', max_tokens:300,
+        system:'You are a content moderation AI. Respond ONLY with JSON: {"score":0-100,"verdict":"approve"|"review"|"reject","summary":"2 sentences","risk":"low"|"medium"|"high"}',
+        messages:[{role:'user',content:`TITLE: ${i.title}\nDESCRIPTION: ${i.description}`}]
+      })
+    });
+    const d=await resp.json();
+    const r=JSON.parse(d.content?.[0]?.text||'{}');
+    await db.from('initiatives').update({ai_score:r.score||0, ai_summary:r.summary||''}).eq('id',initId);
+    toast(`AI Score: ${r.score}/100 — ${r.verdict}`,'ok');
+    nav(currentView);
+  } catch { toast('AI unavailable.','warn'); }
+}
+
+function confirmRemove(initId) {
+  document.getElementById('conf-title').textContent='Remove Initiative?';
+  document.getElementById('conf-body').textContent='This will permanently remove the initiative from all views. This action is logged.';
+  document.getElementById('conf-btn').onclick = async () => {
+    await db.from('initiatives').update({status:'removed'}).eq('id',initId);
+    await db.from('activity_log').insert({user_id:currentProfile.id,initiative_id:initId,type:'remove',description:'removed initiative'}).catch(()=>{});
+    closeModal('confirm-modal');
+    toast('Initiative removed.','ok');
+    updateBadges();
+    nav(currentView);
+  };
+  document.getElementById('confirm-modal').classList.add('open');
+}
+
+/* ── ANALYTICS ───────────────────────────────────────────────────*/
+async function renderAnalytics(c) {
+  c.innerHTML = loading(4);
+  try {
+    const [
+      {data:initiatives},
+      {data:votes},
+      {data:members},
+      {count:totalVotes}
+    ] = await Promise.all([
+      db.from('initiatives').select('*').eq('status','active'),
+      db.from('votes').select('initiative_id,choice'),
+      db.from('profiles').select('id,fname,lname,role,created_at').order('created_at',{ascending:false}).limit(5),
+      db.from('votes').select('id',{count:'exact',head:true})
+    ]);
+
+    // Build vote counts
+    const vcMap={};
+    (votes||[]).forEach(v=>{
+      if(!vcMap[v.initiative_id]) vcMap[v.initiative_id]={yes:0,no:0};
+      vcMap[v.initiative_id][v.choice]++;
+    });
+    const enriched=(initiatives||[]).map(i=>({...i,vc:vcMap[i.id]||{yes:0,no:0}}));
+    const sorted=[...enriched].sort((a,b)=>(b.vc.yes+b.vc.no)-(a.vc.yes+a.vc.no));
+    const maxV=Math.max(...sorted.map(i=>i.vc.yes+i.vc.no),1);
+    const byCat={};
+    (initiatives||[]).forEach(i=>{byCat[i.category]=(byCat[i.category]||0)+1;});
+    const totalI=initiatives?.length||1;
+    const palettes=['#38bdf8','#22c55e','#a78bfa','#f59e0b','#ec4899','#84cc16'];
+
+    c.innerHTML=`
+      <div class="page-header">
+        <div><h1 class="page-title">📊 Analytics</h1><p class="page-sub">Live data from Supabase — updates in real time</p></div>
+        <div class="live-pill" style="display:flex;">LIVE</div>
+      </div>
+      <div class="stats-row">
+        <div class="stat-card"><span class="stat-label">Total Votes</span><span class="stat-value" style="color:var(--sky)">${(totalVotes||0).toLocaleString()}</span><span class="stat-delta up">↑ Realtime</span></div>
+        <div class="stat-card"><span class="stat-label">YES Votes</span><span class="stat-value" style="color:var(--green)">${(votes||[]).filter(v=>v.choice==='yes').length.toLocaleString()}</span></div>
+        <div class="stat-card"><span class="stat-label">NO Votes</span><span class="stat-value" style="color:var(--red)">${(votes||[]).filter(v=>v.choice==='no').length.toLocaleString()}</span></div>
+        <div class="stat-card"><span class="stat-label">Active Initiatives</span><span class="stat-value" style="color:var(--green)">${initiatives?.length||0}</span></div>
+      </div>
+      <div class="analytics-grid">
+        <div class="chart-card">
+          <h3>Initiatives by Vote Count</h3>
+          <div class="bar-chart">
+            ${sorted.slice(0,6).map((i,idx)=>{
+              const t=i.vc.yes+i.vc.no; const pct=Math.round(t/maxV*100);
+              return `<div class="bar-row">
+                <div class="bar-label" title="${i.title}">${i.title.slice(0,28)}…</div>
+                <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${palettes[idx%palettes.length]}">${t.toLocaleString()}</div></div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>
+        <div class="chart-card">
+          <h3>By Category</h3>
+          <div class="donut-rows">
+            ${Object.entries(byCat).map(([cat,cnt],i)=>`<div class="donut-row">
+              <div class="donut-dot" style="background:${palettes[i%palettes.length]}"></div>
+              <div class="donut-label">${escHtml(cat)}</div>
+              <div class="donut-val">${cnt}</div>
+              <div class="donut-pct">${Math.round(cnt/totalI*100)}%</div>
+            </div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="chart-card" style="margin-bottom:1.5rem;">
+        <h3>YES vs NO Support Rate</h3>
+        <div class="bar-chart">
+          ${enriched.map(i=>{
+            const t=i.vc.yes+i.vc.no||1; const yp=Math.round(i.vc.yes/t*100);
+            return `<div class="bar-row">
+              <div class="bar-label" title="${i.title}">${i.title.slice(0,28)}…</div>
+              <div class="bar-track" style="display:flex;overflow:hidden;border-radius:4px;">
+                <div style="height:100%;background:var(--green);width:${yp}%;display:flex;align-items:center;padding-left:4px;font-family:var(--mono);font-size:.6rem;color:rgba(0,0,0,.5);">${yp}%</div>
+                <div style="height:100%;background:var(--red);flex:1;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;font-family:var(--mono);font-size:.6rem;color:rgba(255,255,255,.5);">${100-yp}%</div>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+      <div class="chart-card">
+        <h3>Newest Members</h3>
+        <div style="display:flex;flex-direction:column;gap:.5rem;">
+          ${(members||[]).map(m=>`<div style="display:flex;align-items:center;gap:.75rem;padding:.5rem;background:var(--bg3);border-radius:6px;">
+            <div class="user-avatar">${m.fname[0]||'?'}${m.lname[0]||''}</div>
+            <div style="flex:1;"><div style="font-family:var(--syne);font-weight:600;font-size:.875rem;">${escHtml(m.fname)} ${escHtml(m.lname)}</div></div>
+            <span class="role-badge role-${m.role}">${m.role.toUpperCase()}</span>
+            <span style="font-family:var(--mono);font-size:.68rem;color:var(--text-dim);">${timeAgo(m.created_at)}</span>
+          </div>`).join('')}
+        </div>
+      </div>`;
+  } catch(e) { c.innerHTML=errState(e); }
+}
+
+/* ── MEMBERS ─────────────────────────────────────────────────────*/
+async function renderMembers(c) {
+  c.innerHTML = loading(4);
+  const { data:members } = await db.from('profiles').select('*').order('created_at',{ascending:false});
+  c.innerHTML=`
+    <div class="page-header"><h1 class="page-title">👥 Members (${members?.length||0})</h1></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1rem;">
+      ${(members||[]).map(m=>{
+        const col=allColors[(m.id.charCodeAt(0)||0)%allColors.length];
+        return `<div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r2);padding:1.25rem;">
+          <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem;">
+            <div class="user-avatar" style="width:42px;height:42px;font-size:.95rem;background:linear-gradient(135deg,${col},${allColors[(allColors.indexOf(col)+1)%allColors.length]})">${m.fname[0]||'?'}${m.lname[0]||''}</div>
+            <div><div style="font-family:var(--syne);font-weight:700;">${escHtml(m.fname)} ${escHtml(m.lname)}</div>
+            <span class="role-badge role-${m.role}">${m.role.toUpperCase()}</span></div>
+          </div>
+          ${m.location?`<div style="font-family:var(--mono);font-size:.68rem;color:var(--text-dim);margin-bottom:.5rem;">📍 ${escHtml(m.location)}</div>`:''}
+          ${m.bio?`<div style="font-size:.8rem;color:var(--text-mid);margin-bottom:.625rem;">${escHtml(m.bio.slice(0,100))}</div>`:''}
+          <div style="font-family:var(--mono);font-size:.65rem;color:var(--text-dim);">Joined ${timeAgo(m.created_at)}</div>
+          ${currentProfile.role==='admin'&&m.id!==currentProfile.id?`
+          <div style="display:flex;gap:.4rem;margin-top:.75rem;">
+            ${m.role==='member'?`<button class="btn btn-amber btn-sm" onclick="changeRole('${m.id}','mod')">→ Promote Mod</button>`:''}
+            ${m.role==='mod'?`<button class="btn btn-ghost btn-sm" onclick="changeRole('${m.id}','member')">→ Demote</button>`:''}
+          </div>`:''}
+        </div>`;
+      }).join('')}
+    </div>`;
+}
+
+async function changeRole(userId, newRole) {
+  const { error } = await db.from('profiles').update({role:newRole}).eq('id',userId);
+  if (error) { toast('Role change failed: '+error.message,'err'); return; }
+  toast(`Role updated to ${newRole}.`,'ok');
+  nav('members');
+}
+
+/* ── PROFILE ─────────────────────────────────────────────────────*/
+async function renderProfile(c) {
+  const p=currentProfile;
+  const col=allColors[(p.id.charCodeAt(0)||0)%allColors.length];
+  const {count:voteCount}=await db.from('votes').select('id',{count:'exact',head:true}).eq('user_id',p.id);
+  const {count:subCount}=await db.from('initiatives').select('id',{count:'exact',head:true}).eq('author_id',p.id);
+  const {data:mySubs}=await db.from('initiatives').select('id,title,status,created_at').eq('author_id',p.id).order('created_at',{ascending:false});
+  c.innerHTML=`
+    <div class="page-header"><h1 class="page-title">My Profile</h1></div>
+    <div class="profile-layout">
+      <div class="profile-card">
+        <div class="profile-av-lg" style="background:linear-gradient(135deg,${col},var(--purple))">${p.fname[0]||'?'}${p.lname[0]||''}</div>
+        <div class="profile-name">${escHtml(p.fname)} ${escHtml(p.lname)}</div>
+        <div class="profile-email">${escHtml(p.email||currentUser.email||'')}</div>
+        <span class="role-badge role-${p.role}" style="display:inline-block;margin-bottom:.875rem;">${p.role.toUpperCase()}</span>
+        <div class="p-stats">
+          <div class="p-stat"><span class="ps-n">${voteCount||0}</span><span class="ps-l">Votes</span></div>
+          <div class="p-stat"><span class="ps-n">${subCount||0}</span><span class="ps-l">Submitted</span></div>
+          <div class="p-stat"><span class="ps-n">${(mySubs||[]).filter(i=>i.status==='active').length}</span><span class="ps-l">Live</span></div>
+        </div>
+        ${p.location?`<div style="font-family:var(--mono);font-size:.68rem;color:var(--text-dim);">📍 ${escHtml(p.location)}</div>`:''}
+        ${p.bio?`<div style="font-size:.82rem;color:var(--text-mid);margin-top:.5rem;">${escHtml(p.bio)}</div>`:''}
+        <div class="p-joined">Member since ${new Date(p.created_at).toLocaleDateString('en-US',{month:'short',year:'numeric'})}</div>
+      </div>
+      <div>
+        <div class="form-panel" style="margin-bottom:1.25rem;">
+          <h3>✏️ Edit Profile</h3>
+          <div class="form-row">
+            <div class="ff"><label>First Name</label><input type="text" id="p-fn" value="${escHtml(p.fname)}"/></div>
+            <div class="ff"><label>Last Name</label><input type="text" id="p-ln" value="${escHtml(p.lname)}"/></div>
+          </div>
+          <div class="ff"><label>Location</label><input type="text" id="p-loc" value="${escHtml(p.location||'')}"/></div>
+          <div class="ff"><label>Bio</label><textarea id="p-bio" style="min-height:75px;">${escHtml(p.bio||'')}</textarea></div>
+          <button class="btn btn-sky" onclick="saveProfile()">Save Changes</button>
+        </div>
+        <div class="form-panel">
+          <h3>📝 My Submissions (${(mySubs||[]).length})</h3>
+          ${(mySubs||[]).length ? (mySubs||[]).map(i=>`
+            <div style="display:flex;align-items:flex-start;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border);">
+              <span class="badge b-${i.status==='active'?'active':'pending'}">${i.status.toUpperCase()}</span>
+              <div style="flex:1;min-width:0;">
+                <div style="font-weight:600;font-size:.875rem;">${escHtml(i.title.slice(0,70))}…</div>
+                <div style="font-family:var(--mono);font-size:.65rem;color:var(--text-dim);">${timeAgo(i.created_at)}</div>
+              </div>
+            </div>`).join('') : '<p style="color:var(--text-dim);font-size:.875rem;">No submissions yet.</p>'}
+        </div>
+      </div>
+    </div>`;
+}
+
+async function saveProfile() {
+  const fname    = document.getElementById('p-fn')?.value.trim() || currentProfile.fname;
+  const lname    = document.getElementById('p-ln')?.value.trim() || currentProfile.lname;
+  const location = document.getElementById('p-loc')?.value.trim() || '';
+  const bio      = document.getElementById('p-bio')?.value.trim() || '';
+  const { error } = await db.from('profiles').update({fname,lname,location,bio}).eq('id',currentProfile.id);
+  if (error) { toast('Save failed: '+error.message,'err'); return; }
+  currentProfile = {...currentProfile,fname,lname,location,bio};
+  document.getElementById('tb-av').textContent  = fname[0]+(lname[0]||'');
+  document.getElementById('tb-name').textContent = fname;
+  toast('Profile saved!','ok');
+}
+
+/* ── MY VOTES ────────────────────────────────────────────────────*/
+async function renderMyVotes(c) {
+  c.innerHTML=loading(2);
+  const { data:myVoteRows } = await db.from('votes').select('initiative_id,choice,created_at').eq('user_id',currentProfile.id).order('created_at',{ascending:false});
+  const ids=(myVoteRows||[]).map(v=>v.initiative_id);
+  const voteMap={};
+  (myVoteRows||[]).forEach(v=>voteMap[v.initiative_id]=v.choice);
+  let inits=[];
+  if (ids.length) {
+    const {data} = await db.from('initiatives').select('id,title,location,site,category,description').in('id',ids);
+    inits = data||[];
+  }
+  c.innerHTML=`
+    <div class="page-header"><h1 class="page-title">My Votes (${inits.length})</h1></div>
+    <div class="feed">
+      ${inits.length ? inits.map(i=>{
+        const ch=voteMap[i.id];
+        return `<div class="icard active">
+          <div class="icard-foot" style="padding:1rem 1.25rem;background:var(--bg2);">
+            <div style="padding:.4rem .75rem;border-radius:6px;font-family:var(--syne);font-weight:700;font-size:.875rem;background:${ch==='yes'?'var(--green-dim)':'var(--red-dim)'};color:${ch==='yes'?'var(--green)':'var(--red)'};border:1px solid ${ch==='yes'?'rgba(34,197,94,.3)':'rgba(239,68,68,.3)'};">
+              ${ch==='yes'?'✓ YOU VOTED YES':'✕ YOU VOTED NO'}
+            </div>
+            <span class="badge b-${i.site}" style="margin-left:.75rem;">${i.site==='no'?'YouCanSayNo':'ICanSayYes'}</span>
+          </div>
+          <div class="icard-body">
+            <h3 class="ic-title">${escHtml(i.title)}</h3>
+            <div class="ic-loc">📍 ${escHtml(i.location)}</div>
+          </div>
+        </div>`;
+      }).join('') : emptyState('🗳️','No votes yet','Head to the feed and make your voice heard.')}
+    </div>`;
+}
+
+/* ── NOTIFICATIONS ───────────────────────────────────────────────*/
+async function renderNotifications(c) {
+  c.innerHTML=loading(1);
+  const {data:myInits} = await db.from('initiatives').select('id').eq('author_id',currentProfile.id);
+  const myIds=(myInits||[]).map(i=>i.id);
+  let items=[];
+  if (myIds.length) {
+    const {data} = await db.from('activity_log')
+      .select('*,user:profiles!user_id(fname,lname)')
+      .in('initiative_id',myIds)
+      .neq('user_id',currentProfile.id)
+      .order('created_at',{ascending:false})
+      .limit(30);
+    items=data||[];
+  }
+  const icons={vote:'🗳️',flag:'🚩',approve:'✅',publish:'🚀',remove:'🗑️'};
+  c.innerHTML=`
+    <div class="page-header"><h1 class="page-title">🔔 Notifications</h1></div>
+    <div class="form-panel">
+      ${items.length ? items.map(a=>`
+        <div class="act-item" style="background:var(--bg3);border-radius:var(--r);margin-bottom:.4rem;">
+          <span class="act-icon">${icons[a.type]||'📋'}</span>
+          <span class="act-text"><strong>${escHtml(a.user?.fname||'?')}</strong> ${escHtml(a.description||'')}</span>
+          <span class="act-time">${timeAgo(a.created_at)}</span>
+        </div>`).join('')
+      : emptyState('🔔','All caught up','No new notifications.')}
+    </div>`;
+  document.getElementById('notif-badge').style.display='none';
+}
+
+/* ── BADGES ──────────────────────────────────────────────────────*/
+async function updateBadges() {
+  const canMod=['mod','admin'].includes(currentProfile?.role);
+  if (!canMod) return;
+  const [
+    {count:flagCount},
+    {count:pendingCount}
+  ] = await Promise.all([
+    db.rpc('count_flagged_initiatives').catch(()=>({count:0})),
+    db.from('initiatives').select('id',{count:'exact',head:true}).eq('status','pending')
+  ]);
+  // Simplified: just count initiatives with flags
+  const {data:flagged} = await db.from('flags').select('initiative_id').then(({data})=>({data:[...new Set((data||[]).map(f=>f.initiative_id))]}));
+  const fb=document.getElementById('b-flags');
+  const pb=document.getElementById('b-pending');
+  if(fb){fb.textContent=flagged?.length||0;fb.style.display=flagged?.length?'':'none';}
+  if(pb){pb.textContent=pendingCount||0;pb.style.display=pendingCount?'':'none';}
+}
+
+/* ── HELPERS ─────────────────────────────────────────────────────*/
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#039;');
+}
+function timeAgo(iso) {
+  if (!iso) return '';
+  const d=Date.now()-new Date(iso).getTime();
+  const m=Math.floor(d/60000);
+  if(m<1) return 'just now';
+  if(m<60) return m+'m ago';
+  const h=Math.floor(m/60);
+  if(h<24) return h+'h ago';
+  const days=Math.floor(h/24);
+  if(days<30) return days+'d ago';
+  return new Date(iso).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+}
+function loading(n) { return Array(n).fill('<div class="skeleton skeleton-card"></div>').join(''); }
+function emptyState(icon,title,sub) { return `<div class="empty-state"><span class="es-icon">${icon}</span><h3>${title}</h3><p>${sub}</p></div>`; }
+function errState(e) { return `<div class="empty-state"><span class="es-icon">⚠️</span><h3>Something went wrong</h3><p>${e.message||'Please try again.'}</p></div>`; }
+
+function toast(msg, type='ok') {
+  const wrap=document.getElementById('toasts');
+  const el=document.createElement('div');
+  el.className=`toast ${type}`;
+  el.textContent=msg;
+  wrap.appendChild(el);
+  setTimeout(()=>{el.style.opacity='0';el.style.transform='translateX(16px)';el.style.transition='all .3s';setTimeout(()=>el.remove(),320);},3500);
+}
+
+function closeModal(id) { document.getElementById(id)?.classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+function toggleSB() {
+  const sb=document.getElementById('sidebar');
+  const bd=document.getElementById('sb-backdrop');
+  const open=sb.classList.toggle('open');
+  bd.style.display=open?'block':'none';
+}
+function closeSB() {
+  document.getElementById('sidebar')?.classList.remove('open');
+  const bd=document.getElementById('sb-backdrop');
+  if(bd) bd.style.display='none';
+}
+</script>
+</body>
+</html>

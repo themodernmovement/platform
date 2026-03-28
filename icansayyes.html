@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="ICanSayYes.org — Voting YES on the measures that protect people, communities, and our shared future. Simple. Transparent. Yours."/>
+  <title>ICanSayYes.org — Vote YES on What Matters Most</title>
+
+  <!-- Embedded SVG Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231a3d2e'/><polyline points='14,34 26,46 50,20' stroke='%2386efac' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>"/>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Nunito:wght@400;500;600;700;800&family=Courier+Prime:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ───────── RESET & ROOT ───────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #f7f3ec;
+      --bg2:          #eee9df;
+      --bg3:          #e6dfd4;
+      --card:         #faf8f4;
+      --forest:       #1a3d2e;
+      --forest-mid:   #2d6347;
+      --forest-light: #4a8a60;
+      --forest-pale:  rgba(26,61,46,0.08);
+      --amber:        #c47d1a;
+      --amber-light:  #e8a020;
+      --amber-pale:   rgba(196,125,26,0.12);
+      --terra:        #b85c2a;
+      --terra-pale:   rgba(184,92,42,0.12);
+      --sage:         #7aab8a;
+      --border:       #d4cfc6;
+      --text:         #1e1c18;
+      --text-mid:     #4a4640;
+      --text-dim:     #8a8278;
+      --serif:        'Cormorant Garamond', Georgia, serif;
+      --sans:         'Nunito', sans-serif;
+      --mono:         'Courier Prime', 'Courier New', monospace;
+      --rad:          8px;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    /* ───────── ORGANIC BACKGROUND TEXTURE ───────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 10% 20%, rgba(122,171,138,0.08) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 80%, rgba(196,125,26,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ───────── NAV ───────── */
+    nav {
+      position: sticky; top: 0; z-index: 500;
+      background: rgba(247,243,236,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(1rem,4vw,2.5rem);
+      height: 64px;
+    }
+
+    .nav-logo {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.45rem;
+      color: var(--text);
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0.5rem;
+      letter-spacing: 0.01em;
+    }
+    .logo-check {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px;
+      background: var(--forest);
+      border-radius: 6px;
+      color: #86efac;
+      font-size: 1rem;
+    }
+    .nav-logo .yes-color { color: var(--forest-mid); }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 1.5rem;
+      list-style: none;
+    }
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--forest); }
+    .nav-cta {
+      background: var(--forest) !important;
+      color: white !important;
+      padding: 0.4rem 1rem;
+      border-radius: var(--rad);
+    }
+    .nav-cta:hover { background: var(--forest-mid) !important; }
+
+    .hamburger {
+      display: none;
+      flex-direction: column; gap: 5px; cursor: pointer; padding: 4px;
+      background: none; border: none;
+    }
+    .hamburger span {
+      width: 24px; height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      display: block;
+    }
+
+    /* ───────── HERO ───────── */
+    .hero {
+      position: relative;
+      min-height: 88vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+      padding: clamp(3rem,8vw,5rem) clamp(1rem,4vw,2.5rem);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-content { position: relative; z-index: 1; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--forest-mid);
+      margin-bottom: 1.5rem;
+      padding: 0.35rem 0.85rem;
+      background: var(--forest-pale);
+      border-radius: 50px;
+      border: 1px solid rgba(26,61,46,0.15);
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(3rem,7vw,5.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--forest-mid);
+    }
+    .hero h1 .amber-word { color: var(--amber); }
+
+    .hero-sub {
+      font-size: clamp(1rem,2vw,1.15rem);
+      color: var(--text-mid);
+      max-width: 480px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+
+    .hero-actions {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      padding: 0.85rem 1.75rem;
+      border-radius: var(--rad);
+      border: none; cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--forest);
+      color: white;
+    }
+    .btn-primary:hover { background: var(--forest-mid); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(26,61,46,0.25); }
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text-mid);
+    }
+    .btn-ghost:hover { border-color: var(--forest); color: var(--forest); }
+    .btn-amber {
+      background: var(--amber);
+      color: white;
+    }
+    .btn-amber:hover { background: var(--amber-light); transform: translateY(-2px); }
+
+    /* ───────── HERO ILLUSTRATION ───────── */
+    .hero-visual {
+      position: relative;
+      display: flex; align-items: center; justify-content: center;
+      animation: fadeUp 0.7s 0.15s ease both;
+    }
+    .hero-ring {
+      width: clamp(260px,35vw,400px);
+      height: clamp(260px,35vw,400px);
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--forest-pale) 0%, var(--amber-pale) 100%);
+      border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .hero-ring::before {
+      content: '';
+      position: absolute; inset: 16px;
+      border-radius: 50%;
+      border: 1px dashed var(--border);
+    }
+    .big-yes {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(5rem,12vw,9rem);
+      color: var(--forest);
+      line-height: 1;
+      font-style: italic;
+    }
+
+    .orbit-tags {
+      position: absolute;
+      width: 100%; height: 100%;
+    }
+    .orbit-tag {
+      position: absolute;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 50px;
+      white-space: nowrap;
+    }
+    .ot1 { top: -5%; left: 50%; transform: translateX(-50%); background: var(--forest-pale); color: var(--forest); border: 1px solid rgba(26,61,46,0.2); }
+    .ot2 { top: 50%; right: -8%; transform: translateY(-50%); background: var(--amber-pale); color: var(--amber); border: 1px solid rgba(196,125,26,0.2); }
+    .ot3 { bottom: -5%; left: 50%; transform: translateX(-50%); background: var(--terra-pale); color: var(--terra); border: 1px solid rgba(184,92,42,0.2); }
+    .ot4 { top: 50%; left: -10%; transform: translateY(-50%); background: var(--forest-pale); color: var(--forest-mid); border: 1px solid rgba(26,61,46,0.2); }
+
+    /* ───────── PRINCIPLE BAND ───────── */
+    .principles {
+      background: var(--forest);
+      padding: clamp(2rem,4vw,3rem) clamp(1rem,4vw,2.5rem);
+      color: white;
+    }
+    .principles-grid {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+    .principle-item {
+      display: flex; align-items: flex-start; gap: 0.75rem;
+    }
+    .principle-icon {
+      font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem;
+    }
+    .principle-item h3 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 0.25rem;
+    }
+    .principle-item p {
+      font-size: 0.825rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+    }
+
+    /* ───────── SECTIONS ───────── */
+    .section { padding: clamp(3rem,7vw,5rem) clamp(1rem,4vw,2.5rem); }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+
+    .section-tag {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--forest-mid);
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: clamp(2rem,5vw,3.2rem);
+      line-height: 1.05;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    /* ───────── VOTE CARDS ───────── */
+    .votes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .vote-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .vote-card:hover {
+      box-shadow: 0 8px 30px rgba(26,61,46,0.1);
+      transform: translateY(-3px);
+    }
+
+    .vc-top {
+      padding: 1.25rem 1.25rem 0;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .vc-tag {
+      font-family: var(--mono);
+      font-size: 0.63rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+    }
+    .tag-health  { background: rgba(74,138,96,0.12); color: var(--forest-mid); border: 1px solid rgba(74,138,96,0.25); }
+    .tag-water   { background: rgba(37,99,235,0.1);  color: #2563eb; border: 1px solid rgba(37,99,235,0.2); }
+    .tag-justice { background: rgba(184,92,42,0.1);  color: var(--terra); border: 1px solid rgba(184,92,42,0.2); }
+    .tag-energy  { background: rgba(196,125,26,0.12); color: var(--amber); border: 1px solid rgba(196,125,26,0.2); }
+    .tag-housing { background: rgba(109,40,217,0.08); color: #7c3aed; border: 1px solid rgba(109,40,217,0.2); }
+    .tag-edu     { background: rgba(220,38,38,0.08); color: #dc2626; border: 1px solid rgba(220,38,38,0.2); }
+
+    .vc-region {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--text-dim);
+      letter-spacing: 0.06em;
+    }
+
+    .vc-body { padding: 1rem 1.25rem; }
+
+    .vc-title {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.25rem;
+      line-height: 1.25;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+    .vc-desc {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.55;
+      margin-bottom: 1rem;
+    }
+
+    .vc-chips {
+      display: flex; gap: 0.5rem; flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+    .vc-chip {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      padding: 0.2rem 0.5rem;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-dim);
+    }
+
+    /* Tally bar */
+    .tally-wrap { margin-bottom: 0.5rem; }
+    .tally-labels {
+      display: flex; justify-content: space-between;
+      font-family: var(--mono); font-size: 0.68rem;
+      color: var(--text-dim); margin-bottom: 0.35rem;
+    }
+    .tally-track {
+      height: 6px;
+      background: rgba(0,0,0,0.07);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .tally-fill {
+      height: 100%;
+      background: var(--forest);
+      border-radius: 3px;
+      transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* Vote buttons */
+    .vc-vote {
+      display: flex; gap: 0.75rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+    }
+
+    .vcv-btn {
+      flex: 1;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      padding: 0.65rem;
+      border-radius: var(--rad);
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .vcv-yes {
+      background: var(--forest-pale);
+      border-color: rgba(26,61,46,0.2);
+      color: var(--forest);
+    }
+    .vcv-yes:hover, .vcv-yes.voted {
+      background: var(--forest);
+      border-color: var(--forest);
+      color: white;
+    }
+    .vcv-no {
+      background: transparent;
+      border-color: var(--border);
+      color: var(--text-dim);
+    }
+    .vcv-no:hover, .vcv-no.voted {
+      background: var(--bg3);
+      border-color: var(--text-dim);
+      color: var(--text);
+    }
+
+    /* ───────── FEATURED QUOTE ───────── */
+    .quote-band {
+      background: var(--forest);
+      padding: clamp(3rem,6vw,5rem) clamp(1rem,4vw,2.5rem);
+      text-align: center;
+      color: white;
+    }
+    .quote-band blockquote {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(1.5rem,4vw,2.8rem);
+      line-height: 1.3;
+      max-width: 800px;
+      margin: 0 auto 1.5rem;
+      letter-spacing: -0.01em;
+    }
+    .quote-band cite {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* ───────── POST SECTION ───────── */
+    .post-form {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: clamp(1.5rem,4vw,2.5rem);
+      max-width: 720px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .form-full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--rad);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      padding: 0.65rem 0.9rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--forest); }
+    textarea { resize: vertical; min-height: 100px; }
+    select option { background: white; }
+
+    .form-submit {
+      margin-top: 1.25rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .form-note { font-size: 0.8rem; color: var(--text-dim); }
+
+    /* ───────── HOW IT WORKS ───────── */
+    .how-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2rem;
+    }
+    .how-item {
+      padding: 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .how-num {
+      font-family: var(--serif);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 3.5rem;
+      color: var(--forest);
+      opacity: 0.2;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+    .how-item h3 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .how-item p { font-size: 0.875rem; color: var(--text-mid); }
+
+    /* ───────── IMPACT NUMBERS ───────── */
+    .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .impact-tile {
+      padding: 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      text-align: center;
+    }
+    .impact-tile .num {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 2.8rem;
+      color: var(--forest);
+      line-height: 1;
+      display: block;
+    }
+    .impact-tile .lbl {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      display: block;
+      margin-top: 0.4rem;
+    }
+
+    /* ───────── SISTER SITE CALLOUT ───────── */
+    .sister-band {
+      background: var(--bg2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 3rem clamp(1rem,4vw,2.5rem);
+    }
+    .sister-inner {
+      max-width: 800px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .sister-inner h3 {
+      font-family: var(--serif);
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+    }
+    .sister-inner p { font-size: 0.9rem; color: var(--text-mid); }
+
+    /* ───────── FOOTER ───────── */
+    footer {
+      background: var(--forest);
+      color: rgba(255,255,255,0.85);
+      padding: 3rem clamp(1rem,4vw,2.5rem);
+    }
+    .footer-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 3rem;
+    }
+    .footer-brand h2 {
+      font-family: var(--serif);
+      font-weight: 700;
+      font-size: 1.8rem;
+      color: white;
+      margin-bottom: 0.5rem;
+    }
+    .footer-brand h2 span { color: #86efac; }
+    .footer-brand p { font-size: 0.875rem; color: rgba(255,255,255,0.55); max-width: 280px; line-height: 1.6; }
+    .footer-col h4 {
+      font-family: var(--sans);
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 1rem;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col ul li { margin-bottom: 0.5rem; }
+    .footer-col ul a {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.65);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-col ul a:hover { color: white; }
+    .footer-bottom {
+      max-width: 1100px; margin: 2rem auto 0;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-bottom p { font-family: var(--mono); font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+    .sister-footer-link {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: #fca5a5;
+      text-decoration: none;
+      letter-spacing: 0.08em;
+    }
+    .sister-footer-link:hover { text-decoration: underline; }
+
+    /* ───────── MOBILE NAV ───────── */
+    .mobile-nav {
+      display: none;
+      position: fixed; top: 64px; left: 0; right: 0;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem;
+      z-index: 499;
+      flex-direction: column; gap: 1rem;
+    }
+    .mobile-nav.open { display: flex; }
+    .mobile-nav a {
+      font-family: var(--sans);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+      text-decoration: none;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-nav a:hover { color: var(--forest); }
+
+    /* ───────── TOAST ───────── */
+    .toast {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      background: var(--forest);
+      border-radius: 8px;
+      padding: 1rem 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: white;
+      z-index: 9999;
+      transform: translateY(120%);
+      transition: transform 0.3s;
+    }
+    .toast.show { transform: translateY(0); }
+
+    /* ───────── ANIMATIONS ───────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ───────── RESPONSIVE ───────── */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero-visual { display: none; }
+      .hero-sub { margin: 0 auto 2rem; }
+      .hero-actions { justify-content: center; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .form-grid { grid-template-columns: 1fr; }
+      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; align-items: flex-start; }
+      .sister-inner { flex-direction: column; }
+    }
+    @media (max-width: 480px) {
+      .votes-grid, .how-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="logo-check">✓</span>
+    ICan<span class="yes-color">SayYes</span>.org
+  </a>
+  <ul class="nav-links">
+    <li><a href="#initiatives">Vote Now</a></li>
+    <li><a href="#post">Propose</a></li>
+    <li><a href="#howworks">How It Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="youcansayno.html" class="nav-cta">→ YouCanSayNo.org</a></li>
+  </ul>
+  <button class="hamburger" id="hambtn" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<nav class="mobile-nav" id="mobilenav">
+  <a href="#initiatives" onclick="closeMobile()">Vote Now</a>
+  <a href="#post" onclick="closeMobile()">Propose a Measure</a>
+  <a href="#howworks" onclick="closeMobile()">How It Works</a>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="youcansayno.html" style="color:var(--terra)">→ YouCanSayNo.org</a>
+</nav>
+
+<!-- HERO -->
+<div style="max-width:1200px;margin:0 auto;">
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-eyebrow">✦ Community Voting Platform — Live</div>
+    <h1>
+      The humanity<br/>side of<br/><em>humanity.</em>
+    </h1>
+    <p class="hero-sub">
+      Real measures. Real communities. Real votes. This platform exists because modern politics has forgotten that thousands of ordinary people have an extraordinary ability to say <strong>yes</strong> to what actually matters.
+    </p>
+    <div class="hero-actions">
+      <a href="#initiatives" class="btn btn-primary">✓ Vote on Measures</a>
+      <a href="#post" class="btn btn-ghost">+ Propose a Measure</a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="hero-ring">
+      <span class="big-yes">Yes.</span>
+      <div class="orbit-tags">
+        <span class="orbit-tag ot1">Clean Water</span>
+        <span class="orbit-tag ot2">Community Solar</span>
+        <span class="orbit-tag ot3">Veteran Housing</span>
+        <span class="orbit-tag ot4">School Health</span>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- PRINCIPLES BAND -->
+<div class="principles">
+  <div class="principles-grid">
+    <div class="principle-item">
+      <span class="principle-icon">🌱</span>
+      <div>
+        <h3>People Before Profits</h3>
+        <p>Every measure here puts human wellbeing and community health at the center — not shareholder returns.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <span class="principle-icon">🗳️</span>
+      <div>
+        <h3>Targeted, Not Bloated</h3>
+        <p>We don't vote on vague ideology. We vote on specific, verifiable measures with clear community benefits.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <span class="principle-icon">🔍</span>
+      <div>
+        <h3>Radically Transparent</h3>
+        <p>Every vote tally is public. Every source is cited. No dark money, no opaque algorithms, no hidden agendas.</p>
+      </div>
+    </div>
+    <div class="principle-item">
+      <span class="principle-icon">🤝</span>
+      <div>
+        <h3>Your Voice, Amplified</h3>
+        <p>Results are submitted directly to relevant legislators, councils, and commissions as formal community reports.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VOTING INITIATIVES -->
+<section class="section" id="initiatives" style="background:var(--bg);">
+  <div class="section-inner">
+    <span class="section-tag">// Active Measures — Vote Now</span>
+    <h2 class="section-title">What We Can Say <em>Yes</em> To</h2>
+    <p class="section-desc">These are targeted measures currently before local and state bodies. Your vote sends a certified tally to decision-makers. Every count matters.</p>
+
+    <div class="votes-grid">
+
+      <!-- Card 1 -->
+      <div class="vote-card">
+        <div class="vc-top">
+          <span class="vc-tag tag-water">💧 Clean Water</span>
+          <span class="vc-region">📍 National Petition</span>
+        </div>
+        <div class="vc-body">
+          <h3 class="vc-title">Community First Water Protection Act</h3>
+          <p class="vc-desc">Require any industrial facility drawing more than 500,000 gallons per day from a municipal supply to obtain a separate community impact license — including a 60-day public comment period and independent water audit.</p>
+          <div class="vc-chips">
+            <span class="vc-chip">60-day public comment</span>
+            <span class="vc-chip">Independent audit</span>
+            <span class="vc-chip">Municipal protection</span>
+          </div>
+          <div class="tally-wrap">
+            <div class="tally-labels">
+              <span>YES: <strong class="yesct" data-id="a">8,341</strong></span>
+              <span>NO: <strong class="noct" data-id="a">412</strong></span>
+            </div>
+            <div class="tally-track">
+              <div class="tally-fill" data-id="a" style="width:95%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="vc-vote">
+          <button class="vcv-btn vcv-yes" data-id="a" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
+          <button class="vcv-btn vcv-no"  data-id="a" data-type="no"  onclick="castVote(this)">No</button>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="vote-card">
+        <div class="vc-top">
+          <span class="vc-tag tag-energy">☀️ Clean Energy</span>
+          <span class="vc-region">📍 Southwest States</span>
+        </div>
+        <div class="vc-body">
+          <h3 class="vc-title">Community Solar Rights Initiative</h3>
+          <p class="vc-desc">Guarantee every resident the legal right to subscribe to community solar projects without utility interference. Low-income households receive a 40% rate credit. Eliminates utility veto power over small-scale local solar programs.</p>
+          <div class="vc-chips">
+            <span class="vc-chip">40% low-income credit</span>
+            <span class="vc-chip">Utility veto eliminated</span>
+            <span class="vc-chip">Rural access</span>
+          </div>
+          <div class="tally-wrap">
+            <div class="tally-labels">
+              <span>YES: <strong class="yesct" data-id="b">6,702</strong></span>
+              <span>NO: <strong class="noct" data-id="b">830</strong></span>
+            </div>
+            <div class="tally-track">
+              <div class="tally-fill" data-id="b" style="width:89%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="vc-vote">
+          <button class="vcv-btn vcv-yes" data-id="b" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
+          <button class="vcv-btn vcv-no"  data-id="b" data-type="no"  onclick="castVote(this)">No</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="vote-card">
+        <div class="vc-top">
+          <span class="vc-tag tag-health">🏥 Mental Health</span>
+          <span class="vc-region">📍 All School Districts</span>
+        </div>
+        <div class="vc-body">
+          <h3 class="vc-title">One Counselor Per 150 Students — No Exceptions</h3>
+          <p class="vc-desc">The current national average is 1 counselor per 408 students. This measure mandates a 1:150 ratio with dedicated state funding, prioritizing schools in underserved districts. Mental health support as a right, not a privilege.</p>
+          <div class="vc-chips">
+            <span class="vc-chip">1:150 ratio</span>
+            <span class="vc-chip">State funded</span>
+            <span class="vc-chip">Priority: underserved schools</span>
+          </div>
+          <div class="tally-wrap">
+            <div class="tally-labels">
+              <span>YES: <strong class="yesct" data-id="c">11,208</strong></span>
+              <span>NO: <strong class="noct" data-id="c">344</strong></span>
+            </div>
+            <div class="tally-track">
+              <div class="tally-fill" data-id="c" style="width:97%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="vc-vote">
+          <button class="vcv-btn vcv-yes" data-id="c" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
+          <button class="vcv-btn vcv-no"  data-id="c" data-type="no"  onclick="castVote(this)">No</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="vote-card">
+        <div class="vc-top">
+          <span class="vc-tag tag-housing">🏠 Housing</span>
+          <span class="vc-region">📍 Nationwide</span>
+        </div>
+        <div class="vc-body">
+          <h3 class="vc-title">Veterans Housing First — Permanent Supportive Housing Act</h3>
+          <p class="vc-desc">Allocate 1.5% of the DoD discretionary budget to build permanent supportive housing for unhoused veterans. Housing first, services second — the evidence-based model proven to reduce veteran homelessness by over 80% in pilot cities.</p>
+          <div class="vc-chips">
+            <span class="vc-chip">Evidence-based model</span>
+            <span class="vc-chip">80% success rate</span>
+            <span class="vc-chip">DoD reallocation</span>
+          </div>
+          <div class="tally-wrap">
+            <div class="tally-labels">
+              <span>YES: <strong class="yesct" data-id="d">9,455</strong></span>
+              <span>NO: <strong class="noct" data-id="d">601</strong></span>
+            </div>
+            <div class="tally-track">
+              <div class="tally-fill" data-id="d" style="width:94%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="vc-vote">
+          <button class="vcv-btn vcv-yes" data-id="d" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
+          <button class="vcv-btn vcv-no"  data-id="d" data-type="no"  onclick="castVote(this)">No</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="vote-card">
+        <div class="vc-top">
+          <span class="vc-tag tag-justice">⚖️ Food Access</span>
+          <span class="vc-region">📍 Urban Districts</span>
+        </div>
+        <div class="vc-body">
+          <h3 class="vc-title">Farmers Market Access in Food Deserts — SNAP Matching Program</h3>
+          <p class="vc-desc">Double SNAP benefits (up to $20/visit) when spent at certified farmers markets in food desert zip codes. Fund permanent covered market pavilions in the 200 worst-served urban food deserts in America. Fresh food is a right.</p>
+          <div class="vc-chips">
+            <span class="vc-chip">SNAP 2× matching</span>
+            <span class="vc-chip">200 target zip codes</span>
+            <span class="vc-chip">Permanent infrastructure</span>
+          </div>
+          <div class="tally-wrap">
+            <div class="tally-labels">
+              <span>YES: <strong class="yesct" data-id="e">7,812</strong></span>
+              <span>NO: <strong class="noct" data-id="e">290</strong></span>
+            </div>
+            <div class="tally-track">
+              <div class="tally-fill" data-id="e" style="width:96%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="vc-vote">
+          <button class="vcv-btn vcv-yes" data-id="e" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
+          <button class="vcv-btn vcv-no"  data-id="e" data-type="no"  onclick="castVote(this)">No</button>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="vote-card">
+        <div class="vc-top">
+          <span class="vc-tag tag-edu">📚 Education</span>
+          <span class="vc-region">📍 K–12 National</span>
+        </div>
+        <div class="vc-body">
+          <h3 class="vc-title">Civics &amp; Media Literacy — Mandatory K–12 Curriculum</h3>
+          <p class="vc-desc">Mandate comprehensive civics education including media literacy, how to evaluate sources, how local government works, and how to participate effectively in democracy — from 3rd grade through senior year. Required, not elective.</p>
+          <div class="vc-chips">
+            <span class="vc-chip">3rd grade through 12th</span>
+            <span class="vc-chip">Media literacy</span>
+            <span class="vc-chip">Mandatory curriculum</span>
+          </div>
+          <div class="tally-wrap">
+            <div class="tally-labels">
+              <span>YES: <strong class="yesct" data-id="f">13,091</strong></span>
+              <span>NO: <strong class="noct" data-id="f">872</strong></span>
+            </div>
+            <div class="tally-track">
+              <div class="tally-fill" data-id="f" style="width:94%"></div>
+            </div>
+          </div>
+        </div>
+        <div class="vc-vote">
+          <button class="vcv-btn vcv-yes" data-id="f" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
+          <button class="vcv-btn vcv-no"  data-id="f" data-type="no"  onclick="castVote(this)">No</button>
+        </div>
+      </div>
+
+    </div><!-- /votes-grid -->
+  </div>
+</section>
+
+<!-- QUOTE BAND -->
+<div class="quote-band">
+  <blockquote>"Our soil's turning toxic, our river's running dry — all for someone else's cloud storage. We deserve a voice, and we deserve to be heard."</blockquote>
+  <cite>— Kathryn Haushalter, Ypsilanti Township Resident, January 2026</cite>
+</div>
+
+<!-- POST A MEASURE -->
+<section class="section" id="post" style="background:var(--bg2);">
+  <div class="section-inner">
+    <span class="section-tag">// Propose a Measure</span>
+    <h2 class="section-title">Have Something Worth Saying <em>Yes</em> To?</h2>
+    <p class="section-desc">Propose a targeted, specific community measure. We'll review it, fact-check it, and if it meets our standards, publish it for public voting. No vague ideology — real, actionable proposals only.</p>
+    <div class="post-form">
+      <div class="form-grid">
+        <div>
+          <label for="pname">Your Name</label>
+          <input type="text" id="pname" placeholder="Alex Johnson"/>
+        </div>
+        <div>
+          <label for="pemail">Email Address</label>
+          <input type="email" id="pemail" placeholder="you@example.com"/>
+        </div>
+        <div class="form-full">
+          <label for="ptitle">Measure Title</label>
+          <input type="text" id="ptitle" placeholder="e.g. Free After-School Programs for Low-Income Families in [City]"/>
+        </div>
+        <div>
+          <label for="pcategory">Category</label>
+          <select id="pcategory">
+            <option value="">Select…</option>
+            <option>Clean Water</option>
+            <option>Clean Energy</option>
+            <option>Mental Health</option>
+            <option>Housing</option>
+            <option>Food Access</option>
+            <option>Education</option>
+            <option>Environmental Justice</option>
+            <option>Public Safety</option>
+            <option>Healthcare Access</option>
+            <option>Economic Justice</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label for="pregion">Region / Scope</label>
+          <input type="text" id="pregion" placeholder="e.g. Denver, CO or Nationwide"/>
+        </div>
+        <div class="form-full">
+          <label for="pdesc">Describe the Measure</label>
+          <textarea id="pdesc" placeholder="What exactly are you proposing? Who benefits? What body needs to act? Be specific — vague ideas are harder to champion."></textarea>
+        </div>
+        <div class="form-full">
+          <label for="pevidence">Evidence / Source Links</label>
+          <input type="text" id="pevidence" placeholder="Link to a study, report, or documented evidence that supports this measure"/>
+        </div>
+      </div>
+      <div class="form-submit">
+        <button class="btn btn-primary" onclick="submitMeasure()">Submit for Review</button>
+        <span class="form-note">Reviewed in 48–72 hrs. We prioritize specific, evidence-based proposals.</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="howworks" style="background:var(--bg);">
+  <div class="section-inner">
+    <span class="section-tag">// Process</span>
+    <h2 class="section-title">Simple by Design</h2>
+    <p class="section-desc">Democracy doesn't need to be complicated. It needs to be honest.</p>
+    <div class="how-grid">
+      <div class="how-item">
+        <div class="how-num">01</div>
+        <h3>Propose a Real Measure</h3>
+        <p>Submit a specific, verifiable proposal with evidence. Not a political platform — a targeted action that a real body can approve or reject.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">02</div>
+        <h3>Community Votes</h3>
+        <p>Anyone can vote yes or no. Votes are counted publicly and in real time. Every voice counts equally — no money, no lobbyists, no bots.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">03</div>
+        <h3>Results Are Delivered</h3>
+        <p>We compile a certified community report and deliver it directly to the relevant decision-making body — city council, state legislature, or federal office.</p>
+      </div>
+      <div class="how-item">
+        <div class="how-num">04</div>
+        <h3>Accountability Logged</h3>
+        <p>If a body ignores the community vote, that is publicly logged. Representatives who ignore their constituents are named and tracked — publicly, permanently.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / IMPACT -->
+<section class="section" id="about" style="background:var(--bg2);">
+  <div class="section-inner">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;">
+      <div>
+        <span class="section-tag">// About This Platform</span>
+        <h2 class="section-title">A Voice for the Rest of Us</h2>
+        <p style="font-size:1.05rem;color:var(--text-mid);line-height:1.75;margin-bottom:1.25rem;">
+          Modern politics has become a hall of mirrors — money talks, people echo. ICanSayYes.org exists as a counterweight: a simple, transparent platform where ordinary people can aggregate around specific, meaningful measures and actually be heard.
+        </p>
+        <p style="font-size:1.05rem;color:var(--text-mid);line-height:1.75;margin-bottom:1.25rem;">
+          We don't take corporate funding. We don't serve ads. We don't sell your data. We're powered by the same conviction that started every successful civic movement in history: that enough ordinary people, organized around a clear message, can change things.
+        </p>
+        <p style="font-size:1.05rem;color:var(--text-mid);line-height:1.75;">
+          This platform is nonpartisan by design. We believe that clean water, mental health support, and civic education are not left or right. They are human.
+        </p>
+      </div>
+      <div>
+        <div class="impact-grid">
+          <div class="impact-tile">
+            <span class="num">47,612</span>
+            <span class="lbl">Total votes cast</span>
+          </div>
+          <div class="impact-tile">
+            <span class="num">6</span>
+            <span class="lbl">Active measures</span>
+          </div>
+          <div class="impact-tile">
+            <span class="num">23</span>
+            <span class="lbl">Reports delivered to bodies</span>
+          </div>
+          <div class="impact-tile">
+            <span class="num">3</span>
+            <span class="lbl">Measures advanced to vote</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SISTER SITE CALLOUT -->
+<div class="sister-band">
+  <div class="sister-inner">
+    <div>
+      <h3>Also fighting for your community:</h3>
+      <p>YouCanSayNo.org is our sister platform — focused on blocking harmful data center proposals that threaten your water supply, air quality, and community's future.</p>
+    </div>
+    <a href="youcansayno.html" class="btn btn-amber" style="white-space:nowrap;">→ Visit YouCanSayNo.org</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h2>ICan<span>SayYes</span>.org</h2>
+      <p>A nonpartisan community platform for humanity-forward civic action. No corporate funding. No partisan agenda. Just people saying yes to what matters.</p>
+      <br/>
+      <p style="font-family:var(--mono);font-size:0.7rem;color:rgba(255,255,255,0.35);">SISTER SITE → <a href="youcansayno.html" class="sister-footer-link">YouCanSayNo.org</a></p>
+    </div>
+    <div class="footer-col">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#initiatives">Vote on Measures</a></li>
+        <li><a href="#post">Propose a Measure</a></li>
+        <li><a href="#howworks">How It Works</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <ul>
+        <li><a href="#">Our Mission</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="#">Press Inquiries</a></li>
+        <li><a href="#">Donate</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 ICanSayYes.org — Nonpartisan. Community-owned. No corporate funding.</p>
+    <p>Because people, organized around a clear and simple idea, can still change things.</p>
+  </div>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">✓ Your vote has been recorded.</div>
+
+<script>
+  // ── HAMBURGER ──
+  const hambtn = document.getElementById('hambtn');
+  const mobilenav = document.getElementById('mobilenav');
+  hambtn.addEventListener('click', () => mobilenav.classList.toggle('open'));
+  function closeMobile() { mobilenav.classList.remove('open'); }
+
+  // ── VOTING ──
+  const votes = JSON.parse(localStorage.getItem('icsy_Votes') || '{}');
+
+  function castVote(btn) {
+    const id   = btn.dataset.id;
+    const type = btn.dataset.type;
+    if (votes[id]) { showToast('You already voted on this measure.'); return; }
+    votes[id] = type;
+    localStorage.setItem('icsy_Votes', JSON.stringify(votes));
+
+    const card   = btn.closest('.vote-card');
+    const yesEl  = card.querySelector('.yesct');
+    const noEl   = card.querySelector('.noct');
+    const bar    = card.querySelector('.tally-fill');
+
+    const yesCount = parseInt(yesEl.textContent.replace(/,/g,'')) + (type==='yes'?1:0);
+    const noCount  = parseInt(noEl.textContent.replace(/,/g,''))  + (type==='no' ?1:0);
+
+    yesEl.textContent = yesCount.toLocaleString();
+    noEl.textContent  = noCount.toLocaleString();
+    const pct = Math.round((yesCount / (yesCount + noCount)) * 100);
+    bar.style.width = pct + '%';
+
+    card.querySelectorAll('.vcv-btn').forEach(b => b.classList.remove('voted'));
+    btn.classList.add('voted');
+    btn.disabled = true;
+    card.querySelectorAll('.vcv-btn').forEach(b => b.style.cursor='default');
+
+    showToast('✓ Vote recorded. Thank you.');
+  }
+
+  // Restore previous votes
+  document.querySelectorAll('.vcv-btn').forEach(btn => {
+    const id   = btn.dataset.id;
+    const type = btn.dataset.type;
+    if (votes[id] === type) { btn.classList.add('voted'); btn.disabled = true; }
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── FORM ──
+  function submitMeasure() {
+    const title = document.getElementById('ptitle').value.trim();
+    const region = document.getElementById('pregion').value.trim();
+    if (!title || !region) { showToast('Please include a title and region.'); return; }
+    showToast('✓ Measure submitted — we\'ll review within 72 hours.');
+    ['pname','pemail','ptitle','pcategory','pregion','pdesc','pevidence'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.value = '';
+    });
+  }
+
+  // ── SCROLL ANIMATIONS ──
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.style.opacity=1; e.target.style.transform='translateY(0)'; }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.vote-card, .how-item, .impact-tile, .principle-item').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(22px)';
+    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
