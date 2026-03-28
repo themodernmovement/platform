@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="YouCanSayNo.org — Communities standing together against wasteful, polluting data centers. Vote on local initiatives, make your voice heard."/>
-  <title>YouCanSayNo.org — Your Community. Your Water. Your Voice.</title>
+  <meta name="description" content="YouCanSayNo.org â Communities standing together against wasteful, polluting data centers. Vote on local initiatives, make your voice heard."/>
+  <title>YouCanSayNo.org â Your Community. Your Water. Your Voice.</title>
 
   <!-- Embedded SVG Favicon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%23b91c1c'/><line x1='12' y1='12' x2='52' y2='52' stroke='white' stroke-width='8' stroke-linecap='round'/><line x1='52' y1='12' x2='12' y2='52' stroke='white' stroke-width='8' stroke-linecap='round'/></svg>"/>
@@ -14,7 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 
   <style>
-    /* ───────── RESET & ROOT ───────── */
+    /* âââââââââ RESET & ROOT âââââââââ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -47,7 +47,7 @@
       overflow-x: hidden;
     }
 
-    /* ───────── NOISE TEXTURE OVERLAY ───────── */
+    /* âââââââââ NOISE TEXTURE OVERLAY âââââââââ */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -57,7 +57,7 @@
       z-index: 1000;
     }
 
-    /* ───────── NAV ───────── */
+    /* âââââââââ NAV âââââââââ */
     nav {
       position: sticky; top: 0; z-index: 500;
       background: rgba(11,11,11,0.92);
@@ -123,7 +123,7 @@
       transition: all 0.3s;
     }
 
-    /* ───────── HERO ───────── */
+    /* âââââââââ HERO âââââââââ */
     .hero {
       position: relative;
       min-height: 92vh;
@@ -231,7 +231,7 @@
     }
     .btn-ghost:hover { border-color: var(--red); color: var(--red); }
 
-    /* ───────── STATS BAR ───────── */
+    /* âââââââââ STATS BAR âââââââââ */
     .stats-bar {
       background: var(--bg2);
       border-top: 1px solid var(--border);
@@ -269,7 +269,7 @@
       line-height: 1.3;
     }
 
-    /* ───────── TICKER ───────── */
+    /* âââââââââ TICKER âââââââââ */
     .ticker-wrap {
       background: var(--red);
       padding: 0.7rem 0;
@@ -291,13 +291,13 @@
       white-space: nowrap;
     }
     .ticker-item::before {
-      content: '⬤ ';
+      content: 'â¬¤ ';
       font-size: 0.5rem;
       margin-right: 0.5rem;
     }
     @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-    /* ───────── SECTION HEADERS ───────── */
+    /* âââââââââ SECTION HEADERS âââââââââ */
     .section { padding: clamp(3rem,7vw,5rem) clamp(1rem,4vw,2.5rem); }
     .section-inner { max-width: 1100px; margin: 0 auto; }
 
@@ -325,7 +325,7 @@
       margin-bottom: 2.5rem;
     }
 
-    /* ───────── INITIATIVE CARDS ───────── */
+    /* âââââââââ INITIATIVE CARDS âââââââââ */
     .initiatives-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -461,7 +461,7 @@
       color: white;
     }
 
-    /* ───────── POST AN INITIATIVE ───────── */
+    /* âââââââââ POST AN INITIATIVE âââââââââ */
     .post-section {
       background: var(--bg2);
       border-top: 1px solid var(--border);
@@ -518,7 +518,7 @@
       color: var(--text-dim);
     }
 
-    /* ───────── HOW IT WORKS ───────── */
+    /* âââââââââ HOW IT WORKS âââââââââ */
     .how-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -549,7 +549,7 @@
     }
     .how-item p { font-size: 0.875rem; color: var(--text-dim); }
 
-    /* ───────── RESOURCES ───────── */
+    /* âââââââââ RESOURCES âââââââââ */
     .resources-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -583,7 +583,7 @@
     }
     .resource-card p { font-size: 0.825rem; color: var(--text-dim); line-height: 1.4; }
 
-    /* ───────── FOOTER ───────── */
+    /* âââââââââ FOOTER âââââââââ */
     footer {
       background: var(--bg2);
       border-top: 1px solid var(--border);
@@ -639,7 +639,7 @@
     }
     .sister-link:hover { text-decoration: underline; }
 
-    /* ───────── MOBILE NAV DRAWER ───────── */
+    /* âââââââââ MOBILE NAV DRAWER âââââââââ */
     .mobile-nav {
       display: none;
       position: fixed; top: 60px; left: 0; right: 0;
@@ -663,7 +663,7 @@
     }
     .mobile-nav a:hover { color: var(--red); }
 
-    /* ───────── SUCCESS TOAST ───────── */
+    /* âââââââââ SUCCESS TOAST âââââââââ */
     .toast {
       position: fixed;
       bottom: 2rem; right: 2rem;
@@ -680,7 +680,7 @@
     }
     .toast.show { transform: translateY(0); }
 
-    /* ───────── ANIMATIONS ───────── */
+    /* âââââââââ ANIMATIONS âââââââââ */
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(20px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -690,7 +690,7 @@
       to   { opacity: 1; transform: translateY(0); }
     }
 
-    /* ───────── RESPONSIVE ───────── */
+    /* âââââââââ RESPONSIVE âââââââââ */
     @media (max-width: 768px) {
       .nav-links { display: none; }
       .hamburger { display: flex; }
@@ -706,11 +706,19 @@
   </style>
 </head>
 <body>
+<!-- THE MODERN MOVEMENT NETWORK BAR -->
+<div style="background:#1a0a0a;color:rgba(255,255,255,0.65);font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding:0.4rem 1rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;border-bottom:1px solid #2e2e2e;">
+  <span>Part of The Modern Movement Network</span>
+  <a href="https://www.themodernmovement.org" style="color:#86efac;text-decoration:none;font-weight:700;" target="_blank">TheModernMovement.org</a>
+  <span style="color:rgba(255,255,255,0.2)">|</span>
+  <a href="https://www.icansayyes.org" style="color:#4ade80;text-decoration:none;" target="_blank">ICanSayYes.org</a>
+  <a href="https://www.themodernmovement.org" style="color:rgba(255,255,255,0.4);margin-left:0.5rem;text-decoration:none;" target="_blank">Sign In / Join</a>
+</div>
 
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <span class="logo-x">✕</span>
+    <span class="logo-x">â</span>
     YouCan<span style="color:var(--red)">SayNo</span>.org
   </a>
   <ul class="nav-links">
@@ -718,7 +726,8 @@
     <li><a href="#post">Post Issue</a></li>
     <li><a href="#howworks">How It Works</a></li>
     <li><a href="#resources">Resources</a></li>
-    <li><a href="icansayyes.html" class="nav-cta">→ ICanSayYes.org</a></li>
+    <li><a href="https://www.themodernmovement.org" style="color:#22c55e;font-weight:800;" target="_blank">⬡ Modern Movement</a></li>
+    <li><a href="https://www.icansayyes.org" class="nav-cta">â ICanSayYes.org</a></li>
   </ul>
   <button class="hamburger" id="hambtn" aria-label="Menu">
     <span></span><span></span><span></span>
@@ -730,21 +739,21 @@
   <a href="#post" onclick="closeMobile()">Post Issue</a>
   <a href="#howworks" onclick="closeMobile()">How It Works</a>
   <a href="#resources" onclick="closeMobile()">Resources</a>
-  <a href="icansayyes.html" style="color:var(--green)">→ ICanSayYes.org</a>
+  <a href="https://www.icansayyes.org" style="color:var(--green)">â ICanSayYes.org</a>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">Community Action Network — Active Now</div>
+  <div class="hero-badge">Community Action Network â Active Now</div>
   <h1>
     <span class="thin">Your water. Your air. Your land.</span>
     You Can<br/><span class="accent">Say No.</span>
   </h1>
   <p class="hero-sub">
-    Local commissions across America are approving massive data centers — facilities that drain millions of gallons of water daily, pollute your air, and strain your community's infrastructure. You have the right to say no.
+    Local commissions across America are approving massive data centers â facilities that drain millions of gallons of water daily, pollute your air, and strain your community's infrastructure. You have the right to say no.
   </p>
   <div class="hero-actions">
-    <a href="#initiatives" class="btn btn-primary">⚡ View Active Initiatives</a>
+    <a href="#initiatives" class="btn btn-primary">â¡ View Active Initiatives</a>
     <a href="#post" class="btn btn-ghost">+ Post Your Issue</a>
   </div>
 </section>
@@ -760,22 +769,22 @@
     <div class="stat-item">
       <span class="stat-num">5M</span>
       <span class="stat-unit">Gallons / Day</span>
-      <span class="stat-label">A single large data center — equal to 50,000 people's daily use</span>
+      <span class="stat-label">A single large data center â equal to 50,000 people's daily use</span>
     </div>
     <div class="stat-item">
       <span class="stat-num">10,800+</span>
       <span class="stat-unit">Data Centers</span>
-      <span class="stat-label">Operating in the US — and growing rapidly with AI</span>
+      <span class="stat-label">Operating in the US â and growing rapidly with AI</span>
     </div>
     <div class="stat-item">
       <span class="stat-num">80%</span>
       <span class="stat-unit">Evaporated</span>
-      <span class="stat-label">Of all water drawn is lost — never returned to your watershed</span>
+      <span class="stat-label">Of all water drawn is lost â never returned to your watershed</span>
     </div>
     <div class="stat-item">
       <span class="stat-num">&lt;150</span>
       <span class="stat-unit">Local Jobs</span>
-      <span class="stat-label">Per facility — vs. thousands promised to communities</span>
+      <span class="stat-label">Per facility â vs. thousands promised to communities</span>
     </div>
   </div>
 </div>
@@ -783,21 +792,21 @@
 <!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker-inner">
-    <span class="ticker-item">Tucson, AZ rejected Amazon Project Blue — citing water scarcity</span>
-    <span class="ticker-item">Oregon: 30+ data centers in a town of 4,000 people — wells contaminated</span>
+    <span class="ticker-item">Tucson, AZ rejected Amazon Project Blue â citing water scarcity</span>
+    <span class="ticker-item">Oregon: 30+ data centers in a town of 4,000 people â wells contaminated</span>
     <span class="ticker-item">Memphis, TN: xAI turbines ran without permits in a Black community</span>
     <span class="ticker-item">Michigan: 200 residents stormed township meetings to delay Stargate Phase II</span>
     <span class="ticker-item">Georgia: Meta data center spiked neighborhood water use by 200 million gallons/year</span>
-    <span class="ticker-item">Virginia: 27 million sq ft of data centers — nearly maxing out the power grid</span>
+    <span class="ticker-item">Virginia: 27 million sq ft of data centers â nearly maxing out the power grid</span>
     <span class="ticker-item">Arizona: 1 in 5 data centers sits in a water-stressed region</span>
     <span class="ticker-item">YOU have the right to speak at your commission meeting</span>
     <!-- Duplicate for infinite scroll -->
-    <span class="ticker-item">Tucson, AZ rejected Amazon Project Blue — citing water scarcity</span>
-    <span class="ticker-item">Oregon: 30+ data centers in a town of 4,000 people — wells contaminated</span>
+    <span class="ticker-item">Tucson, AZ rejected Amazon Project Blue â citing water scarcity</span>
+    <span class="ticker-item">Oregon: 30+ data centers in a town of 4,000 people â wells contaminated</span>
     <span class="ticker-item">Memphis, TN: xAI turbines ran without permits in a Black community</span>
     <span class="ticker-item">Michigan: 200 residents stormed township meetings to delay Stargate Phase II</span>
     <span class="ticker-item">Georgia: Meta data center spiked neighborhood water use by 200 million gallons/year</span>
-    <span class="ticker-item">Virginia: 27 million sq ft of data centers — nearly maxing out the power grid</span>
+    <span class="ticker-item">Virginia: 27 million sq ft of data centers â nearly maxing out the power grid</span>
     <span class="ticker-item">Arizona: 1 in 5 data centers sits in a water-stressed region</span>
     <span class="ticker-item">YOU have the right to speak at your commission meeting</span>
   </div>
@@ -808,23 +817,23 @@
   <div class="section-inner">
     <span class="section-tag">// Active Initiatives</span>
     <h2 class="section-title">Communities Fighting Back</h2>
-    <p class="section-desc">Real battles happening right now. Vote to show your support — or opposition. Every vote sends a signal to local commissions.</p>
+    <p class="section-desc">Real battles happening right now. Vote to show your support â or opposition. Every vote sends a signal to local commissions.</p>
 
     <div class="initiatives-grid" id="initiativesGrid">
 
       <!-- Card 1 -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-urgent">🔴 Urgent</span>
-          <span class="card-location">📍 Maricopa County, AZ</span>
+          <span class="card-tag tag-urgent">ð´ Urgent</span>
+          <span class="card-location">ð Maricopa County, AZ</span>
         </div>
         <div class="card-body">
-          <h3 class="card-title">Block the 800-Acre AI Megacenter — Phoenix Metro</h3>
+          <h3 class="card-title">Block the 800-Acre AI Megacenter â Phoenix Metro</h3>
           <p class="card-desc">A proposed hyperscale AI facility would consume 2.1 million gallons of water daily from an already critically stressed Colorado River watershed. The Phoenix metro area is already under Level 2 drought conditions.</p>
           <div class="card-impact">
-            <span class="impact-chip">💧 2.1M gal/day</span>
-            <span class="impact-chip">⚡ 1.8 GW power demand</span>
-            <span class="impact-chip">🌡️ Drought Zone</span>
+            <span class="impact-chip">ð§ 2.1M gal/day</span>
+            <span class="impact-chip">â¡ 1.8 GW power demand</span>
+            <span class="impact-chip">ð¡ï¸ Drought Zone</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
@@ -837,7 +846,7 @@
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="1" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
+          <button class="vote-btn vote-yes" data-id="1" data-type="yes" onclick="castVote(this)">â Say No to This</button>
           <button class="vote-btn vote-no" data-id="1" data-type="no" onclick="castVote(this)">Support Center</button>
         </div>
       </div>
@@ -845,16 +854,16 @@
       <!-- Card 2 -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-active">🟢 Voting Open</span>
-          <span class="card-location">📍 Loudoun County, VA</span>
+          <span class="card-tag tag-active">ð¢ Voting Open</span>
+          <span class="card-location">ð Loudoun County, VA</span>
         </div>
         <div class="card-body">
-          <h3 class="card-title">Halt Hyperscale Data Center Alley Expansion — Phase 7</h3>
-          <p class="card-desc">Northern Virginia already hosts 27 million sq ft of data centers. Phase 7 expansion plans add 4 more facilities with diesel generators running 50-hour "demand response" sessions — pumping NOx and particulate matter into neighborhoods.</p>
+          <h3 class="card-title">Halt Hyperscale Data Center Alley Expansion â Phase 7</h3>
+          <p class="card-desc">Northern Virginia already hosts 27 million sq ft of data centers. Phase 7 expansion plans add 4 more facilities with diesel generators running 50-hour "demand response" sessions â pumping NOx and particulate matter into neighborhoods.</p>
           <div class="card-impact">
-            <span class="impact-chip">🏭 4 new facilities</span>
-            <span class="impact-chip">💨 NOx emissions</span>
-            <span class="impact-chip">👶 Child asthma risk</span>
+            <span class="impact-chip">ð­ 4 new facilities</span>
+            <span class="impact-chip">ð¨ NOx emissions</span>
+            <span class="impact-chip">ð¶ Child asthma risk</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
@@ -867,7 +876,7 @@
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="2" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
+          <button class="vote-btn vote-yes" data-id="2" data-type="yes" onclick="castVote(this)">â Say No to This</button>
           <button class="vote-btn vote-no" data-id="2" data-type="no" onclick="castVote(this)">Support Center</button>
         </div>
       </div>
@@ -875,16 +884,16 @@
       <!-- Card 3 -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-urgent">🔴 Urgent</span>
-          <span class="card-location">📍 Boardman, OR</span>
+          <span class="card-tag tag-urgent">ð´ Urgent</span>
+          <span class="card-location">ð Boardman, OR</span>
         </div>
         <div class="card-body">
-          <h3 class="card-title">Demand Immediate Groundwater Audit — 30+ Centers in 4,000-Person Town</h3>
-          <p class="card-desc">Boardman residents have discovered nitrate levels exceeding 5× the legal limit in their wells. Cooling wastewater dumped on surrounding farmland has contaminated the water table. Three years of unknowing consumption of toxic water.</p>
+          <h3 class="card-title">Demand Immediate Groundwater Audit â 30+ Centers in 4,000-Person Town</h3>
+          <p class="card-desc">Boardman residents have discovered nitrate levels exceeding 5Ã the legal limit in their wells. Cooling wastewater dumped on surrounding farmland has contaminated the water table. Three years of unknowing consumption of toxic water.</p>
           <div class="card-impact">
-            <span class="impact-chip">☠️ 5× legal nitrates</span>
-            <span class="impact-chip">🏘️ 4,000 residents</span>
-            <span class="impact-chip">🌾 Farmland runoff</span>
+            <span class="impact-chip">â ï¸ 5Ã legal nitrates</span>
+            <span class="impact-chip">ðï¸ 4,000 residents</span>
+            <span class="impact-chip">ð¾ Farmland runoff</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
@@ -897,7 +906,7 @@
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="3" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
+          <button class="vote-btn vote-yes" data-id="3" data-type="yes" onclick="castVote(this)">â Say No to This</button>
           <button class="vote-btn vote-no" data-id="3" data-type="no" onclick="castVote(this)">Support Center</button>
         </div>
       </div>
@@ -905,16 +914,16 @@
       <!-- Card 4 -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-pending">🟡 Commission Vote Pending</span>
-          <span class="card-location">📍 Bessemer, AL</span>
+          <span class="card-tag tag-pending">ð¡ Commission Vote Pending</span>
+          <span class="card-location">ð Bessemer, AL</span>
         </div>
         <div class="card-body">
           <h3 class="card-title">Reject Hyperscale Center Requiring 1/3 of City Water Supply</h3>
-          <p class="card-desc">Residents were blindsided to learn that an approved data center would require a 10% statewide electricity increase from Alabama Power and consume 2 million gallons per day — one-third of the local utility's total water supply.</p>
+          <p class="card-desc">Residents were blindsided to learn that an approved data center would require a 10% statewide electricity increase from Alabama Power and consume 2 million gallons per day â one-third of the local utility's total water supply.</p>
           <div class="card-impact">
-            <span class="impact-chip">⚡ +10% statewide power</span>
-            <span class="impact-chip">💧 ⅓ city water supply</span>
-            <span class="impact-chip">📈 Rate hike incoming</span>
+            <span class="impact-chip">â¡ +10% statewide power</span>
+            <span class="impact-chip">ð§ â city water supply</span>
+            <span class="impact-chip">ð Rate hike incoming</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
@@ -927,7 +936,7 @@
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="4" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
+          <button class="vote-btn vote-yes" data-id="4" data-type="yes" onclick="castVote(this)">â Say No to This</button>
           <button class="vote-btn vote-no" data-id="4" data-type="no" onclick="castVote(this)">Support Center</button>
         </div>
       </div>
@@ -935,16 +944,16 @@
       <!-- Card 5 -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-active">🟢 Voting Open</span>
-          <span class="card-location">📍 Huron River Basin, MI</span>
+          <span class="card-tag tag-active">ð¢ Voting Open</span>
+          <span class="card-location">ð Huron River Basin, MI</span>
         </div>
         <div class="card-body">
-          <h3 class="card-title">Stop Phase II — Stargate / OpenAI Huron River Water Diversion</h3>
-          <p class="card-desc">1.8 billion gallons of annual water withdrawal from the Huron River is threatening wetlands and riparian ecosystems. The facility exploited a regulatory loophole for unchecked natural gas turbine emissions, potentially adding 1.5 million tons of CO₂ per year.</p>
+          <h3 class="card-title">Stop Phase II â Stargate / OpenAI Huron River Water Diversion</h3>
+          <p class="card-desc">1.8 billion gallons of annual water withdrawal from the Huron River is threatening wetlands and riparian ecosystems. The facility exploited a regulatory loophole for unchecked natural gas turbine emissions, potentially adding 1.5 million tons of COâ per year.</p>
           <div class="card-impact">
-            <span class="impact-chip">🏞️ Wetlands at risk</span>
-            <span class="impact-chip">☁️ 1.5M tons CO₂/yr</span>
-            <span class="impact-chip">⚖️ Loophole exploit</span>
+            <span class="impact-chip">ðï¸ Wetlands at risk</span>
+            <span class="impact-chip">âï¸ 1.5M tons COâ/yr</span>
+            <span class="impact-chip">âï¸ Loophole exploit</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
@@ -957,7 +966,7 @@
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="5" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
+          <button class="vote-btn vote-yes" data-id="5" data-type="yes" onclick="castVote(this)">â Say No to This</button>
           <button class="vote-btn vote-no" data-id="5" data-type="no" onclick="castVote(this)">Support Center</button>
         </div>
       </div>
@@ -965,16 +974,16 @@
       <!-- Card 6 -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-pending">🟡 Petition Drive</span>
-          <span class="card-location">📍 Canton, MS</span>
+          <span class="card-tag tag-pending">ð¡ Petition Drive</span>
+          <span class="card-location">ð Canton, MS</span>
         </div>
         <div class="card-body">
           <h3 class="card-title">Demand Air Quality Monitoring Around Amazon $10B AI Center</h3>
           <p class="card-desc">Residents of this majority-Black town were promised 1,000 jobs. They got construction dust settling over homes and playgrounds, lung irritation reports, and weekly diesel generator tests spiking NOx levels. The Big Black River is now under pressure from cooling demands.</p>
           <div class="card-impact">
-            <span class="impact-chip">😷 Lung irritation reports</span>
-            <span class="impact-chip">⚠️ Asthma spike</span>
-            <span class="impact-chip">🏛️ Environmental justice</span>
+            <span class="impact-chip">ð· Lung irritation reports</span>
+            <span class="impact-chip">â ï¸ Asthma spike</span>
+            <span class="impact-chip">ðï¸ Environmental justice</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
@@ -987,7 +996,7 @@
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="6" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
+          <button class="vote-btn vote-yes" data-id="6" data-type="yes" onclick="castVote(this)">â Say No to This</button>
           <button class="vote-btn vote-no" data-id="6" data-type="no" onclick="castVote(this)">Support Center</button>
         </div>
       </div>
@@ -1019,7 +1028,7 @@
         <div>
           <label for="fstate">State</label>
           <select id="fstate">
-            <option value="">Select state…</option>
+            <option value="">Select stateâ¦</option>
             <option>Alabama</option><option>Alaska</option><option>Arizona</option>
             <option>Arkansas</option><option>California</option><option>Colorado</option>
             <option>Connecticut</option><option>Delaware</option><option>Florida</option>
@@ -1056,10 +1065,15 @@
           <input type="date" id="fvote"/>
         </div>
       </div>
+      <div style="background:rgba(220,31,31,0.07);border:1px solid rgba(220,31,31,0.2);border-radius:8px;padding:0.85rem 1.1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+        <span style="font-size:0.85rem;color:var(--text-dim);">💬 <strong style="color:var(--text)">Have a Modern Movement account?</strong> Sign in to track your submission's status.</span>
+        <a href="https://www.themodernmovement.org" target="_blank" style="font-family:var(--mono);font-size:0.75rem;color:var(--red);font-weight:700;text-decoration:none;padding:0.35rem 0.85rem;border:1px solid var(--red);border-radius:6px;white-space:nowrap;">Sign In / Join ↗</a>
+      </div>
       <div class="form-submit">
         <button class="btn btn-primary" onclick="submitForm()">Submit Initiative</button>
-        <span class="form-note">Submissions reviewed within 48 hours. No personal data sold or shared.</span>
+        <span class="form-note">No account required. Anyone can submit. Reviewed in 48 hours.</span>
       </div>
+    
     </div>
   </div>
 </section>
@@ -1084,7 +1098,7 @@
       <div class="how-item">
         <div class="how-num">03</div>
         <h3>Commission Notified</h3>
-        <p>We send a certified community impact report to every commissioner on record, showing exactly how many constituents object — or support — the measure.</p>
+        <p>We send a certified community impact report to every commissioner on record, showing exactly how many constituents object â or support â the measure.</p>
       </div>
       <div class="how-item">
         <div class="how-num">04</div>
@@ -1110,12 +1124,12 @@
       <a href="#" class="resource-card">
         <span class="r-source">EESI.org</span>
         <h4>Data Centers and Water Consumption</h4>
-        <p>Single large data centers can consume up to 5 million gallons per day — equal to a city of 50,000 people.</p>
+        <p>Single large data centers can consume up to 5 million gallons per day â equal to a city of 50,000 people.</p>
       </a>
       <a href="#" class="resource-card">
-        <span class="r-source">University of Michigan — Ford School</span>
+        <span class="r-source">University of Michigan â Ford School</span>
         <h4>What Happens When Data Centers Come to Town?</h4>
-        <p>Evidence from 9 states shows tax breaks benefit corporations — not local communities.</p>
+        <p>Evidence from 9 states shows tax breaks benefit corporations â not local communities.</p>
       </a>
       <a href="#" class="resource-card">
         <span class="r-source">Science & Environmental Health Network</span>
@@ -1125,7 +1139,7 @@
       <a href="#" class="resource-card">
         <span class="r-source">Oregon Rural Action</span>
         <h4>Boardman: A Case Study in Community Harm</h4>
-        <p>How 30+ data centers contaminated wells in a small Oregon town — and what residents are doing about it.</p>
+        <p>How 30+ data centers contaminated wells in a small Oregon town â and what residents are doing about it.</p>
       </a>
       <a href="#" class="resource-card">
         <span class="r-source">Template Documents</span>
@@ -1143,7 +1157,7 @@
       <h2>YouCan<span class="red">SayNo</span>.org</h2>
       <p>A nonpartisan community platform giving local voices the amplification they deserve. We are not affiliated with any political party, corporation, or data center company.</p>
       <br/>
-      <p style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);">SISTER SITE → <a href="icansayyes.html" class="sister-link">ICanSayYes.org</a></p>
+      <p style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);">SISTER SITE â <a href="https://www.icansayyes.org" class="sister-link">ICanSayYes.org</a></p>
     </div>
     <div class="footer-col">
       <h4>Navigate</h4>
@@ -1166,22 +1180,22 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 YouCanSayNo.org — Nonpartisan. Community-owned. No corporate funding.</p>
+    <p>Â© 2025 YouCanSayNo.org â Nonpartisan. Community-owned. No corporate funding.</p>
     <p>Data sourced from Lincoln Institute, EESI, U of Michigan, SEHN, and community reports.</p>
   </div>
 </footer>
 
 <!-- TOAST -->
-<div class="toast" id="toast">✓ Your vote has been recorded.</div>
+<div class="toast" id="toast">â Your vote has been recorded.</div>
 
 <script>
-  // ── HAMBURGER ──
+  // ââ HAMBURGER ââ
   const hambtn = document.getElementById('hambtn');
   const mobilenav = document.getElementById('mobilenav');
   hambtn.addEventListener('click', () => mobilenav.classList.toggle('open'));
   function closeMobile() { mobilenav.classList.remove('open'); }
 
-  // ── VOTING ──
+  // ââ VOTING ââ
   const votes = JSON.parse(localStorage.getItem('ycsnVotes') || '{}');
 
   function castVote(btn) {
@@ -1210,7 +1224,7 @@
     btn.disabled = true;
     btn.closest('.vote-section').querySelectorAll('.vote-btn').forEach(b => b.style.cursor='default');
 
-    showToast('✓ Your vote has been recorded.');
+    showToast('â Your vote has been recorded.');
   }
 
   // Restore previous votes on load
@@ -1230,19 +1244,19 @@
     setTimeout(() => t.classList.remove('show'), 3000);
   }
 
-  // ── FORM SUBMISSION ──
+  // ââ FORM SUBMISSION ââ
   function submitForm() {
     const title = document.getElementById('ftitle').value.trim();
     const city  = document.getElementById('fcity').value.trim();
     if (!title || !city) { showToast('Please fill in at least a title and city.'); return; }
-    showToast('✓ Initiative submitted! We\'ll review within 48 hours.');
+    showToast('â Initiative submitted! We\'ll review within 48 hours.');
     ['fname','femail','fcity','fstate','ftitle','fdesc','fimpact','fvote'].forEach(id => {
       const el = document.getElementById(id);
       if (el) el.value = '';
     });
   }
 
-  // ── SCROLL ANIMATIONS ──
+  // ââ SCROLL ANIMATIONS ââ
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) { e.target.style.opacity=1; e.target.style.transform='translateY(0)'; }
