@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Our Mission — The Modern Movement Network fights for transparency, accountability, and community power against corporate and institutional exploitation."/>
+  <title>Our Mission — The Modern Movement Network</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231a3d2e'/><polyline points='14,34 26,46 50,20' stroke='%2386efac' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --forest: #1a3d2e;
+      --leaf: #2d6a4f;
+      --mint: #86efac;
+      --cream: #f4f1ea;
+      --sand: #e8e0d0;
+      --charcoal: #1c1c1c;
+      --mid: #555;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--charcoal); line-height: 1.7; }
+
+    /* NAV */
+    .network-bar { background: var(--charcoal); color: rgba(255,255,255,0.7); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; padding: 0.4rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .network-bar a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; }
+    .network-bar a:hover, .network-bar a.active { color: #86efac; }
+    .network-bar .sep { color: rgba(255,255,255,0.2); }
+    nav { background: var(--forest); padding: 1rem clamp(1rem,4vw,2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-brand { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: white; text-decoration: none; }
+    .nav-brand span { color: var(--mint); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: white; }
+    .nav-cta { background: #c8362a; color: white !important; padding: 0.4rem 1rem; border-radius: 4px; }
+    .nav-cta:hover { background: #a02820; }
+
+    /* HERO */
+    .mission-hero { background: var(--forest); color: white; padding: 5rem clamp(1rem,4vw,2.5rem) 4rem; text-align: center; }
+    .mission-hero .eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mint); margin-bottom: 1rem; }
+    .mission-hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem; }
+    .mission-hero h1 em { color: var(--mint); font-style: italic; }
+    .mission-hero p { font-size: 1.125rem; color: rgba(255,255,255,0.8); max-width: 680px; margin: 0 auto; }
+
+    /* CONTENT */
+    .content-wrap { max-width: 860px; margin: 0 auto; padding: 4rem clamp(1rem,4vw,2rem); }
+    .section-block { margin-bottom: 3.5rem; }
+    .section-block h2 { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--forest); }
+    .section-block p { font-size: 1rem; color: var(--mid); margin-bottom: 1rem; }
+    .section-block ul { list-style: none; padding: 0; margin-bottom: 1rem; }
+    .section-block ul li { padding: 0.5rem 0 0.5rem 1.5rem; position: relative; color: var(--mid); border-bottom: 1px solid var(--sand); }
+    .section-block ul li::before { content: '→'; position: absolute; left: 0; color: var(--leaf); font-weight: 700; }
+    .divider { border: none; border-top: 2px solid var(--sand); margin: 3rem 0; }
+
+    /* PILLARS */
+    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .pillar { background: white; border-radius: 8px; padding: 1.75rem; border-left: 4px solid var(--leaf); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .pillar .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .pillar h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--forest); }
+    .pillar p { font-size: 0.9rem; color: var(--mid); }
+
+    /* CTA */
+    .mission-cta { background: var(--forest); color: white; text-align: center; padding: 4rem clamp(1rem,4vw,2.5rem); }
+    .mission-cta h2 { font-family: var(--serif); font-size: 2rem; margin-bottom: 1rem; }
+    .mission-cta p { color: rgba(255,255,255,0.75); margin-bottom: 2rem; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: #c8362a; color: white; padding: 0.75rem 1.75rem; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+    .btn-secondary { display: inline-block; background: transparent; color: white; padding: 0.75rem 1.75rem; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.35); }
+    .btn-primary:hover { background: #a02820; }
+    .btn-secondary:hover { border-color: white; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal); color: rgba(255,255,255,0.65); padding: 2rem clamp(1rem,4vw,2.5rem); text-align: center; font-size: 0.875rem; }
+    footer a { color: var(--mint); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .pillars { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="network-bar">
+  <span>&#9679; THE MODERN MOVEMENT NETWORK</span>
+  <span class="sep">|</span>
+  <a href="https://www.themodernmovement.org">THEMODERNMOVEMENT.ORG</a>
+  <a href="https://www.icansayyes.org">ICANSAYYES.ORG</a>
+  <a href="https://www.youcansayno.org">YOUCANSAYNO.ORG</a>
+  <span class="sep">|</span>
+  <a href="https://www.themodernmovement.org">SIGN IN / JOIN &#8599;</a>
+</div>
+
+<nav>
+  <a class="nav-brand" href="https://www.icansayyes.org">ICan <span>SayYes</span> .org</a>
+  <ul class="nav-links">
+    <li><a href="https://www.icansayyes.org/#initiatives">Vote Now</a></li>
+    <li><a href="https://www.icansayyes.org/#post">Propose</a></li>
+    <li><a href="/mission.html" style="color:var(--mint)">Mission</a></li>
+    <li><a href="https://www.youcansayno.org" class="nav-cta">&#8594; YouCanSayNo.org</a></li>
+  </ul>
+</nav>
+
+<section class="mission-hero">
+  <p class="eyebrow">// About the Modern Movement Network</p>
+  <h1>We Fight for the People <em>Corporations Forgot.</em></h1>
+  <p>The Modern Movement is a nonpartisan civic network built on one belief: that communities have the right to know what is being done to their air, water, land, and money — and the power to say no to it.</p>
+</section>
+
+<main class="content-wrap">
+
+  <div class="section-block">
+    <h2>Why We Exist</h2>
+    <p>Billion-dollar corporations and opaque institutions have learned to move fast and count on communities moving slow. They pick low-income towns. They split permits to dodge review. They fund executive retirements with member deposits. They build gas plants in communities that asked for clean energy. They do it because they can — because the political and legal machinery favors capital over people.</p>
+    <p>We exist to change that math. Not with money. With organized, verifiable, public community voice.</p>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="section-block">
+    <h2>Our Platforms</h2>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="icon">&#9989;</div>
+        <h3>ICanSayYes.org</h3>
+        <p>A community voting platform where ordinary people propose, fact-check, and vote on real, specific measures that can be adopted by city councils, legislatures, and governing bodies.</p>
+      </div>
+      <div class="pillar">
+        <div class="icon">&#10060;</div>
+        <h3>YouCanSayNo.org</h3>
+        <p>A public accountability platform exposing harmful corporate projects — aluminum smelters, dirty gas data centers, secret executive benefit schemes — and organizing community opposition with verifiable data.</p>
+      </div>
+      <div class="pillar">
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Our Mission — The Modern Movement Network fights for transparency, accountability, and community power against corporate and institutional exploitation."/>
+  <title>Our Mission — The Modern Movement Network</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231a3d2e'/><polyline points='14,34 26,46 50,20' stroke='%2386efac' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --forest: #1a3d2e;
+      --leaf: #2d6a4f;
+      --mint: #86efac;
+      --cream: #f4f1ea;
+      --sand: #e8e0d0;
+      --charcoal: #1c1c1c;
+      --mid: #555;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--charcoal); line-height: 1.7; }
+
+    /* NAV */
+    .network-bar { background: var(--charcoal); color: rgba(255,255,255,0.7); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; padding: 0.4rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .network-bar a { color: rgba(255,255,255,0.7); text-decoration: none; transition: color 0.2s; }
+    .network-bar a:hover, .network-bar a.active { color: #86efac; }
+    .network-bar .sep { color: rgba(255,255,255,0.2); }
+    nav { background: var(--forest); padding: 1rem clamp(1rem,4vw,2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-brand { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: white; text-decoration: none; }
+    .nav-brand span { color: var(--mint); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-family: var(--sans); font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: white; }
+    .nav-cta { background: #c8362a; color: white !important; padding: 0.4rem 1rem; border-radius: 4px; }
+    .nav-cta:hover { background: #a02820; }
+
+    /* HERO */
+    .mission-hero { background: var(--forest); color: white; padding: 5rem clamp(1rem,4vw,2.5rem) 4rem; text-align: center; }
+    .mission-hero .eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mint); margin-bottom: 1rem; }
+    .mission-hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem; }
+    .mission-hero h1 em { color: var(--mint); font-style: italic; }
+    .mission-hero p { font-size: 1.125rem; color: rgba(255,255,255,0.8); max-width: 680px; margin: 0 auto; }
+
+    /* CONTENT */
+    .content-wrap { max-width: 860px; margin: 0 auto; padding: 4rem clamp(1rem,4vw,2rem); }
+    .section-block { margin-bottom: 3.5rem; }
+    .section-block h2 { font-family: var(--serif); font-size: 1.8rem; font-weight: 700; margin-bottom: 1rem; color: var(--forest); }
+    .section-block p { font-size: 1rem; color: var(--mid); margin-bottom: 1rem; }
+    .section-block ul { list-style: none; padding: 0; margin-bottom: 1rem; }
+    .section-block ul li { padding: 0.5rem 0 0.5rem 1.5rem; position: relative; color: var(--mid); border-bottom: 1px solid var(--sand); }
+    .section-block ul li::before { content: '→'; position: absolute; left: 0; color: var(--leaf); font-weight: 700; }
+    .divider { border: none; border-top: 2px solid var(--sand); margin: 3rem 0; }
+
+    /* PILLARS */
+    .pillars { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .pillar { background: white; border-radius: 8px; padding: 1.75rem; border-left: 4px solid var(--leaf); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .pillar .icon { font-size: 2rem; margin-bottom: 0.75rem; }
+    .pillar h3 { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--forest); }
+    .pillar p { font-size: 0.9rem; color: var(--mid); }
+
+    /* CTA */
+    .mission-cta { background: var(--forest); color: white; text-align: center; padding: 4rem clamp(1rem,4vw,2.5rem); }
+    .mission-cta h2 { font-family: var(--serif); font-size: 2rem; margin-bottom: 1rem; }
+    .mission-cta p { color: rgba(255,255,255,0.75); margin-bottom: 2rem; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .btn-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: #c8362a; color: white; padding: 0.75rem 1.75rem; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 0.95rem; }
+    .btn-secondary { display: inline-block; background: transparent; color: white; padding: 0.75rem 1.75rem; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 0.95rem; border: 1px solid rgba(255,255,255,0.35); }
+    .btn-primary:hover { background: #a02820; }
+    .btn-secondary:hover { border-color: white; }
+
+    /* FOOTER */
+    footer { background: var(--charcoal); color: rgba(255,255,255,0.65); padding: 2rem clamp(1rem,4vw,2.5rem); text-align: center; font-size: 0.875rem; }
+    footer a { color: var(--mint); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .pillars { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="network-bar">
+  <span>&#9679; THE MODERN MOVEMENT NETWORK</span>
+  <span class="sep">|</span>
+  <a href="https://www.themodernmovement.org">THEMODERNMOVEMENT.ORG</a>
+  <a href="https://www.icansayyes.org">ICANSAYYES.ORG</a>
+  <a href="https://www.youcansayno.org">YOUCANSAYNO.ORG</a>
+  <span class="sep">|</span>
+  <a href="https://www.themodernmovement.org">SIGN IN / JOIN &#8599;</a>
+</div>
+
+<nav>
+  <a class="nav-brand" href="https://www.icansayyes.org">ICan <span>SayYes</span> .org</a>
+  <ul class="nav-links">
+    <li><a href="https://www.icansayyes.org/#initiatives">Vote Now</a></li>
+    <li><a href="https://www.icansayyes.org/#post">Propose</a></li>
+    <li><a href="/mission.html" style="color:var(--mint)">Mission</a></li>
+    <li><a href="https://www.youcansayno.org" class="nav-cta">&#8594; YouCanSayNo.org</a></li>
+  </ul>
+</nav>
+
+<section class="mission-hero">
+  <p class="eyebrow">// About the Modern Movement Network</p>
+  <h1>We Fight for the People <em>Corporations Forgot.</em></h1>
+  <p>The Modern Movement is a nonpartisan civic network built on one belief: that communities have the right to know what is being done to their air, water, land, and money — and the power to say no to it.</p>
+</section>
+
+<main class="content-wrap">
+
+  <div class="section-block">
+    <h2>Why We Exist</h2>
+    <p>Billion-dollar corporations and opaque institutions have learned to move fast and count on communities moving slow. They pick low-income towns. They split permits to dodge review. They fund executive retirements with member deposits. They build gas plants in communities that asked for clean energy. They do it because they can — because the political and legal machinery favors capital over people.</p>
+    <p>We exist to change that math. Not with money. With organized, verifiable, public community voice.</p>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="section-block">
+    <h2>Our Platforms</h2>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="icon">&#9989;</div>
+        <h3>ICanSayYes.org</h3>
+        <p>A community voting platform where ordinary people propose, fact-check, and vote on real, specific measures that can be adopted by city councils, legislatures, and governing bodies.</p>
+      </div>
+      <div class="pillar">
+        <div class="icon">&#10060;</div>
+        <h3>YouCanSayNo.org</h3>
+        <p>A public accountability platform exposing harmful corporate projects — aluminum smelters, dirty gas data centers, secret executive benefit schemes — and organizing community opposition with verifiable data.</p>
+      </div>
+      <div class="pillar">
+        <div class="icon">&#128172;</div>
+        <h3>TheModernMovement.org</h3>
+        <p>The community hub: member accounts, proposal tracking, moderation tools, and the admin layer that connects both platforms.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="section-block">
+    <h2>What We Stand For</h2>
+    <ul>
+      <li>Transparency: every vote is public, every claim is sourced, every corporate backer is named</li>
+      <li>Nonpartisanship: clean water, safe air, and honest institutions are not left or right — they are human</li>
+      <li>Accountability: if a governing body ignores a certified community vote, that fact is logged and published permanently</li>
+      <li>Access: no account required to vote, no paywall, no ads, no corporate funding</li>
+      <li>Locality: we fight the specific fights in the specific communities where they happen</li>
+    </ul>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="section-block">
+    <h2>What We Will Never Do</h2>
+    <ul>
+      <li>Accept corporate funding or advertising revenue</li>
+      <li>Sell or share your personal data</li>
+      <li>Publish unverified claims — all issues are sourced to public records, permit filings, or investigative journalism</li>
+      <li>Take partisan political positions — we are pro-community, not pro-party</li>
+      <li>Stay quiet when institutions ignore the people they claim to serve</li>
+    </ul>
+  </div>
+
+  <hr class="divider"/>
+
+  <div class="section-block">
+    <h2>The Unifying Thread</h2>
+    <p>Whether it is a Mississippi metal company building an aluminum smelter on the last free-flowing river in the American Southwest, OpenAI and Oracle financing gas plants in a community that asked for clean energy, or New Mexico credit union boards quietly funneling member deposits into secret executive retirement accounts — the pattern is identical:</p>
+    <p><strong>Corporations and institutions exploiting communities with no accountability, no transparency, and no benefit to the people they claim to serve.</strong></p>
+    <p>We track them. We name them. We amplify the community voices pushing back. We do not stop.</p>
+  </div>
+
+</main>
+
+<section class="mission-cta">
+  <h2>Ready to Fight Back?</h2>
+  <p>Find your local issue, cast your vote, and share it with everyone who should know.</p>
+  <div class="btn-row">
+    <a class="btn-primary" href="https://www.youcansayno.org/#initiatives">&#9889; View Active Issues</a>
+    <a class="btn-secondary" href="https://www.icansayyes.org/#post">+ Propose a Measure</a>
+    <a class="btn-secondary" href="/contact.html">Contact Us</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="/mission.html">Our Mission</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/contact.html">Contact Us</a>
+    <a href="/press.html">Press Inquiries</a>
+  </div>
+  <p>&copy; 2025 The Modern Movement Network &mdash; Nonpartisan. Community-owned. No corporate funding.</p>
+</footer>
+
+</body>
+</html>
