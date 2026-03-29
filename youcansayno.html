@@ -19,6 +19,52 @@
   --mono:'JetBrains Mono',monospace;--cond:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
   --rad:6px;
 }
+/* ───────── LIGHT MODE ───────── */
+[data-theme="light"] {
+  --bg:#f4f1ea;
+  --bg2:#ede9df;
+  --bg3:#e4dfd4;
+  --border:#c8c2b4;
+  --text:#1a1612;
+  --text-dim:#6b6459;
+  --red:#b91c1c;
+  --red-dim:#991b1b;
+  --red-glow:rgba(185,28,28,0.12);
+  --yellow:#b45309;
+  --yellow-dim:rgba(180,83,9,0.12);
+  --green:#15803d;
+  --orange:#c2410c;
+}
+[data-theme="light"] body::before { opacity:0.015; }
+[data-theme="light"] nav { background:rgba(244,241,234,0.95); }
+[data-theme="light"] .hero::before { background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(185,28,28,0.08) 0%,transparent 70%),repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(0,0,0,0.025) 80px); }
+[data-theme="light"] input,[data-theme="light"] select,[data-theme="light"] textarea { background:#fff; }
+[data-theme="light"] .shame-section { background:#f0ebe0; }
+[data-theme="light"] .shame-card { background:rgba(185,28,28,0.04); }
+[data-theme="light"] .pollution-meter { background:rgba(185,28,28,0.04); }
+[data-theme="light"] .share-btn.share-link { background:var(--bg3);color:var(--text-dim);border-color:var(--border); }
+[data-theme="light"] .card-backers { background:rgba(194,65,12,0.07);border-color:rgba(194,65,12,0.2); }
+[data-theme="light"] .ticker-wrap { background:#b91c1c; }
+[data-theme="light"] .toast { background:#fff;border-color:var(--green);color:var(--green); }
+/* ───────── THEME TOGGLE BUTTON ───────── */
+.theme-toggle {
+  display:flex;align-items:center;gap:0.35rem;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:50px;
+  padding:0.3rem 0.65rem;
+  cursor:pointer;
+  font-family:var(--mono);
+  font-size:0.68rem;
+  letter-spacing:0.06em;
+  color:var(--text-dim);
+  transition:all 0.2s;
+  white-space:nowrap;
+  margin-left:0.5rem;
+}
+.theme-toggle:hover { border-color:var(--red);color:var(--text); }
+.theme-icon { font-size:0.9rem;line-height:1; }
+
 html{scroll-behavior:smooth;}
 body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden;}
 body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.025;pointer-events:none;z-index:1000;}
@@ -192,7 +238,8 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
     <li><a href="#howworks">How It Works</a></li>
     <li><a href="https://www.themodernmovement.org" style="color:#22c55e;font-weight:800;" target="_blank">! Modern Movement</a></li>
     <li><a href="https://www.icansayyes.org" class="nav-cta" target="_blank">&#8594; ICanSayYes.org</a></li>
-  </ul>
+    <li><button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle light/dark mode"><span class="theme-icon" id="themeIcon">&#9790;</span> <span id="themeLabel">Light</span></button></li>
+</ul>
   <button class="hamburger" id="hambtn" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
 <nav class="mobile-nav" id="mobilenav">
@@ -781,6 +828,34 @@ document.querySelectorAll('.initiative-card,.how-item,.resource-card,.stat-item,
   el.style.transition='opacity 0.5s ease,transform 0.5s ease';
   observer.observe(el);
 });
+
+// ── THEME TOGGLE ──
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') !== 'light';
+  if (isDark) {
+    html.setAttribute('data-theme', 'light');
+    localStorage.setItem('ycsnTheme', 'light');
+    document.getElementById('themeIcon').textContent = '\u2600'; // sun
+    document.getElementById('themeLabel').textContent = 'Dark';
+  } else {
+    html.removeAttribute('data-theme');
+    localStorage.setItem('ycsnTheme', 'dark');
+    document.getElementById('themeIcon').textContent = '\u263E'; // moon
+    document.getElementById('themeLabel').textContent = 'Light';
+  }
+}
+// Apply saved theme on load
+(function(){
+  const saved = localStorage.getItem('ycsnTheme');
+  if (saved === 'light') {
+    document.documentElement.setAttribute('data-theme','light');
+    const icon = document.getElementById('themeIcon');
+    const label = document.getElementById('themeLabel');
+    if(icon) icon.textContent = '\u2600';
+    if(label) label.textContent = 'Dark';
+  }
+})();
 </script>
 </body>
 </html>
