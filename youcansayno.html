@@ -252,6 +252,25 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
 .detail-actions{display:flex;gap:0.75rem;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:1.25rem;margin-top:1.25rem;}
 .read-more-btn{display:inline-flex;align-items:center;gap:0.35rem;font-family:var(--mono);font-size:0.68rem;font-weight:600;letter-spacing:0.06em;color:var(--red);border:1px solid rgba(220,31,31,0.3);border-radius:4px;padding:0.3rem 0.65rem;cursor:pointer;background:rgba(220,31,31,0.05);transition:all 0.2s;text-decoration:none;}
 .read-more-btn:hover{background:var(--red);color:white;border-color:var(--red);}
+
+/* ── SORT / FILTER BAR ── */
+.sort-bar{display:flex;flex-wrap:wrap;gap:0.75rem;align-items:center;margin-bottom:1.25rem;padding:1rem 1.25rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;}
+.sort-bar label{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-right:0.25rem;}
+.sort-bar select{background:var(--bg);color:var(--text);border:1px solid var(--border);border-radius:5px;padding:0.3rem 0.6rem;font-size:0.8rem;font-family:var(--mono);cursor:pointer;}
+.sort-bar select:focus{outline:none;border-color:var(--red);}
+.sort-separator{width:1px;height:1.5rem;background:var(--border);margin:0 0.25rem;}
+.sort-count{margin-left:auto;font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);}
+/* ── DISCLAIMER BAR ── */
+.disclaimer-bar{background:rgba(255,210,0,0.08);border:1px solid rgba(255,210,0,0.3);border-radius:8px;padding:0.75rem 1.25rem;margin-bottom:1.5rem;font-size:0.82rem;color:var(--text-dim);line-height:1.5;}
+.disclaimer-bar strong{color:var(--yellow,#ffd200);}
+.disclaimer-bar a{color:var(--yellow,#ffd200);text-decoration:underline;}
+/* ── MEETING CHIP ── */
+.meeting-chip{display:inline-block;margin:0.4rem 0 0;font-family:var(--mono);font-size:0.65rem;letter-spacing:0.08em;text-transform:uppercase;padding:0.2rem 0.55rem;border-radius:3px;background:rgba(255,210,0,0.12);border:1px solid rgba(255,210,0,0.35);color:var(--yellow,#ffd200);}
+/* ── VIEW SOURCES LINK ── */
+.view-sources-link{display:inline-block;margin-top:0.6rem;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.08em;color:var(--text-dim);text-decoration:none;border-bottom:1px dashed var(--border);}
+.view-sources-link:hover{color:var(--red);border-color:var(--red);}
+/* ── HIDE CARD ── */
+.initiative-card.hidden{display:none;}
 </style>
 </head>
 <body>
@@ -355,10 +374,45 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
     <span class="section-tag">// Active Issues &#8212; Real Communities, Real Fights</span>
     <h2 class="section-title">Say No to These Projects</h2>
     <p class="section-desc">Two real battles happening right now. Cast your vote &#8212; every vote is counted and reported to the relevant regulatory agencies and local commissions. Then share it to amplify the signal.</p>
+    <!-- SORT / FILTER BAR -->
+    <div class="sort-bar" id="sortBar">
+      <label>State</label>
+      <select id="filterState" onchange="applyFilters()">
+        <option value="all">All States</option>
+        <option value="az">Arizona (AZ)</option>
+        <option value="nm">New Mexico (NM)</option>
+      </select>
+      <div class="sort-separator"></div>
+      <label>Urgency</label>
+      <select id="filterUrgency" onchange="applyFilters()">
+        <option value="all">All</option>
+        <option value="urgent">Urgent</option>
+        <option value="active">Active</option>
+      </select>
+      <div class="sort-separator"></div>
+      <label>Category</label>
+      <select id="filterCategory" onchange="applyFilters()">
+        <option value="all">All Categories</option>
+        <option value="environment">Environment</option>
+        <option value="financial">Financial</option>
+      </select>
+      <div class="sort-separator"></div>
+      <label>Sort By</label>
+      <select id="sortBy" onchange="applyFilters()">
+        <option value="default">Default Order</option>
+        <option value="meeting">Public Meeting Date</option>
+        <option value="urgency">Urgency</option>
+      </select>
+      <span class="sort-count" id="sortCount"></span>
+    </div>
+    <!-- DISCLAIMER -->
+    <div class="disclaimer-bar">
+      <strong>&#9888; Note:</strong> Facts, figures, and statistics on this page may not be 100% accurate and are subject to change. If you have updated or corrected information, please <a href="/contact.html#update-facts">submit an Update Facts/Figures request</a> via our Contact page. We will review and update promptly.
+    </div>
     <div class="initiatives-grid" id="initiativesGrid">
 
       <!-- CARD 1: BENSON ALUMINUM -->
-      <div class="initiative-card">
+      <div class="initiative-card" data-state="az" data-urgency="urgent" data-category="environment" data-meeting="">
         <div class="card-header">
           <span class="card-tag tag-urgent">&#128308; Urgent &#8212; Permit Active</span>
           <span class="card-location">&#128205; Benson, AZ &#8212; Cochise County</span>
@@ -417,15 +471,17 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
           <a class="share-btn share-x" href="#" onclick="shareX(1);return false;">&#120143; / X</a>
           <a class="share-btn share-fb" href="#" onclick="shareFB(1);return false;">Facebook</a>
           <button class="share-btn share-link" onclick="copyLink(1)">Copy Link</button>
+          <a class="view-sources-link" href="/sources.html#benson">&#8594; View Sources</a>
           <button class="read-more-btn" onclick="openDetail('benson')">&#8594; Full Report</button>
         </div>
       </div>
 
       <!-- CARD 2: PROJECT JUPITER -->
-      <div class="initiative-card">
+      <div class="initiative-card" data-state="nm" data-urgency="urgent" data-category="environment" data-meeting="2026-07-21">
         <div class="card-header">
           <span class="card-tag tag-urgent">&#128308; Urgent &#8212; Permit Hearing July 2026</span>
           <span class="card-location">&#128205; Do&#241;a Ana County, NM &#8212; Santa Teresa</span>
+          <span class="meeting-chip">&#128197; Public Hearing: July 21, 2026</span>
         </div>
         <div class="card-body">
           <h3 class="card-title">Stop Project Jupiter &#8212; AI Data Center Gas Plants Polluting New Mexico</h3>
@@ -481,13 +537,14 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
           <a class="share-btn share-x" href="#" onclick="shareX(2);return false;">&#120143; / X</a>
           <a class="share-btn share-fb" href="#" onclick="shareFB(2);return false;">Facebook</a>
           <button class="share-btn share-link" onclick="copyLink(2)">Copy Link</button>
+          <a class="view-sources-link" href="/sources.html#jupiter">&#8594; View Sources</a>
           <button class="read-more-btn" onclick="openDetail('jupiter')">&#8594; Full Report</button>
         </div>
       </div>
 
 
       <!-- CARD 3: NM CREDIT UNION WATCH -->
-      <div class="initiative-card">
+      <div class="initiative-card" data-state="nm" data-urgency="active" data-category="financial" data-meeting="">
         <div class="card-header">
           <span class="card-tag tag-pending">&#9888; Financial Betrayal</span>
           <span class="card-location">&#128205; New Mexico &#8212; Statewide</span>
@@ -543,6 +600,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
           <a class="share-btn share-x" href="#" onclick="shareX(3);return false;">&#120143; / X</a>
           <a class="share-btn share-fb" href="#" onclick="shareFB(3);return false;">Facebook</a>
           <button class="share-btn share-link" onclick="copyLink(3)">Copy Link</button>
+          <a class="view-sources-link" href="/sources.html#cuwatch">&#8594; View Sources</a>
           <button class="read-more-btn" onclick="openDetail('cu')">&#8594; Full Investigation</button>
         </div>
       </div>
@@ -814,6 +872,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
         <li><a href="#post">Post Your Issue</a></li>
         <li><a href="#howworks">How It Works</a></li>
         <li><a href="#resources">Resources</a></li>
+        <li><a href="/sources.html">References &amp; Sources</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -1047,6 +1106,62 @@ function openDetail(id){const m=document.getElementById('modal-'+id);if(m){m.cla
 function closeDetail(id){const m=document.getElementById('modal-'+id);if(m){m.classList.remove('open');document.body.style.overflow='';}}
 document.addEventListener('click',function(e){if(e.target.classList.contains('detail-modal')){e.target.classList.remove('open');document.body.style.overflow='';}});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.detail-modal.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});}});
+
+// ── SORT / FILTER FUNCTIONALITY ──
+function applyFilters() {
+  const stateVal = document.getElementById('filterState').value;
+  const urgencyVal = document.getElementById('filterUrgency').value;
+  const catVal = document.getElementById('filterCategory').value;
+  const sortVal = document.getElementById('sortBy').value;
+  const grid = document.getElementById('initiativesGrid');
+  const cards = Array.from(grid.querySelectorAll('.initiative-card'));
+
+  let visible = [];
+  cards.forEach(card => {
+    const st = card.dataset.state || '';
+    const ur = card.dataset.urgency || '';
+    const ca = card.dataset.category || '';
+    const matchState = stateVal === 'all' || st === stateVal;
+    const matchUrgency = urgencyVal === 'all' || ur === urgencyVal;
+    const matchCat = catVal === 'all' || ca === catVal;
+    if (matchState && matchUrgency && matchCat) {
+      card.classList.remove('hidden');
+      visible.push(card);
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+
+  // Sort
+  if (sortVal === 'meeting') {
+    visible.sort((a, b) => {
+      const da = a.dataset.meeting || '9999-12-31';
+      const db = b.dataset.meeting || '9999-12-31';
+      return da.localeCompare(db);
+    });
+  } else if (sortVal === 'urgency') {
+    const order = { urgent: 0, active: 1, pending: 2 };
+    visible.sort((a, b) => (order[a.dataset.urgency] ?? 9) - (order[b.dataset.urgency] ?? 9));
+  }
+
+  // Re-append in sorted order
+  visible.forEach(card => grid.appendChild(card));
+
+  // Update count
+  const countEl = document.getElementById('sortCount');
+  if (countEl) countEl.textContent = visible.length + ' of ' + cards.length + ' issues';
+}
+
+// Initialize count on load
+document.addEventListener('DOMContentLoaded', function() {
+  const grid = document.getElementById('initiativesGrid');
+  if (grid) {
+    const total = grid.querySelectorAll('.initiative-card').length;
+    const countEl = document.getElementById('sortCount');
+    if (countEl) countEl.textContent = total + ' of ' + total + ' issues';
+  }
+});
+
 </script>
 </body>
 </html>
