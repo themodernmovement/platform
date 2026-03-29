@@ -1,712 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <meta name="description" content="YouCanSayNo.org — Communities standing together against wasteful, polluting data centers. Vote on local initiatives, make your voice heard."/>
-  <title>YouCanSayNo.org — Your Community. Your Water. Your Voice.</title>
-
-  <!-- Embedded SVG Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%23b91c1c'/><line x1='12' y1='12' x2='52' y2='52' stroke='white' stroke-width='8' stroke-linecap='round'/><line x1='52' y1='12' x2='12' y2='52' stroke='white' stroke-width='8' stroke-linecap='round'/></svg>"/>
-
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
-
-  <style>
-    /* ───────── RESET & ROOT ───────── */
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:          #0b0b0b;
-      --bg2:         #161616;
-      --bg3:         #1f1f1f;
-      --border:      #2e2e2e;
-      --text:        #f0ece0;
-      --text-dim:    #8a8478;
-      --red:         #dc1f1f;
-      --red-dim:     #8c1010;
-      --red-glow:    rgba(220,31,31,0.15);
-      --yellow:      #ffd200;
-      --yellow-dim:  rgba(255,210,0,0.15);
-      --green:       #22c55e;
-      --mono:        'JetBrains Mono', monospace;
-      --cond:        'Barlow Condensed', sans-serif;
-      --body:        'Barlow', sans-serif;
-      --rad:         6px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--body);
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
-
-    /* ───────── NOISE TEXTURE OVERLAY ───────── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
-      pointer-events: none;
-      z-index: 1000;
-    }
-
-    /* ───────── NAV ───────── */
-    nav {
-      position: sticky; top: 0; z-index: 500;
-      background: rgba(11,11,11,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 clamp(1rem,4vw,2.5rem);
-      height: 60px;
-    }
-
-    .nav-logo {
-      font-family: var(--cond);
-      font-weight: 900;
-      font-size: 1.4rem;
-      letter-spacing: 0.05em;
-      color: var(--text);
-      text-decoration: none;
-      display: flex; align-items: center; gap: 0.5rem;
-    }
-    .nav-logo .logo-x {
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 28px; height: 28px;
-      background: var(--red);
-      border-radius: 4px;
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: white;
-    }
-
-    .nav-links {
-      display: flex; align-items: center; gap: 1.5rem;
-      list-style: none;
-    }
-    .nav-links a {
-      font-family: var(--cond);
-      font-size: 0.95rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--red); }
-
-    .nav-cta {
-      background: var(--red) !important;
-      color: white !important;
-      padding: 0.4rem 1rem;
-      border-radius: var(--rad);
-    }
-    .nav-cta:hover { background: #b91c1c !important; }
-
-    .hamburger {
-      display: none;
-      flex-direction: column; gap: 5px; cursor: pointer;
-      padding: 4px;
-    }
-    .hamburger span {
-      width: 24px; height: 2px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: all 0.3s;
-    }
-
-    /* ───────── HERO ───────── */
-    .hero {
-      position: relative;
-      min-height: 92vh;
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      text-align: center;
-      padding: clamp(3rem,8vw,6rem) clamp(1rem,4vw,2.5rem);
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute; inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 50% 30%, rgba(220,31,31,0.12) 0%, transparent 70%),
-        repeating-linear-gradient(
-          90deg,
-          transparent,
-          transparent 79px,
-          rgba(255,255,255,0.02) 80px
-        );
-    }
-
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border);
-      border-radius: 50px;
-      padding: 0.3rem 1rem;
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 2rem;
-      animation: fadeDown 0.6s ease both;
-    }
-    .hero-badge::before {
-      content: '';
-      width: 7px; height: 7px;
-      background: var(--red);
-      border-radius: 50%;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%,100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.8); }
-    }
-
-    .hero h1 {
-      font-family: var(--cond);
-      font-weight: 900;
-      font-size: clamp(4rem,14vw,10rem);
-      line-height: 0.88;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-      animation: fadeUp 0.7s 0.1s ease both;
-    }
-
-    .hero h1 .accent { color: var(--red); }
-    .hero h1 .thin {
-      display: block;
-      font-size: clamp(1.5rem,5vw,3.5rem);
-      font-weight: 400;
-      letter-spacing: 0.25em;
-      color: var(--text-dim);
-      margin-bottom: 0.5rem;
-    }
-
-    .hero-sub {
-      max-width: 620px;
-      font-size: clamp(1rem,2.5vw,1.25rem);
-      color: var(--text-dim);
-      margin-bottom: 3rem;
-      animation: fadeUp 0.7s 0.2s ease both;
-    }
-
-    .hero-actions {
-      display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
-      animation: fadeUp 0.7s 0.3s ease both;
-    }
-
-    .btn {
-      display: inline-flex; align-items: center; gap: 0.5rem;
-      font-family: var(--cond);
-      font-weight: 700;
-      font-size: 1rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 0.85rem 2rem;
-      border-radius: var(--rad);
-      border: none; cursor: pointer;
-      transition: all 0.2s;
-    }
-    .btn-primary {
-      background: var(--red);
-      color: white;
-    }
-    .btn-primary:hover { background: #b91c1c; transform: translateY(-2px); }
-    .btn-ghost {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-    .btn-ghost:hover { border-color: var(--red); color: var(--red); }
-
-    /* ───────── STATS BAR ───────── */
-    .stats-bar {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: clamp(2rem,4vw,3rem) clamp(1rem,4vw,2.5rem);
-    }
-    .stats-grid {
-      max-width: 1100px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem;
-    }
-    .stat-item { text-align: center; }
-    .stat-num {
-      font-family: var(--cond);
-      font-weight: 900;
-      font-size: clamp(2.5rem,6vw,4rem);
-      line-height: 1;
-      color: var(--red);
-      display: block;
-    }
-    .stat-unit {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      display: block;
-      margin-top: 0.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .stat-label {
-      font-size: 0.9rem;
-      color: var(--text-dim);
-      line-height: 1.3;
-    }
-
-    /* ───────── TICKER ───────── */
-    .ticker-wrap {
-      background: var(--red);
-      padding: 0.7rem 0;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .ticker-inner {
-      display: inline-flex; gap: 3rem;
-      animation: ticker 40s linear infinite;
-    }
-    .ticker-inner:hover { animation-play-state: paused; }
-    .ticker-item {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: white;
-      white-space: nowrap;
-    }
-    .ticker-item::before {
-      content: '⬤ ';
-      font-size: 0.5rem;
-      margin-right: 0.5rem;
-    }
-    @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-    /* ───────── SECTION HEADERS ───────── */
-    .section { padding: clamp(3rem,7vw,5rem) clamp(1rem,4vw,2.5rem); }
-    .section-inner { max-width: 1100px; margin: 0 auto; }
-
-    .section-tag {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--red);
-      display: block;
-      margin-bottom: 0.75rem;
-    }
-
-    .section-title {
-      font-family: var(--cond);
-      font-weight: 800;
-      font-size: clamp(2rem,5vw,3.5rem);
-      line-height: 1;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    .section-desc {
-      color: var(--text-dim);
-      max-width: 600px;
-      margin-bottom: 2.5rem;
-    }
-
-    /* ───────── INITIATIVE CARDS ───────── */
-    .initiatives-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .initiative-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .initiative-card:hover {
-      border-color: var(--red);
-      transform: translateY(-3px);
-    }
-
-    .card-header {
-      padding: 1.25rem 1.25rem 0;
-      display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem;
-    }
-
-    .card-tag {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.2rem 0.6rem;
-      border-radius: 3px;
-      white-space: nowrap;
-    }
-    .tag-urgent { background: var(--red-glow); color: var(--red); border: 1px solid var(--red-dim); }
-    .tag-active { background: rgba(34,197,94,0.1); color: var(--green); border: 1px solid rgba(34,197,94,0.3); }
-    .tag-pending { background: rgba(255,210,0,0.1); color: var(--yellow); border: 1px solid rgba(255,210,0,0.3); }
-
-    .card-location {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--text-dim);
-      letter-spacing: 0.08em;
-      text-align: right;
-    }
-
-    .card-body { padding: 1rem 1.25rem; }
-
-    .card-title {
-      font-family: var(--cond);
-      font-weight: 700;
-      font-size: 1.2rem;
-      line-height: 1.2;
-      margin-bottom: 0.6rem;
-      color: var(--text);
-    }
-    .card-desc {
-      font-size: 0.875rem;
-      color: var(--text-dim);
-      line-height: 1.5;
-      margin-bottom: 1rem;
-    }
-
-    .card-impact {
-      display: flex; gap: 0.75rem; flex-wrap: wrap;
-      margin-bottom: 1rem;
-    }
-    .impact-chip {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      padding: 0.2rem 0.5rem;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 3px;
-      color: var(--text-dim);
-    }
-
-    .vote-bar-wrap { margin-bottom: 1rem; }
-    .vote-bar-labels {
-      display: flex; justify-content: space-between;
-      font-family: var(--mono); font-size: 0.7rem;
-      color: var(--text-dim); margin-bottom: 0.35rem;
-    }
-    .vote-bar-track {
-      height: 6px;
-      background: rgba(255,255,255,0.06);
-      border-radius: 3px;
-      overflow: hidden;
-    }
-    .vote-bar-fill {
-      height: 100%;
-      background: var(--red);
-      border-radius: 3px;
-      transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
-    }
-
-    .vote-section {
-      display: flex; gap: 0.75rem;
-      padding: 1rem 1.25rem;
-      background: var(--bg3);
-      border-top: 1px solid var(--border);
-    }
-
-    .vote-btn {
-      flex: 1;
-      font-family: var(--cond);
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.7rem;
-      border-radius: var(--rad);
-      border: 1px solid transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .vote-yes {
-      background: rgba(34,197,94,0.1);
-      border-color: rgba(34,197,94,0.3);
-      color: var(--green);
-    }
-    .vote-yes:hover, .vote-yes.voted {
-      background: var(--green);
-      border-color: var(--green);
-      color: #0b0b0b;
-    }
-    .vote-no {
-      background: var(--red-glow);
-      border-color: var(--red-dim);
-      color: var(--red);
-    }
-    .vote-no:hover, .vote-no.voted {
-      background: var(--red);
-      border-color: var(--red);
-      color: white;
-    }
-
-    /* ───────── POST AN INITIATIVE ───────── */
-    .post-section {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-    }
-
-    .post-form {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: clamp(1.5rem,4vw,2.5rem);
-      max-width: 700px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .form-full { grid-column: 1 / -1; }
-
-    label {
-      display: block;
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 0.4rem;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: var(--rad);
-      color: var(--text);
-      font-family: var(--body);
-      font-size: 0.95rem;
-      padding: 0.65rem 0.9rem;
-      transition: border-color 0.2s;
-      outline: none;
-    }
-    input:focus, select:focus, textarea:focus { border-color: var(--red); }
-    textarea { resize: vertical; min-height: 100px; }
-    select option { background: var(--bg2); }
-
-    .form-submit {
-      margin-top: 1.25rem;
-      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
-    }
-    .form-note {
-      font-size: 0.8rem;
-      color: var(--text-dim);
-    }
-
-    /* ───────── HOW IT WORKS ───────── */
-    .how-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 2rem;
-    }
-    .how-item {
-      padding: 1.5rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      position: relative;
-    }
-    .how-num {
-      font-family: var(--cond);
-      font-weight: 900;
-      font-size: 3rem;
-      color: var(--red);
-      line-height: 1;
-      opacity: 0.4;
-      margin-bottom: 0.5rem;
-    }
-    .how-item h3 {
-      font-family: var(--cond);
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      text-transform: uppercase;
-    }
-    .how-item p { font-size: 0.875rem; color: var(--text-dim); }
-
-    /* ───────── RESOURCES ───────── */
-    .resources-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.25rem;
-    }
-    .resource-card {
-      padding: 1.25rem;
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      text-decoration: none;
-      color: var(--text);
-      display: block;
-      transition: border-color 0.2s;
-    }
-    .resource-card:hover { border-color: var(--red); }
-    .resource-card .r-source {
-      font-family: var(--mono);
-      font-size: 0.65rem;
-      color: var(--red);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.4rem;
-      display: block;
-    }
-    .resource-card h4 {
-      font-family: var(--cond);
-      font-weight: 700;
-      font-size: 1.05rem;
-      margin-bottom: 0.4rem;
-    }
-    .resource-card p { font-size: 0.825rem; color: var(--text-dim); line-height: 1.4; }
-
-    /* ───────── FOOTER ───────── */
-    footer {
-      background: var(--bg2);
-      border-top: 1px solid var(--border);
-      padding: 3rem clamp(1rem,4vw,2.5rem);
-    }
-    .footer-inner {
-      max-width: 1100px; margin: 0 auto;
-      display: grid;
-      grid-template-columns: 2fr 1fr 1fr;
-      gap: 3rem;
-    }
-    .footer-brand h2 {
-      font-family: var(--cond);
-      font-weight: 900;
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-    }
-    .footer-brand h2 .red { color: var(--red); }
-    .footer-brand p { font-size: 0.85rem; color: var(--text-dim); max-width: 280px; line-height: 1.6; }
-    .footer-col h4 {
-      font-family: var(--cond);
-      font-weight: 700;
-      font-size: 0.95rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 1rem;
-    }
-    .footer-col ul { list-style: none; }
-    .footer-col ul li { margin-bottom: 0.5rem; }
-    .footer-col ul a {
-      font-size: 0.875rem;
-      color: var(--text-dim);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
-    .footer-col ul a:hover { color: var(--red); }
-
-    .footer-bottom {
-      max-width: 1100px; margin: 2rem auto 0;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
-      flex-wrap: wrap; gap: 1rem;
-    }
-    .footer-bottom p { font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim); }
-    .sister-link {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--green);
-      text-decoration: none;
-      letter-spacing: 0.08em;
-    }
-    .sister-link:hover { text-decoration: underline; }
-
-    /* ───────── MOBILE NAV DRAWER ───────── */
-    .mobile-nav {
-      display: none;
-      position: fixed; top: 60px; left: 0; right: 0;
-      background: var(--bg2);
-      border-bottom: 1px solid var(--border);
-      padding: 1.5rem;
-      z-index: 499;
-      flex-direction: column; gap: 1rem;
-    }
-    .mobile-nav.open { display: flex; }
-    .mobile-nav a {
-      font-family: var(--cond);
-      font-size: 1.2rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text);
-      text-decoration: none;
-      padding: 0.5rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .mobile-nav a:hover { color: var(--red); }
-
-    /* ───────── SUCCESS TOAST ───────── */
-    .toast {
-      position: fixed;
-      bottom: 2rem; right: 2rem;
-      background: var(--bg2);
-      border: 1px solid var(--green);
-      border-radius: 8px;
-      padding: 1rem 1.5rem;
-      font-family: var(--mono);
-      font-size: 0.8rem;
-      color: var(--green);
-      z-index: 9999;
-      transform: translateY(120%);
-      transition: transform 0.3s;
-    }
-    .toast.show { transform: translateY(0); }
-
-    /* ───────── ANIMATIONS ───────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ───────── RESPONSIVE ───────── */
-    @media (max-width: 768px) {
-      .nav-links { display: none; }
-      .hamburger { display: flex; }
-      .form-grid { grid-template-columns: 1fr; }
-      .footer-inner { grid-template-columns: 1fr; gap: 2rem; }
-      .footer-bottom { flex-direction: column; align-items: flex-start; }
-      .hero h1 { font-size: clamp(3.5rem,18vw,6rem); }
-    }
-    @media (max-width: 480px) {
-      .initiatives-grid { grid-template-columns: 1fr; }
-      .how-grid { grid-template-columns: 1fr; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="description" content="YouCanSayNo.org — Communities standing together against wasteful, polluting industrial projects. Vote on local initiatives, make your voice heard."/>
+<title>YouCanSayNo.org — Your Community. Your Water. Your Voice.</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%23b91c1c'/><line x1='12' y1='12' x2='52' y2='52' stroke='white' stroke-width='8' stroke-linecap='round'/><line x1='52' y1='12' x2='12' y2='52' stroke='white' stroke-width='8' stroke-linecap='round'/></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#0b0b0b;--bg2:#161616;--bg3:#1f1f1f;--border:#2e2e2e;
+  --text:#f0ece0;--text-dim:#8a8478;
+  --red:#dc1f1f;--red-dim:#8c1010;--red-glow:rgba(220,31,31,0.15);
+  --yellow:#ffd200;--yellow-dim:rgba(255,210,0,0.15);
+  --green:#22c55e;--orange:#f97316;
+  --mono:'JetBrains Mono',monospace;--cond:'Barlow Condensed',sans-serif;--body:'Barlow',sans-serif;
+  --rad:6px;
+}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);font-size:16px;line-height:1.6;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.025;pointer-events:none;z-index:1000;}
+nav{position:sticky;top:0;z-index:500;background:rgba(11,11,11,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 clamp(1rem,4vw,2.5rem);height:60px;}
+.nav-logo{font-family:var(--cond);font-weight:900;font-size:1.4rem;letter-spacing:0.05em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:0.5rem;}
+.nav-logo .logo-x{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;background:var(--red);border-radius:4px;font-size:1.1rem;font-weight:900;color:white;}
+.nav-links{display:flex;align-items:center;gap:1.5rem;list-style:none;}
+.nav-links a{font-family:var(--cond);font-size:0.95rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover{color:var(--red);}
+.nav-cta{background:var(--red)!important;color:white!important;padding:0.4rem 1rem;border-radius:var(--rad);}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:24px;height:2px;background:var(--text);border-radius:2px;transition:all 0.3s;}
+.hero{position:relative;min-height:92vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:clamp(3rem,8vw,6rem) clamp(1rem,4vw,2.5rem);overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 30%,rgba(220,31,31,0.12) 0%,transparent 70%),repeating-linear-gradient(90deg,transparent,transparent 79px,rgba(255,255,255,0.02) 80px);}
+.hero-badge{display:inline-flex;align-items:center;gap:0.5rem;border:1px solid var(--border);border-radius:50px;padding:0.3rem 1rem;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:2rem;animation:fadeDown 0.6s ease both;}
+.hero-badge::before{content:'';width:7px;height:7px;background:var(--red);border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.5;transform:scale(0.8);}}
+.hero h1{font-family:var(--cond);font-weight:900;font-size:clamp(4rem,14vw,10rem);line-height:0.88;letter-spacing:-0.01em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeUp 0.7s 0.1s ease both;}
+.hero h1 .accent{color:var(--red);}
+.hero h1 .thin{display:block;font-size:clamp(1.5rem,5vw,3.5rem);font-weight:400;letter-spacing:0.25em;color:var(--text-dim);margin-bottom:0.5rem;}
+.hero-sub{max-width:620px;font-size:clamp(1rem,2.5vw,1.25rem);color:var(--text-dim);margin-bottom:3rem;animation:fadeUp 0.7s 0.2s ease both;}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;animation:fadeUp 0.7s 0.3s ease both;}
+.btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--cond);font-weight:700;font-size:1rem;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;padding:0.85rem 2rem;border-radius:var(--rad);border:none;cursor:pointer;transition:all 0.2s;}
+.btn-primary{background:var(--red);color:white;}
+.btn-primary:hover{background:#b91c1c;transform:translateY(-2px);}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--text);}
+.btn-ghost:hover{border-color:var(--red);color:var(--red);}
+.stats-bar{background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:clamp(2rem,4vw,3rem) clamp(1rem,4vw,2.5rem);}
+.stats-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2rem;}
+.stat-item{text-align:center;}
+.stat-num{font-family:var(--cond);font-weight:900;font-size:clamp(2.5rem,6vw,4rem);line-height:1;color:var(--red);display:block;}
+.stat-unit{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);letter-spacing:0.15em;text-transform:uppercase;display:block;margin-top:0.3rem;margin-bottom:0.5rem;}
+.stat-label{font-size:0.9rem;color:var(--text-dim);line-height:1.3;}
+.ticker-wrap{background:var(--red);padding:0.7rem 0;overflow:hidden;white-space:nowrap;}
+.ticker-inner{display:inline-flex;gap:3rem;animation:ticker 40s linear infinite;}
+.ticker-inner:hover{animation-play-state:paused;}
+.ticker-item{font-family:var(--mono);font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:white;white-space:nowrap;}
+.ticker-item::before{content:'⬤ ';font-size:0.5rem;margin-right:0.5rem;}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.section{padding:clamp(3rem,7vw,5rem) clamp(1rem,4vw,2.5rem);}
+.section-inner{max-width:1100px;margin:0 auto;}
+.section-tag{font-family:var(--mono);font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);display:block;margin-bottom:0.75rem;}
+.section-title{font-family:var(--cond);font-weight:800;font-size:clamp(2rem,5vw,3.5rem);line-height:1;text-transform:uppercase;margin-bottom:1rem;}
+.section-desc{color:var(--text-dim);max-width:600px;margin-bottom:2.5rem;}
+.initiatives-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;}
+.initiative-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color 0.2s,transform 0.2s;}
+.initiative-card:hover{border-color:var(--red);transform:translateY(-3px);}
+.card-header{padding:1.25rem 1.25rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
+.card-tag{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:3px;white-space:nowrap;}
+.tag-urgent{background:var(--red-glow);color:var(--red);border:1px solid var(--red-dim);}
+.tag-active{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
+.tag-pending{background:rgba(255,210,0,0.1);color:var(--yellow);border:1px solid rgba(255,210,0,0.3);}
+.card-location{font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.08em;text-align:right;}
+.card-body{padding:1rem 1.25rem;}
+.card-title{font-family:var(--cond);font-weight:700;font-size:1.2rem;line-height:1.2;margin-bottom:0.6rem;color:var(--text);}
+.card-desc{font-size:0.875rem;color:var(--text-dim);line-height:1.5;margin-bottom:0.85rem;}
+.card-backers{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.05em;margin-bottom:0.75rem;padding:0.3rem 0.6rem;background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.2);border-radius:4px;display:inline-block;}
+.card-impact{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.75rem;}
+.impact-chip{font-family:var(--mono);font-size:0.65rem;padding:0.2rem 0.5rem;background:var(--bg3);border:1px solid var(--border);border-radius:3px;color:var(--text-dim);}
+.impact-chip.chip-red{border-color:rgba(220,31,31,0.4);color:#fca5a5;background:rgba(220,31,31,0.08);}
+.impact-chip.chip-blue{border-color:rgba(59,130,246,0.4);color:#93c5fd;background:rgba(59,130,246,0.08);}
+.impact-chip.chip-yellow{border-color:rgba(255,210,0,0.4);color:var(--yellow);background:rgba(255,210,0,0.08);}
+.pollution-meter{margin-bottom:0.85rem;padding:0.75rem;background:rgba(220,31,31,0.05);border:1px solid rgba(220,31,31,0.15);border-radius:6px;}
+.meter-title{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.5rem;}
+.meter-row{display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;}
+.meter-label{font-family:var(--mono);font-size:0.62rem;color:var(--text-dim);width:90px;flex-shrink:0;}
+.meter-bar-track{flex:1;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;overflow:hidden;}
+.meter-bar-fill{height:100%;border-radius:4px;transition:width 0.8s ease;}
+.fill-red{background:linear-gradient(90deg,#dc1f1f,#f97316);}
+.fill-blue{background:linear-gradient(90deg,#3b82f6,#06b6d4);}
+.fill-yellow{background:linear-gradient(90deg,#ffd200,#f97316);}
+.meter-val{font-family:var(--mono);font-size:0.62rem;color:var(--text-dim);width:80px;text-align:right;flex-shrink:0;}
+.vote-bar-wrap{margin-bottom:1rem;}
+.vote-bar-labels{display:flex;justify-content:space-between;font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);margin-bottom:0.35rem;}
+.vote-bar-track{height:6px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;}
+.vote-bar-fill{height:100%;background:var(--red);border-radius:3px;transition:width 0.6s cubic-bezier(0.4,0,0.2,1);}
+.vote-section{display:flex;gap:0.75rem;padding:1rem 1.25rem;background:var(--bg3);border-top:1px solid var(--border);}
+.vote-btn{flex:1;font-family:var(--cond);font-size:0.95rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;padding:0.7rem 0.5rem;border-radius:var(--rad);border:1px solid transparent;cursor:pointer;transition:all 0.2s;}
+.vote-no-project{background:rgba(220,31,31,0.1);border-color:rgba(220,31,31,0.3);color:var(--red);}
+.vote-no-project:hover,.vote-no-project.voted{background:var(--red);border-color:var(--red);color:white;}
+.vote-yes-project{background:rgba(100,116,139,0.1);border-color:rgba(100,116,139,0.3);color:#94a3b8;}
+.vote-yes-project:hover,.vote-yes-project.voted{background:#475569;border-color:#475569;color:white;}
+.share-bar{display:flex;gap:0.5rem;padding:0.75rem 1.25rem;background:var(--bg);border-top:1px solid var(--border);flex-wrap:wrap;align-items:center;}
+.share-label{font-family:var(--mono);font-size:0.62rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-right:0.25rem;}
+.share-btn{font-family:var(--mono);font-size:0.68rem;font-weight:600;letter-spacing:0.06em;padding:0.3rem 0.65rem;border-radius:4px;border:none;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:0.3rem;transition:opacity 0.2s;}
+.share-btn:hover{opacity:0.8;}
+.share-x{background:#000;color:#fff;}
+.share-fb{background:#1877f2;color:#fff;}
+.share-link{background:var(--bg3);color:var(--text-dim);border:1px solid var(--border);}
+.post-section{background:var(--bg2);border-top:1px solid var(--border);}
+.post-form{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:clamp(1.5rem,4vw,2.5rem);max-width:700px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;}
+.form-full{grid-column:1/-1;}
+label{display:block;font-family:var(--mono);font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.4rem;}
+input,select,textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:var(--rad);color:var(--text);font-family:var(--body);font-size:0.95rem;padding:0.65rem 0.9rem;transition:border-color 0.2s;outline:none;}
+input:focus,select:focus,textarea:focus{border-color:var(--red);}
+textarea{resize:vertical;min-height:100px;}
+select option{background:var(--bg2);}
+.form-submit{margin-top:1.25rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.form-note{font-size:0.8rem;color:var(--text-dim);}
+/* HALL OF SHAME */
+.shame-section{background:#0e0505;border-top:2px solid var(--red-dim);}
+.shame-intro{font-size:0.95rem;color:var(--text-dim);max-width:680px;margin-bottom:2rem;line-height:1.7;}
+.shame-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem;margin-bottom:2.5rem;}
+.shame-card{background:rgba(220,31,31,0.05);border:1px solid rgba(220,31,31,0.2);border-radius:8px;padding:1.25rem;position:relative;overflow:hidden;}
+.shame-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--red),var(--orange));}
+.shame-rank{font-family:var(--cond);font-weight:900;font-size:3.5rem;color:rgba(220,31,31,0.15);position:absolute;top:0.5rem;right:1rem;line-height:1;}
+.shame-company{font-family:var(--cond);font-weight:800;font-size:1.3rem;color:var(--text);margin-bottom:0.3rem;}
+.shame-valuation{font-family:var(--mono);font-size:0.65rem;color:var(--orange);letter-spacing:0.08em;margin-bottom:0.75rem;}
+.shame-crimes{list-style:none;margin-bottom:0.75rem;}
+.shame-crimes li{font-size:0.8rem;color:var(--text-dim);padding:0.2rem 0;padding-left:1rem;position:relative;line-height:1.4;}
+.shame-crimes li::before{content:'⚠';position:absolute;left:0;font-size:0.65rem;}
+.shame-stat{font-family:var(--mono);font-size:0.7rem;color:var(--red);border-top:1px solid rgba(220,31,31,0.2);padding-top:0.6rem;margin-top:0.5rem;}
+.submit-company-btn{display:inline-flex;align-items:center;gap:0.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);border:1px dashed var(--border);border-radius:6px;padding:0.6rem 1rem;text-decoration:none;cursor:pointer;background:none;transition:border-color 0.2s,color 0.2s;}
+.submit-company-btn:hover{border-color:var(--red);color:var(--red);}
+.how-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2rem;}
+.how-item{padding:1.5rem;background:var(--bg2);border:1px solid var(--border);border-radius:10px;}
+.how-num{font-family:var(--cond);font-weight:900;font-size:3rem;color:var(--red);line-height:1;opacity:0.4;margin-bottom:0.5rem;}
+.how-item h3{font-family:var(--cond);font-weight:700;font-size:1.2rem;margin-bottom:0.5rem;text-transform:uppercase;}
+.how-item p{font-size:0.875rem;color:var(--text-dim);}
+.resources-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.25rem;}
+.resource-card{padding:1.25rem;background:var(--bg2);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);display:block;transition:border-color 0.2s;}
+.resource-card:hover{border-color:var(--red);}
+.resource-card .r-source{font-family:var(--mono);font-size:0.65rem;color:var(--red);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.4rem;display:block;}
+.resource-card h4{font-family:var(--cond);font-weight:700;font-size:1.05rem;margin-bottom:0.4rem;}
+.resource-card p{font-size:0.825rem;color:var(--text-dim);line-height:1.4;}
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem clamp(1rem,4vw,2.5rem);}
+.footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem;}
+.footer-brand h2{font-family:var(--cond);font-weight:900;font-size:1.8rem;margin-bottom:0.5rem;}
+.footer-brand h2 .red{color:var(--red);}
+.footer-brand p{font-size:0.85rem;color:var(--text-dim);max-width:280px;line-height:1.6;}
+.footer-col h4{font-family:var(--cond);font-weight:700;font-size:0.95rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1rem;}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:0.5rem;}
+.footer-col ul a{font-size:0.875rem;color:var(--text-dim);text-decoration:none;transition:color 0.2s;}
+.footer-col ul a:hover{color:var(--red);}
+.footer-bottom{max-width:1100px;margin:2rem auto 0;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;}
+.footer-bottom p{font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);}
+.sister-link{font-family:var(--mono);font-size:0.7rem;color:var(--green);text-decoration:none;letter-spacing:0.08em;}
+.mobile-nav{display:none;position:fixed;top:60px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:1.5rem;z-index:499;flex-direction:column;gap:1rem;}
+.mobile-nav.open{display:flex;}
+.mobile-nav a{font-family:var(--cond);font-size:1.2rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);text-decoration:none;padding:0.5rem 0;border-bottom:1px solid var(--border);}
+.mobile-nav a:hover{color:var(--red);}
+.toast{position:fixed;bottom:2rem;right:2rem;background:var(--bg2);border:1px solid var(--green);border-radius:8px;padding:1rem 1.5rem;font-family:var(--mono);font-size:0.8rem;color:var(--green);z-index:9999;transform:translateY(120%);transition:transform 0.3s;max-width:320px;}
+.toast.show{transform:translateY(0);}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}.form-grid{grid-template-columns:1fr;}.footer-inner{grid-template-columns:1fr;gap:2rem;}.footer-bottom{flex-direction:column;align-items:flex-start;}.hero h1{font-size:clamp(3.5rem,18vw,6rem);}}
+@media(max-width:480px){.initiatives-grid{grid-template-columns:1fr;}.how-grid{grid-template-columns:1fr;}.shame-grid{grid-template-columns:1fr;}}
+</style>
 </head>
 <body>
-<!-- THE MODERN MOVEMENT NETWORK BAR -->
+<!-- NETWORK BAR -->
 <div style="background:#1a0a0a;color:rgba(255,255,255,0.65);font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1rem;display:flex;align-items:center;justify-content:center;gap:1.5rem;flex-wrap:wrap;border-bottom:1px solid #2e2e2e;">
   <span style="color:rgba(134,239,172,0.8);">&#11041; The Modern Movement Network</span>
   <span style="color:rgba(255,255,255,0.2);">|</span>
@@ -718,299 +183,310 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <span class="logo-x">✕</span>
-    YouCan<span style="color:var(--red)">SayNo</span>.org
+    <span class="logo-x">&#x2715;</span> YouCan<span style="color:var(--red)">SayNo</span>.org
   </a>
   <ul class="nav-links">
-    <li><a href="#initiatives">Initiatives</a></li>
-    <li><a href="#post">Post Issue</a></li>
+    <li><a href="#initiatives">Active Issues</a></li>
+    <li><a href="#shame">Hall of Shame</a></li>
+    <li><a href="#post">Post Your Issue</a></li>
     <li><a href="#howworks">How It Works</a></li>
-    <li><a href="#resources">Resources</a></li>
     <li><a href="https://www.themodernmovement.org" style="color:#22c55e;font-weight:800;" target="_blank">! Modern Movement</a></li>
-    <li><a href="https://www.icansayyes.org" class="nav-cta">→ ICanSayYes.org</a></li>
+    <li><a href="https://www.icansayyes.org" class="nav-cta" target="_blank">&#8594; ICanSayYes.org</a></li>
   </ul>
-  <button class="hamburger" id="hambtn" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <button class="hamburger" id="hambtn" aria-label="Menu"><span></span><span></span><span></span></button>
 </nav>
-
 <nav class="mobile-nav" id="mobilenav">
-  <a href="#initiatives" onclick="closeMobile()">Initiatives</a>
-  <a href="#post" onclick="closeMobile()">Post Issue</a>
+  <a href="#initiatives" onclick="closeMobile()">Active Issues</a>
+  <a href="#shame" onclick="closeMobile()">Hall of Shame</a>
+  <a href="#post" onclick="closeMobile()">Post Your Issue</a>
   <a href="#howworks" onclick="closeMobile()">How It Works</a>
-  <a href="#resources" onclick="closeMobile()">Resources</a>
-  <a href="https://www.icansayyes.org" style="color:var(--green)">→ ICanSayYes.org</a>
+  <a href="https://www.icansayyes.org" style="color:var(--green)">&#8594; ICanSayYes.org</a>
 </nav>
-
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">Community Action Network — Active Now</div>
+  <div class="hero-badge">Community Action Network &#8212; Active Now</div>
   <h1>
     <span class="thin">Your water. Your air. Your land.</span>
     You Can<br/><span class="accent">Say No.</span>
   </h1>
-  <p class="hero-sub">
-    Local commissions across America are approving massive data centers — facilities that drain millions of gallons of water daily, pollute your air, and strain your community's infrastructure. You have the right to say no.
-  </p>
+  <p class="hero-sub">Billion-dollar corporations are poisoning our air and draining our water &#8212; then handing the bill to local communities. They choose old, dirty technology because they don&#8217;t have to breathe what they produce. We do. Here&#8217;s how we fight back.</p>
   <div class="hero-actions">
-    <a href="#initiatives" class="btn btn-primary">⚡ View Active Initiatives</a>
+    <a href="#initiatives" class="btn btn-primary">&#9889; View Active Issues</a>
     <a href="#post" class="btn btn-ghost">+ Post Your Issue</a>
   </div>
 </section>
-
 <!-- STATS BAR -->
 <div class="stats-bar">
   <div class="stats-grid">
     <div class="stat-item">
-      <span class="stat-num">399B</span>
-      <span class="stat-unit">Gallons / Year</span>
-      <span class="stat-label">Projected Texas data center water use by 2030</span>
+      <span class="stat-num">388</span>
+      <span class="stat-unit">Gal / Min</span>
+      <span class="stat-label">Water the Benson Aluminum plant will drain from the San Pedro River watershed</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">5M</span>
-      <span class="stat-unit">Gallons / Day</span>
-      <span class="stat-label">A single large data center — equal to 50,000 people's daily use</span>
+      <span class="stat-num">2</span>
+      <span class="stat-unit">Cities Combined</span>
+      <span class="stat-label">Greenhouse gas emissions from Project Jupiter &#8212; equal to NM&#8217;s two largest cities</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">10,800+</span>
-      <span class="stat-unit">Data Centers</span>
-      <span class="stat-label">Operating in the US — and growing rapidly with AI</span>
+      <span class="stat-num">$165B</span>
+      <span class="stat-unit">In Bonds</span>
+      <span class="stat-label">Taxpayer-backed bonds used to fund Project Jupiter &#8212; for OpenAI and Oracle profits</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">80%</span>
-      <span class="stat-unit">Evaporated</span>
-      <span class="stat-label">Of all water drawn is lost — never returned to your watershed</span>
+      <span class="stat-num">7,155</span>
+      <span class="stat-unit">Comments</span>
+      <span class="stat-label">New Mexicans who objected to Project Jupiter permits &#8212; forcing a public hearing</span>
     </div>
     <div class="stat-item">
-      <span class="stat-num">&lt;150</span>
-      <span class="stat-unit">Local Jobs</span>
-      <span class="stat-label">Per facility — vs. thousands promised to communities</span>
+      <span class="stat-num">0</span>
+      <span class="stat-unit">Clean Tech</span>
+      <span class="stat-label">Scrubbers or clean energy solutions offered &#8212; cheaper to pollute your community</span>
     </div>
   </div>
 </div>
-
 <!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker-inner">
-    <span class="ticker-item">Tucson, AZ rejected Amazon Project Blue — citing water scarcity</span>
-    <span class="ticker-item">Oregon: 30+ data centers in a town of 4,000 people — wells contaminated</span>
-    <span class="ticker-item">Memphis, TN: xAI turbines ran without permits in a Black community</span>
-    <span class="ticker-item">Michigan: 200 residents stormed township meetings to delay Stargate Phase II</span>
-    <span class="ticker-item">Georgia: Meta data center spiked neighborhood water use by 200 million gallons/year</span>
-    <span class="ticker-item">Virginia: 27 million sq ft of data centers — nearly maxing out the power grid</span>
-    <span class="ticker-item">Arizona: 1 in 5 data centers sits in a water-stressed region</span>
-    <span class="ticker-item">YOU have the right to speak at your commission meeting</span>
-    <!-- Duplicate for infinite scroll -->
-    <span class="ticker-item">Tucson, AZ rejected Amazon Project Blue — citing water scarcity</span>
-    <span class="ticker-item">Oregon: 30+ data centers in a town of 4,000 people — wells contaminated</span>
-    <span class="ticker-item">Memphis, TN: xAI turbines ran without permits in a Black community</span>
-    <span class="ticker-item">Michigan: 200 residents stormed township meetings to delay Stargate Phase II</span>
-    <span class="ticker-item">Georgia: Meta data center spiked neighborhood water use by 200 million gallons/year</span>
-    <span class="ticker-item">Virginia: 27 million sq ft of data centers — nearly maxing out the power grid</span>
-    <span class="ticker-item">Arizona: 1 in 5 data centers sits in a water-stressed region</span>
-    <span class="ticker-item">YOU have the right to speak at your commission meeting</span>
+    <span class="ticker-item">Benson, AZ: Aluminum plant emitting PFCs next to a school and nursing home on the San Pedro River</span>
+    <span class="ticker-item">Do&#241;a Ana, NM: Project Jupiter gas plants would emit as much pollution as two full cities</span>
+    <span class="ticker-item">They split the emissions across TWO permits to dodge stricter state review &#8212; we see you</span>
+    <span class="ticker-item">Clean scrubber tech exists &#8212; billion-dollar companies just refuse to pay for it</span>
+    <span class="ticker-item">7,155 New Mexicans commented against Project Jupiter &#8212; NMED had to listen</span>
+    <span class="ticker-item">Arizona AG Kris Mayes considering public nuisance lawsuit against Aluminum Dynamics</span>
+    <span class="ticker-item">YOU have the right to speak at your commission meeting &#8212; show up</span>
+    <span class="ticker-item">Benson, AZ: Aluminum plant emitting PFCs next to a school and nursing home on the San Pedro River</span>
+    <span class="ticker-item">Do&#241;a Ana, NM: Project Jupiter gas plants would emit as much pollution as two full cities</span>
+    <span class="ticker-item">They split the emissions across TWO permits to dodge stricter state review &#8212; we see you</span>
+    <span class="ticker-item">Clean scrubber tech exists &#8212; billion-dollar companies just refuse to pay for it</span>
+    <span class="ticker-item">7,155 New Mexicans commented against Project Jupiter &#8212; NMED had to listen</span>
+    <span class="ticker-item">Arizona AG Kris Mayes considering public nuisance lawsuit against Aluminum Dynamics</span>
+    <span class="ticker-item">YOU have the right to speak at your commission meeting &#8212; show up</span>
   </div>
 </div>
-
-<!-- INITIATIVES -->
+<!-- ACTIVE INITIATIVES -->
 <section class="section" id="initiatives">
   <div class="section-inner">
-    <span class="section-tag">// Active Initiatives</span>
-    <h2 class="section-title">Communities Fighting Back</h2>
-    <p class="section-desc">Real battles happening right now. Vote to show your support — or opposition. Every vote sends a signal to local commissions.</p>
-
+    <span class="section-tag">// Active Issues &#8212; Real Communities, Real Fights</span>
+    <h2 class="section-title">Say No to These Projects</h2>
+    <p class="section-desc">Two real battles happening right now. Cast your vote &#8212; every vote is counted and reported to the relevant regulatory agencies and local commissions. Then share it to amplify the signal.</p>
     <div class="initiatives-grid" id="initiativesGrid">
 
-      <!-- Card 1 -->
+      <!-- CARD 1: BENSON ALUMINUM -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-urgent">🔴 Urgent</span>
-          <span class="card-location">📍 Maricopa County, AZ</span>
+          <span class="card-tag tag-urgent">&#128308; Urgent &#8212; Permit Active</span>
+          <span class="card-location">&#128205; Benson, AZ &#8212; Cochise County</span>
         </div>
         <div class="card-body">
-          <h3 class="card-title">Block the 800-Acre AI Megacenter — Phoenix Metro</h3>
-          <p class="card-desc">A proposed hyperscale AI facility would consume 2.1 million gallons of water daily from an already critically stressed Colorado River watershed. The Phoenix metro area is already under Level 2 drought conditions.</p>
+          <h3 class="card-title">Stop the Benson Aluminum Smelter &#8212; San Pedro River at Risk</h3>
+          <p class="card-desc">Mississippi-based Aluminum Dynamics wants to melt and recast aluminum scrap on the banks of the last free-flowing river in the American Southwest &#8212; 388 gallons per minute from the groundwater, less than a half-mile from a school, across from a nursing home. They got the permit because they picked a low-income rural town that didn&#8217;t have the political muscle to stop them. Not anymore.</p>
+          <div class="card-backers">&#9888; Corporate Backers: Aluminum Dynamics, Inc. (Mississippi) &#8212; previously rejected by Gila Bend, AZ</div>
+          <div class="pollution-meter">
+            <div class="meter-title">&#128293; Pollution &amp; Resource Impact Rating</div>
+            <div class="meter-row">
+              <span class="meter-label">Air &#8212; PFCs</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:88%"></div></div>
+              <span class="meter-val">Major source</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Air &#8212; HCl</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:95%"></div></div>
+              <span class="meter-val">Exceeds threshold</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Water use</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-blue" style="width:78%"></div></div>
+              <span class="meter-val">388 gal/min</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">River risk</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-blue" style="width:92%"></div></div>
+              <span class="meter-val">San Pedro River</span>
+            </div>
+          </div>
           <div class="card-impact">
-            <span class="impact-chip">💧 2.1M gal/day</span>
-            <span class="impact-chip">⚡ 1.8 GW power demand</span>
-            <span class="impact-chip">🌡️ Drought Zone</span>
+            <span class="impact-chip chip-red">&#128567; PFCs &#8212; asthma &amp; arthritis risk</span>
+            <span class="impact-chip chip-red">&#9888; HCl &#8212; hazardous air pollutant</span>
+            <span class="impact-chip chip-blue">&#128166; 388 gal/min groundwater</span>
+            <span class="impact-chip chip-yellow">&#127968; School &lt;0.5 mi away</span>
+            <span class="impact-chip">&#127860; Nursing home next door</span>
+            <span class="impact-chip">&#9878; Lawsuit filed Sept 2025</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
-              <span class="yes-count-label">Say No: <strong class="yesct" data-id="1">2,847</strong></span>
-              <span class="no-count-label">Say Yes to Center: <strong class="noct" data-id="1">341</strong></span>
+              <span>&#9995; Say No: <strong class="yesct" data-id="1">0</strong></span>
+              <span>Support It: <strong class="noct" data-id="1">0</strong></span>
             </div>
             <div class="vote-bar-track">
-              <div class="vote-bar-fill" data-id="1" style="width:89%"></div>
+              <div class="vote-bar-fill" data-id="1" style="width:0%"></div>
             </div>
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="1" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
-          <button class="vote-btn vote-no" data-id="1" data-type="no" onclick="castVote(this)">Support Center</button>
+          <button class="vote-btn vote-no-project" data-id="1" data-type="no" onclick="castVote(this,1)">&#9995; Say No to This Project</button>
+          <button class="vote-btn vote-yes-project" data-id="1" data-type="yes" onclick="castVote(this,1)">I Support This Project</button>
+        </div>
+        <div class="share-bar" id="share1">
+          <span class="share-label">Share:</span>
+          <a class="share-btn share-x" href="#" onclick="shareX(1);return false;">&#120143; / X</a>
+          <a class="share-btn share-fb" href="#" onclick="shareFB(1);return false;">Facebook</a>
+          <button class="share-btn share-link" onclick="copyLink(1)">Copy Link</button>
         </div>
       </div>
 
-      <!-- Card 2 -->
+      <!-- CARD 2: PROJECT JUPITER -->
       <div class="initiative-card">
         <div class="card-header">
-          <span class="card-tag tag-active">🟢 Voting Open</span>
-          <span class="card-location">📍 Loudoun County, VA</span>
+          <span class="card-tag tag-urgent">&#128308; Urgent &#8212; Permit Hearing July 2026</span>
+          <span class="card-location">&#128205; Do&#241;a Ana County, NM &#8212; Santa Teresa</span>
         </div>
         <div class="card-body">
-          <h3 class="card-title">Halt Hyperscale Data Center Alley Expansion — Phase 7</h3>
-          <p class="card-desc">Northern Virginia already hosts 27 million sq ft of data centers. Phase 7 expansion plans add 4 more facilities with diesel generators running 50-hour "demand response" sessions — pumping NOx and particulate matter into neighborhoods.</p>
+          <h3 class="card-title">Stop Project Jupiter &#8212; AI Data Center Gas Plants Polluting New Mexico</h3>
+          <p class="card-desc">OpenAI and Oracle want $165 billion in public bonds to build a massive AI data center in Santa Teresa, NM &#8212; powered by two private gas-fired microgrid plants that, combined, would emit as many greenhouse gases as New Mexico&#8217;s two largest cities. To avoid stricter review, they split the project across two separate permits. 7,155 New Mexicans objected. A public hearing is now required &#8212; use your voice before July 21, 2026.</p>
+          <div class="card-backers">&#9888; Corporate Backers: OpenAI, Oracle Corporation, Acoma LLC &#8212; backed by Do&#241;a Ana County bonds</div>
+          <div class="pollution-meter">
+            <div class="meter-title">&#128293; Pollution &amp; Resource Impact Rating</div>
+            <div class="meter-row">
+              <span class="meter-label">GHG emissions</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:98%"></div></div>
+              <span class="meter-val">= 2 largest cities</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Gas plants</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-yellow" style="width:80%"></div></div>
+              <span class="meter-val">2 microgrids</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Pipeline</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-yellow" style="width:70%"></div></div>
+              <span class="meter-val">17 mi / $60M</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Clean tech used</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:2%"></div></div>
+              <span class="meter-val">Zero</span>
+            </div>
+          </div>
           <div class="card-impact">
-            <span class="impact-chip">🏭 4 new facilities</span>
-            <span class="impact-chip">💨 NOx emissions</span>
-            <span class="impact-chip">👶 Child asthma risk</span>
+            <span class="impact-chip chip-red">&#9925; GHG = 2 full cities</span>
+            <span class="impact-chip chip-red">&#128200; Permit-split loophole</span>
+            <span class="impact-chip chip-yellow">&#128200; $165B public bonds</span>
+            <span class="impact-chip chip-blue">&#127988; 17-mile gas pipeline</span>
+            <span class="impact-chip">&#127757; No clean scrubbers</span>
+            <span class="impact-chip">&#128337; Decision: July 21, 2026</span>
           </div>
           <div class="vote-bar-wrap">
             <div class="vote-bar-labels">
-              <span>Say No: <strong class="yesct" data-id="2">1,934</strong></span>
-              <span>Say Yes to Center: <strong class="noct" data-id="2">712</strong></span>
+              <span>&#9995; Say No: <strong class="yesct" data-id="2">0</strong></span>
+              <span>Support It: <strong class="noct" data-id="2">0</strong></span>
             </div>
             <div class="vote-bar-track">
-              <div class="vote-bar-fill" data-id="2" style="width:73%"></div>
+              <div class="vote-bar-fill" data-id="2" style="width:0%"></div>
             </div>
           </div>
         </div>
         <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="2" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
-          <button class="vote-btn vote-no" data-id="2" data-type="no" onclick="castVote(this)">Support Center</button>
+          <button class="vote-btn vote-no-project" data-id="2" data-type="no" onclick="castVote(this,2)">&#9995; Say No to This Project</button>
+          <button class="vote-btn vote-yes-project" data-id="2" data-type="yes" onclick="castVote(this,2)">I Support This Project</button>
+        </div>
+        <div class="share-bar" id="share2">
+          <span class="share-label">Share:</span>
+          <a class="share-btn share-x" href="#" onclick="shareX(2);return false;">&#120143; / X</a>
+          <a class="share-btn share-fb" href="#" onclick="shareFB(2);return false;">Facebook</a>
+          <button class="share-btn share-link" onclick="copyLink(2)">Copy Link</button>
         </div>
       </div>
 
-      <!-- Card 3 -->
-      <div class="initiative-card">
-        <div class="card-header">
-          <span class="card-tag tag-urgent">🔴 Urgent</span>
-          <span class="card-location">📍 Boardman, OR</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Demand Immediate Groundwater Audit — 30+ Centers in 4,000-Person Town</h3>
-          <p class="card-desc">Boardman residents have discovered nitrate levels exceeding 5× the legal limit in their wells. Cooling wastewater dumped on surrounding farmland has contaminated the water table. Three years of unknowing consumption of toxic water.</p>
-          <div class="card-impact">
-            <span class="impact-chip">☠️ 5× legal nitrates</span>
-            <span class="impact-chip">🏘️ 4,000 residents</span>
-            <span class="impact-chip">🌾 Farmland runoff</span>
-          </div>
-          <div class="vote-bar-wrap">
-            <div class="vote-bar-labels">
-              <span>Say No: <strong class="yesct" data-id="3">4,201</strong></span>
-              <span>Say Yes to Center: <strong class="noct" data-id="3">188</strong></span>
-            </div>
-            <div class="vote-bar-track">
-              <div class="vote-bar-fill" data-id="3" style="width:96%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="3" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
-          <button class="vote-btn vote-no" data-id="3" data-type="no" onclick="castVote(this)">Support Center</button>
-        </div>
+    </div><!-- /grid -->
+    <p style="font-family:var(--mono);font-size:0.75rem;color:var(--text-dim);margin-top:1.5rem;">&#43; Know of another project? <a href="#post" style="color:var(--red);">Submit it below</a> &#8212; we review within 48 hours and add verified issues to this board.</p>
+  </div>
+</section>
+<!-- CORPORATE HALL OF SHAME -->
+<section class="section shame-section" id="shame">
+  <div class="section-inner">
+    <span class="section-tag">// Corporate Hall of Shame</span>
+    <h2 class="section-title">Who&#8217;s Poisoning Your Air</h2>
+    <p class="shame-intro">These are billion-dollar companies that choose to use outdated, dirty designs &#8212; not because clean alternatives don&#8217;t exist, but because they&#8217;re cheaper when your community pays the health cost. Modern scrubber technology, renewable power, and water-efficient cooling exist. They just don&#8217;t want to spend the money. So they build in low-income rural towns, split their permits, and walk away. We&#8217;re keeping the ledger.</p>
+    <div class="shame-grid">
+
+      <div class="shame-card">
+        <div class="shame-rank">#1</div>
+        <div class="shame-company">OpenAI</div>
+        <div class="shame-valuation">Est. Valuation: $300B+ &#8226; Backed by Microsoft, SoftBank</div>
+        <ul class="shame-crimes">
+          <li>Project Jupiter (NM): gas plants emitting = 2 full cities of greenhouse gases</li>
+          <li>Chose gas over renewable power for entire data center complex</li>
+          <li>Used public bonds ($165B) while privatizing all profits</li>
+          <li>Zero clean scrubber or carbon capture technology proposed</li>
+        </ul>
+        <div class="shame-stat">&#128293; Projected GHG: Equal to Albuquerque + Las Cruces combined annually</div>
       </div>
 
-      <!-- Card 4 -->
-      <div class="initiative-card">
-        <div class="card-header">
-          <span class="card-tag tag-pending">🟡 Commission Vote Pending</span>
-          <span class="card-location">📍 Bessemer, AL</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Reject Hyperscale Center Requiring 1/3 of City Water Supply</h3>
-          <p class="card-desc">Residents were blindsided to learn that an approved data center would require a 10% statewide electricity increase from Alabama Power and consume 2 million gallons per day — one-third of the local utility's total water supply.</p>
-          <div class="card-impact">
-            <span class="impact-chip">⚡ +10% statewide power</span>
-            <span class="impact-chip">💧 ⅓ city water supply</span>
-            <span class="impact-chip">📈 Rate hike incoming</span>
-          </div>
-          <div class="vote-bar-wrap">
-            <div class="vote-bar-labels">
-              <span>Say No: <strong class="yesct" data-id="4">3,107</strong></span>
-              <span>Say Yes to Center: <strong class="noct" data-id="4">521</strong></span>
-            </div>
-            <div class="vote-bar-track">
-              <div class="vote-bar-fill" data-id="4" style="width:86%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="4" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
-          <button class="vote-btn vote-no" data-id="4" data-type="no" onclick="castVote(this)">Support Center</button>
-        </div>
+      <div class="shame-card">
+        <div class="shame-rank">#2</div>
+        <div class="shame-company">Oracle Corporation</div>
+        <div class="shame-valuation">Market Cap: $490B+ &#8226; CEO Larry Ellison</div>
+        <ul class="shame-crimes">
+          <li>Co-backer of Project Jupiter gas power plants in Do&#241;a Ana County, NM</li>
+          <li>Submitted letter to NMED supporting air permit approval &#8212; over community objections</li>
+          <li>Chose 20-year-old gas microgrid design over available clean alternatives</li>
+          <li>Promised thousands of jobs; court filings contradict the numbers</li>
+        </ul>
+        <div class="shame-stat">&#128293; Supporting 2 gas plants in a community that asked for clean energy</div>
       </div>
 
-      <!-- Card 5 -->
-      <div class="initiative-card">
-        <div class="card-header">
-          <span class="card-tag tag-active">🟢 Voting Open</span>
-          <span class="card-location">📍 Huron River Basin, MI</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Stop Phase II — Stargate / OpenAI Huron River Water Diversion</h3>
-          <p class="card-desc">1.8 billion gallons of annual water withdrawal from the Huron River is threatening wetlands and riparian ecosystems. The facility exploited a regulatory loophole for unchecked natural gas turbine emissions, potentially adding 1.5 million tons of CO₂ per year.</p>
-          <div class="card-impact">
-            <span class="impact-chip">🏞️ Wetlands at risk</span>
-            <span class="impact-chip">☁️ 1.5M tons CO₂/yr</span>
-            <span class="impact-chip">⚖️ Loophole exploit</span>
-          </div>
-          <div class="vote-bar-wrap">
-            <div class="vote-bar-labels">
-              <span>Say No: <strong class="yesct" data-id="5">5,873</strong></span>
-              <span>Say Yes to Center: <strong class="noct" data-id="5">904</strong></span>
-            </div>
-            <div class="vote-bar-track">
-              <div class="vote-bar-fill" data-id="5" style="width:87%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="5" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
-          <button class="vote-btn vote-no" data-id="5" data-type="no" onclick="castVote(this)">Support Center</button>
-        </div>
+      <div class="shame-card">
+        <div class="shame-rank">#3</div>
+        <div class="shame-company">Aluminum Dynamics</div>
+        <div class="shame-valuation">Mississippi-based metal manufacturer &#8226; Previously rejected by Gila Bend, AZ</div>
+        <ul class="shame-crimes">
+          <li>Siting a smelter on the last free-flowing river in the American Southwest</li>
+          <li>Emitting PFCs (linked to child asthma and arthritis) into a rural Arizona community</li>
+          <li>Hydrogen chloride emissions exceed major hazardous air pollutant threshold</li>
+          <li>Draining 388 gallons per minute from already-stressed desert groundwater</li>
+          <li>Located less than 0.5 miles from a school and next to a nursing home</li>
+        </ul>
+        <div class="shame-stat">&#9875; Water use: 558,720 gallons per day from San Pedro River watershed</div>
       </div>
 
-      <!-- Card 6 -->
-      <div class="initiative-card">
-        <div class="card-header">
-          <span class="card-tag tag-pending">🟡 Petition Drive</span>
-          <span class="card-location">📍 Canton, MS</span>
-        </div>
-        <div class="card-body">
-          <h3 class="card-title">Demand Air Quality Monitoring Around Amazon $10B AI Center</h3>
-          <p class="card-desc">Residents of this majority-Black town were promised 1,000 jobs. They got construction dust settling over homes and playgrounds, lung irritation reports, and weekly diesel generator tests spiking NOx levels. The Big Black River is now under pressure from cooling demands.</p>
-          <div class="card-impact">
-            <span class="impact-chip">😷 Lung irritation reports</span>
-            <span class="impact-chip">⚠️ Asthma spike</span>
-            <span class="impact-chip">🏛️ Environmental justice</span>
-          </div>
-          <div class="vote-bar-wrap">
-            <div class="vote-bar-labels">
-              <span>Say No: <strong class="yesct" data-id="6">6,440</strong></span>
-              <span>Say Yes to Center: <strong class="noct" data-id="6">280</strong></span>
-            </div>
-            <div class="vote-bar-track">
-              <div class="vote-bar-fill" data-id="6" style="width:96%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vote-section">
-          <button class="vote-btn vote-yes" data-id="6" data-type="yes" onclick="castVote(this)">✊ Say No to This</button>
-          <button class="vote-btn vote-no" data-id="6" data-type="no" onclick="castVote(this)">Support Center</button>
-        </div>
+      <div class="shame-card">
+        <div class="shame-rank">#4</div>
+        <div class="shame-company">Acoma LLC</div>
+        <div class="shame-valuation">Project Jupiter Developer &#8212; Do&#241;a Ana County, NM</div>
+        <ul class="shame-crimes">
+          <li>Split one large project across two separate air permit applications to avoid stricter review thresholds</li>
+          <li>Proposed 17-mile, $60M natural gas pipeline to feed private power plants</li>
+          <li>Permit applications acknowledged &#8220;worst-case scenario&#8221; pollution levels</li>
+          <li>Filed job projections that court documents appear to contradict</li>
+        </ul>
+        <div class="shame-stat">&#128200; Permit-split strategy: divide to conquer regulatory oversight</div>
       </div>
 
-    </div><!-- /initiatives-grid -->
+      <div class="shame-card" style="border-style:dashed;opacity:0.6;">
+        <div class="shame-rank">?</div>
+        <div class="shame-company">Your Town&#8217;s Project</div>
+        <div class="shame-valuation">Is a billion-dollar company targeting your community?</div>
+        <ul class="shame-crimes">
+          <li>Same playbook: promise jobs, hide the pollution data</li>
+          <li>Pick a low-income town with less political power</li>
+          <li>Get the permit before the community can organize</li>
+          <li>Move on when rejected &#8212; find the next town</li>
+        </ul>
+        <div class="shame-stat">&#8593; Submit your initiative below &#8212; we&#8217;ll add them to this list</div>
+      </div>
+
+    </div>
+    <button class="submit-company-btn" onclick="document.getElementById('post').scrollIntoView({behavior:'smooth'})">+ Submit a Company to the Hall of Shame</button>
   </div>
 </section>
 
 <!-- POST AN INITIATIVE -->
 <section class="section post-section" id="post">
   <div class="section-inner">
-    <span class="section-tag">// Submit Your Issue</span>
+    <span class="section-tag">// Your Community Deserves to Be Heard</span>
     <h2 class="section-title">Post an Initiative</h2>
-    <p class="section-desc">Is your community facing a data center proposal? Post it here. Our team will verify the submission and add it to the public voting board.</p>
+    <p class="section-desc">Is a corporation targeting your town? Post it here. We verify every submission and add confirmed issues to the public voting board &#8212; no account required.</p>
     <div class="post-form">
       <div class="form-grid">
         <div>
@@ -1018,17 +494,17 @@
           <input type="text" id="fname" placeholder="Jane Smith"/>
         </div>
         <div>
-          <label for="femail">Email</label>
+          <label for="femail">Email (optional)</label>
           <input type="email" id="femail" placeholder="you@example.com"/>
         </div>
         <div>
           <label for="fcity">City / Town</label>
-          <input type="text" id="fcity" placeholder="Boardman, OR"/>
+          <input type="text" id="fcity" placeholder="Benson, AZ"/>
         </div>
         <div>
           <label for="fstate">State</label>
           <select id="fstate">
-            <option value="">Select state…</option>
+            <option value="">Select state&#8230;</option>
             <option>Alabama</option><option>Alaska</option><option>Arizona</option>
             <option>Arkansas</option><option>California</option><option>Colorado</option>
             <option>Connecticut</option><option>Delaware</option><option>Florida</option>
@@ -1049,16 +525,28 @@
           </select>
         </div>
         <div class="form-full">
+          <label for="fcompany">Company / Corporation Behind the Project</label>
+          <input type="text" id="fcompany" placeholder="e.g. Aluminum Dynamics, OpenAI, Amazon"/>
+        </div>
+        <div class="form-full">
           <label for="ftitle">Initiative Title</label>
-          <input type="text" id="ftitle" placeholder="e.g. Block the 500-Acre Data Center Proposal in [County]"/>
+          <input type="text" id="ftitle" placeholder="e.g. Stop the Gas Plant Proposal in [County]"/>
         </div>
         <div class="form-full">
           <label for="fdesc">Describe the Issue</label>
-          <textarea id="fdesc" placeholder="What is being proposed? How does it impact your water, air, or community? What action are you asking for?"></textarea>
+          <textarea id="fdesc" placeholder="What is being proposed? What pollutants? Water use? Who benefits? What is your commission being asked to approve?"></textarea>
         </div>
         <div>
-          <label for="fimpact">Estimated Water Impact</label>
-          <input type="text" id="fimpact" placeholder="e.g. 1.5M gallons/day"/>
+          <label for="fwater">Estimated Water Use (if known)</label>
+          <input type="text" id="fwater" placeholder="e.g. 388 gal/min"/>
+        </div>
+        <div>
+          <label for="femissions">Estimated Emissions (if known)</label>
+          <input type="text" id="femissions" placeholder="e.g. Exceeds HCl major source threshold"/>
+        </div>
+        <div class="form-full">
+          <label for="fevidence">Evidence / Source Links</label>
+          <input type="text" id="fevidence" placeholder="News article, permit filing, FOIA document URL"/>
         </div>
         <div>
           <label for="fvote">Commission Vote Date (if known)</label>
@@ -1066,103 +554,100 @@
         </div>
       </div>
       <div style="background:rgba(220,31,31,0.07);border:1px solid rgba(220,31,31,0.2);border-radius:8px;padding:0.85rem 1.1rem;margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-        <span style="font-size:0.85rem;color:var(--text-dim);">=� <strong style="color:var(--text)">Have a Modern Movement account?</strong> Sign in to track your submission's status.</span>
-        <a href="https://www.themodernmovement.org" target="_blank" style="font-family:var(--mono);font-size:0.75rem;color:var(--red);font-weight:700;text-decoration:none;padding:0.35rem 0.85rem;border:1px solid var(--red);border-radius:6px;white-space:nowrap;">Sign In / Join �</a>
+        <span style="font-size:0.85rem;color:var(--text-dim);"><strong style="color:var(--text)">Have a Modern Movement account?</strong> Sign in to track your submission&#8217;s status.</span>
+        <a href="https://www.themodernmovement.org" target="_blank" style="font-family:var(--mono);font-size:0.75rem;color:var(--red);font-weight:700;text-decoration:none;padding:0.35rem 0.85rem;border:1px solid var(--red);border-radius:6px;white-space:nowrap;">Sign In / Join &#8599;</a>
       </div>
       <div class="form-submit">
         <button class="btn btn-primary" onclick="submitForm()">Submit Initiative</button>
-        <span class="form-note">No account required. Anyone can submit. Reviewed in 48 hours.</span>
+        <span class="form-note">No account required. Anyone can submit. Reviewed in 48&#8211;72 hours.</span>
       </div>
-    
     </div>
   </div>
 </section>
-
 <!-- HOW IT WORKS -->
 <section class="section" id="howworks" style="background:var(--bg);">
   <div class="section-inner">
     <span class="section-tag">// Process</span>
     <h2 class="section-title">How It Works</h2>
-    <p class="section-desc">Simple. Transparent. Amplified.</p>
+    <p class="section-desc">Simple. Transparent. Amplified. We don&#8217;t take corporate money.</p>
     <div class="how-grid">
       <div class="how-item">
         <div class="how-num">01</div>
         <h3>Post Your Issue</h3>
-        <p>Submit a data center proposal threatening your community. Include location, water impact, and what your commission is being asked to approve.</p>
+        <p>Submit a corporate project threatening your community. Include location, pollution data, and what body is being asked to approve it. No account required.</p>
       </div>
       <div class="how-item">
         <div class="how-num">02</div>
         <h3>Community Votes</h3>
-        <p>Anyone can vote Yes or No on any initiative. Votes are tallied publicly and sent as a report to the relevant local commission before their vote date.</p>
+        <p>Anyone can vote Say No or Say Yes on any initiative. Votes are tallied publicly. Every vote is a data point that tells the commission how their constituents feel.</p>
       </div>
       <div class="how-item">
         <div class="how-num">03</div>
-        <h3>Commission Notified</h3>
-        <p>We send a certified community impact report to every commissioner on record, showing exactly how many constituents object — or support — the measure.</p>
+        <h3>Share It Everywhere</h3>
+        <p>One-click sharing to X, Facebook, or copy a direct link. The more people who see it, the harder it is for commissioners to pretend they didn&#8217;t know.</p>
       </div>
       <div class="how-item">
         <div class="how-num">04</div>
-        <h3>Track the Outcome</h3>
-        <p>Win or lose, the vote outcome is recorded. Patterns across communities expose which corporations, lobbying groups, and commissioners are ignoring the public good.</p>
+        <h3>Commission Notified</h3>
+        <p>We compile a community vote report and deliver it to every commissioner on record before their decision date &#8212; with names, vote counts, and your zip codes.</p>
       </div>
     </div>
   </div>
 </section>
-
 <!-- RESOURCES -->
 <section class="section" id="resources" style="background:var(--bg2);">
   <div class="section-inner">
     <span class="section-tag">// Arm Yourself With Facts</span>
-    <h2 class="section-title">Research & Resources</h2>
-    <p class="section-desc">Knowledge is power. Use these verified sources at your commission meeting.</p>
+    <h2 class="section-title">Research &amp; Resources</h2>
+    <p class="section-desc">Use these at your commission meeting. Print them. Quote them.</p>
     <div class="resources-grid">
-      <a href="#" class="resource-card">
-        <span class="r-source">Lincoln Institute of Land Policy</span>
-        <h4>Data Drain: Land & Water Impacts of the AI Boom</h4>
-        <p>Comprehensive look at how data center proliferation is straining local resources across the country.</p>
+      <a href="https://azluminaria.org/2025/10/24/in-benson-a-fight-over-an-aluminum-plant-echoes-tucsons-project-blue/" class="resource-card" target="_blank">
+        <span class="r-source">AZ Luminaria &#8212; Oct 2025</span>
+        <h4>Benson Aluminum Plant &#8212; Full Investigation</h4>
+        <p>How a Mississippi company chose a rural Arizona town on the San Pedro River after being rejected elsewhere.</p>
+      </a>
+      <a href="https://sourcenm.com" class="resource-card" target="_blank">
+        <span class="r-source">Source New Mexico &#8212; Mar 2026</span>
+        <h4>Project Jupiter &#8212; Public Hearing Ordered</h4>
+        <p>7,155 public comments forced NMED to hold a public hearing. Decision pushed to July 21, 2026.</p>
+      </a>
+      <a href="https://azdeq.gov/aqd/AluminumDynamics" class="resource-card" target="_blank">
+        <span class="r-source">ADEQ.gov &#8212; Official Permit</span>
+        <h4>Aluminum Dynamics Air Quality Permit Application</h4>
+        <p>Official permit documentation from the Arizona Department of Environmental Quality &#8212; read what they actually filed.</p>
       </a>
       <a href="#" class="resource-card">
-        <span class="r-source">EESI.org</span>
-        <h4>Data Centers and Water Consumption</h4>
-        <p>Single large data centers can consume up to 5 million gallons per day — equal to a city of 50,000 people.</p>
-      </a>
-      <a href="#" class="resource-card">
-        <span class="r-source">University of Michigan — Ford School</span>
-        <h4>What Happens When Data Centers Come to Town?</h4>
-        <p>Evidence from 9 states shows tax breaks benefit corporations — not local communities.</p>
-      </a>
-      <a href="#" class="resource-card">
-        <span class="r-source">Science & Environmental Health Network</span>
-        <h4>Data Centers and the Water Crisis</h4>
-        <p>In 2021, one in five US data centers was already located in a water-stressed region.</p>
-      </a>
-      <a href="#" class="resource-card">
-        <span class="r-source">Oregon Rural Action</span>
-        <h4>Boardman: A Case Study in Community Harm</h4>
-        <p>How 30+ data centers contaminated wells in a small Oregon town — and what residents are doing about it.</p>
-      </a>
-      <a href="#" class="resource-card">
-        <span class="r-source">Template Documents</span>
+        <span class="r-source">Template Document</span>
         <h4>Commission Testimony Template</h4>
-        <p>Ready-to-use speaking notes and objection letters for your local commission meeting.</p>
+        <p>Ready-to-use speaking notes and formal objection letters for your local commission or regulatory hearing.</p>
+      </a>
+      <a href="#" class="resource-card">
+        <span class="r-source">Science &amp; Environmental Health Network</span>
+        <h4>Perfluorocarbons (PFCs) &#8212; Health Risk Summary</h4>
+        <p>PFCs from aluminum smelting are linked to childhood asthma and arthritis in women &#8212; and persist for thousands of years.</p>
+      </a>
+      <a href="#" class="resource-card">
+        <span class="r-source">Clean Air Act Basics</span>
+        <h4>How to Challenge an Air Quality Permit</h4>
+        <p>Your rights under the Clean Air Act to comment, request hearings, and challenge final permit decisions.</p>
       </a>
     </div>
   </div>
 </section>
-
 <!-- FOOTER -->
 <footer>
   <div class="footer-inner">
     <div class="footer-brand">
       <h2>YouCan<span class="red">SayNo</span>.org</h2>
-      <p>A nonpartisan community platform giving local voices the amplification they deserve. We are not affiliated with any political party, corporation, or data center company.</p>
+      <p>A nonpartisan community platform giving local voices the amplification they deserve. We do not accept corporate funding. We are not affiliated with any political party.</p>
       <br/>
-      <p style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);">SISTER SITE → <a href="https://www.icansayyes.org" class="sister-link">ICanSayYes.org</a></p>
+      <p style="font-family:var(--mono);font-size:0.7rem;color:var(--text-dim);">NETWORK &#8594; <a href="https://www.themodernmovement.org" class="sister-link">TheModernMovement.org</a> &nbsp;|&nbsp; <a href="https://www.icansayyes.org" class="sister-link">ICanSayYes.org</a></p>
     </div>
     <div class="footer-col">
       <h4>Navigate</h4>
       <ul>
-        <li><a href="#initiatives">Active Initiatives</a></li>
+        <li><a href="#initiatives">Active Issues</a></li>
+        <li><a href="#shame">Hall of Shame</a></li>
         <li><a href="#post">Post Your Issue</a></li>
         <li><a href="#howworks">How It Works</a></li>
         <li><a href="#resources">Resources</a></li>
@@ -1175,100 +660,127 @@
         <li><a href="#">Privacy Policy</a></li>
         <li><a href="#">Contact Us</a></li>
         <li><a href="#">Press Inquiries</a></li>
-        <li><a href="#">Donate</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2025 YouCanSayNo.org — Nonpartisan. Community-owned. No corporate funding.</p>
-    <p>Data sourced from Lincoln Institute, EESI, U of Michigan, SEHN, and community reports.</p>
+    <p>&#169; 2026 YouCanSayNo.org &#8212; Nonpartisan. Community-owned. No corporate funding.</p>
+    <p>Research sourced from ADEQ, Source New Mexico, AZ Luminaria, EESI, and community reports.</p>
   </div>
 </footer>
-
-<!-- TOAST -->
-<div class="toast" id="toast">✓ Your vote has been recorded.</div>
-
+<div class="toast" id="toast">&#10003; Done.</div>
 <script>
-  // ── HAMBURGER ──
-  const hambtn = document.getElementById('hambtn');
-  const mobilenav = document.getElementById('mobilenav');
-  hambtn.addEventListener('click', () => mobilenav.classList.toggle('open'));
-  function closeMobile() { mobilenav.classList.remove('open'); }
+// HAMBURGER
+const hambtn = document.getElementById('hambtn');
+const mobilenav = document.getElementById('mobilenav');
+hambtn.addEventListener('click',()=>mobilenav.classList.toggle('open'));
+function closeMobile(){mobilenav.classList.remove('open');}
 
-  // ── VOTING ──
-  const votes = JSON.parse(localStorage.getItem('ycsnVotes') || '{}');
+// VOTING
+const votes = JSON.parse(localStorage.getItem('ycsnVotes2')||'{}');
+const counts = JSON.parse(localStorage.getItem('ycsnCounts2')||JSON.stringify({1:{no:0,yes:0},2:{no:0,yes:0}}));
 
-  function castVote(btn) {
-    const id = btn.dataset.id;
-    const type = btn.dataset.type;
-    if (votes[id]) { showToast('You already voted on this initiative.'); return; }
-    votes[id] = type;
-    localStorage.setItem('ycsnVotes', JSON.stringify(votes));
+function castVote(btn, id) {
+  if (votes[id]) { showToast('You already voted on this initiative.'); return; }
+  const type = btn.dataset.type;
+  votes[id] = type;
+  counts[id][type] = (counts[id][type]||0) + 1;
+  localStorage.setItem('ycsnVotes2', JSON.stringify(votes));
+  localStorage.setItem('ycsnCounts2', JSON.stringify(counts));
+  updateCard(id);
+  btn.classList.add('voted');
+  btn.closest('.vote-section').querySelectorAll('.vote-btn').forEach(b=>{b.disabled=true;b.style.cursor='default';});
+  showToast('&#10003; Vote recorded! Now share it to amplify your voice.');
+}
 
-    const card = btn.closest('.initiative-card');
-    const yesEl = card.querySelector('.yesct');
-    const noEl  = card.querySelector('.noct');
-    const bar   = card.querySelector('.vote-bar-fill');
+function updateCard(id) {
+  const no = counts[id].no || 0;
+  const yes = counts[id].yes || 0;
+  const total = no + yes;
+  const card = document.querySelector('[data-id="'+id+'"].vote-no-project')?.closest('.initiative-card');
+  if (!card) return;
+  card.querySelector('.yesct').textContent = no.toLocaleString();
+  card.querySelector('.noct').textContent = yes.toLocaleString();
+  const pct = total > 0 ? Math.round((no/total)*100) : 0;
+  card.querySelector('.vote-bar-fill').style.width = pct + '%';
+}
 
-    const yesCount = parseInt(yesEl.textContent.replace(/,/g,'')) + (type==='yes'?1:0);
-    const noCount  = parseInt(noEl.textContent.replace(/,/g,''))  + (type==='no' ?1:0);
-
-    yesEl.textContent = yesCount.toLocaleString();
-    noEl.textContent  = noCount.toLocaleString();
-    const pct = Math.round((yesCount / (yesCount + noCount)) * 100);
-    bar.style.width = pct + '%';
-
-    // Mark voted button
-    card.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('voted'));
-    btn.classList.add('voted');
-    btn.disabled = true;
-    btn.closest('.vote-section').querySelectorAll('.vote-btn').forEach(b => b.style.cursor='default');
-
-    showToast('✓ Your vote has been recorded.');
-  }
-
-  // Restore previous votes on load
-  document.querySelectorAll('.vote-btn').forEach(btn => {
-    const id = btn.dataset.id;
-    const type = btn.dataset.type;
-    if (votes[id] === type) {
-      btn.classList.add('voted');
-      btn.disabled = true;
+// Restore on load
+document.addEventListener('DOMContentLoaded', function() {
+  [1,2].forEach(id => {
+    updateCard(id);
+    if (votes[id]) {
+      document.querySelectorAll('[data-id="'+id+'"].vote-btn').forEach(b=>{
+        if(b.dataset.type===votes[id]) b.classList.add('voted');
+        b.disabled=true;
+      });
     }
   });
+});
 
-  function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.classList.add('show');
-    setTimeout(() => t.classList.remove('show'), 3000);
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerHTML = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),4000);
+}
+
+// SOCIAL SHARE
+const shareData = {
+  1: {
+    title: 'Stop the Benson Aluminum Smelter &#8212; San Pedro River at Risk',
+    text: 'Aluminum Dynamics wants to build a smelter on Arizona&#8217;s last free-flowing river, draining 388 gal/min, emitting PFCs next to a school. Say No. #YouCanSayNo #BensonAZ',
+    url: 'https://www.youcansayno.org/#initiatives'
+  },
+  2: {
+    title: 'Stop Project Jupiter &#8212; Gas Plants Polluting New Mexico',
+    text: 'OpenAI &#38; Oracle want gas plants in NM that emit = 2 full cities of greenhouse gases. $165B in public bonds. Zero clean tech. Say No. #YouCanSayNo #ProjectJupiter #NM',
+    url: 'https://www.youcansayno.org/#initiatives'
   }
+};
 
-  // ── FORM SUBMISSION ──
-  function submitForm() {
-    const title = document.getElementById('ftitle').value.trim();
-    const city  = document.getElementById('fcity').value.trim();
-    if (!title || !city) { showToast('Please fill in at least a title and city.'); return; }
-    showToast('✓ Initiative submitted! We\'ll review within 48 hours.');
-    ['fname','femail','fcity','fstate','ftitle','fdesc','fimpact','fvote'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.value = '';
-    });
-  }
-
-  // ── SCROLL ANIMATIONS ──
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { e.target.style.opacity=1; e.target.style.transform='translateY(0)'; }
-    });
-  }, { threshold: 0.1 });
-
-  document.querySelectorAll('.initiative-card, .how-item, .resource-card, .stat-item').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
+function shareX(id) {
+  const d = shareData[id];
+  const text = d.text + ' ' + d.url;
+  window.open('https://x.com/intent/tweet?text=' + encodeURIComponent(text), '_blank', 'width=600,height=400');
+}
+function shareFB(id) {
+  const d = shareData[id];
+  window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(d.url) + '&quote=' + encodeURIComponent(d.text), '_blank', 'width=600,height=400');
+}
+function copyLink(id) {
+  const d = shareData[id];
+  navigator.clipboard.writeText(d.url + ' &#8212; ' + d.title).then(()=>{
+    showToast('&#10003; Link copied! Share it anywhere.');
+  }).catch(()=>{
+    showToast('Link: ' + d.url);
   });
+}
+
+// FORM SUBMISSION
+function submitForm() {
+  const title = document.getElementById('ftitle').value.trim();
+  const city = document.getElementById('fcity').value.trim();
+  if (!title || !city) { showToast('Please fill in at least a title and city.'); return; }
+  showToast('&#10003; Initiative submitted! We&#8217;ll review within 48&#8211;72 hours.');
+  ['fname','femail','fcity','fstate','fcompany','ftitle','fdesc','fwater','femissions','fevidence','fvote'].forEach(function(id){
+    const el=document.getElementById(id);
+    if(el) el.value='';
+  });
+}
+
+// SCROLL ANIMATIONS
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){e.target.style.opacity=1;e.target.style.transform='translateY(0)';}
+  });
+},{threshold:0.1});
+document.querySelectorAll('.initiative-card,.how-item,.resource-card,.stat-item,.shame-card').forEach(el=>{
+  el.style.opacity='0';
+  el.style.transform='translateY(20px)';
+  el.style.transition='opacity 0.5s ease,transform 0.5s ease';
+  observer.observe(el);
+});
 </script>
 </body>
 </html>
