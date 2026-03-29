@@ -461,6 +461,62 @@
       color: var(--text);
     }
 
+
+/* ─── ACTION ROW (real initiative links) ─── */
+.vc-action-row {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.9rem 1.25rem;
+  background: rgba(26,61,46,0.04);
+  border-top: 1px solid var(--border);
+  flex-wrap: wrap;
+  align-items: center;
+}
+.vc-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--forest);
+  color: white;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.55rem 1.1rem;
+  border-radius: 6px;
+  letter-spacing: 0.02em;
+  transition: all 0.2s;
+  flex: 1;
+  justify-content: center;
+  text-align: center;
+}
+.vc-action-btn:hover {
+  background: var(--forest-mid);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26,61,46,0.2);
+}
+.vc-action-secondary {
+  display: inline-flex;
+  align-items: center;
+  color: var(--forest-mid);
+  text-decoration: none;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(26,61,46,0.25);
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.vc-action-secondary:hover {
+  background: var(--forest-pale);
+  border-color: var(--forest-mid);
+}
+.tag-finance { background: rgba(212,172,13,0.12); color: #856404; border: 1px solid rgba(212,172,13,0.3); }
+.vote-card.vc-featured {
+  border: 2px solid var(--forest-mid);
+  box-shadow: 0 4px 20px rgba(26,61,46,0.12);
+}
+
     /* ───────── FEATURED QUOTE ───────── */
     .quote-band {
       background: var(--forest);
@@ -852,185 +908,43 @@
 
     <div class="votes-grid">
 
-      <!-- Card 1 -->
-      <div class="vote-card">
-        <div class="vc-top">
-          <span class="vc-tag tag-water">💧 Clean Water</span>
-          <span class="vc-region">📍 National Petition</span>
-        </div>
-        <div class="vc-body">
-          <h3 class="vc-title">Community First Water Protection Act</h3>
-          <p class="vc-desc">Require any industrial facility drawing more than 500,000 gallons per day from a municipal supply to obtain a separate community impact license — including a 60-day public comment period and independent water audit.</p>
-          <div class="vc-chips">
-            <span class="vc-chip">60-day public comment</span>
-            <span class="vc-chip">Independent audit</span>
-            <span class="vc-chip">Municipal protection</span>
-          </div>
-          <div class="tally-wrap">
-            <div class="tally-labels">
-              <span>YES: <strong class="yesct" data-id="a">8,341</strong></span>
-              <span>NO: <strong class="noct" data-id="a">412</strong></span>
-            </div>
-            <div class="tally-track">
-              <div class="tally-fill" data-id="a" style="width:95%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vc-vote">
-          <button class="vcv-btn vcv-yes" data-id="a" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
-          <button class="vcv-btn vcv-no"  data-id="a" data-type="no"  onclick="castVote(this)">No</button>
-        </div>
+<!-- Card 1 — SERP'd Act -->
+<div class="vote-card vc-featured">
+  <div class="vc-top">
+    <span class="vc-tag tag-finance">💰 Financial Accountability</span>
+    <span class="vc-region">📍 New Mexico Legislature</span>
+  </div>
+  <div class="vc-body">
+    <h3 class="vc-title">The SERP'd Act — Full Disclosure for New Mexico Non-Profits &amp; Credit Unions</h3>
+    <p class="vc-desc">Fifteen New Mexico credit unions secretly funneled over $129M in member deposits into executive retirement insurance (SERPs/BOLI) — with zero member votes and zero public disclosure. The SERP'd Act would require every non-profit, credit union, electric co-op, and public-serving organization in New Mexico to disclose these executive retirement plans to the people who fund them. Proposed for the 2027 NM Legislature.</p>
+    <div class="vc-chips">
+      <span class="vc-chip">$129M+ in NM credit unions</span>
+      <span class="vc-chip">Zero member votes held</span>
+      <span class="vc-chip">2027 NM Legislature</span>
+    </div>
+    <div class="tally-wrap">
+      <div class="tally-labels">
+        <span>YES: <strong class="yesct" data-id="serp">0</strong></span>
+        <span>NO: <strong class="noct" data-id="serp">0</strong></span>
       </div>
-
-      <!-- Card 2 -->
-      <div class="vote-card">
-        <div class="vc-top">
-          <span class="vc-tag tag-energy">☀️ Clean Energy</span>
-          <span class="vc-region">📍 Southwest States</span>
-        </div>
-        <div class="vc-body">
-          <h3 class="vc-title">Community Solar Rights Initiative</h3>
-          <p class="vc-desc">Guarantee every resident the legal right to subscribe to community solar projects without utility interference. Low-income households receive a 40% rate credit. Eliminates utility veto power over small-scale local solar programs.</p>
-          <div class="vc-chips">
-            <span class="vc-chip">40% low-income credit</span>
-            <span class="vc-chip">Utility veto eliminated</span>
-            <span class="vc-chip">Rural access</span>
-          </div>
-          <div class="tally-wrap">
-            <div class="tally-labels">
-              <span>YES: <strong class="yesct" data-id="b">6,702</strong></span>
-              <span>NO: <strong class="noct" data-id="b">830</strong></span>
-            </div>
-            <div class="tally-track">
-              <div class="tally-fill" data-id="b" style="width:89%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vc-vote">
-          <button class="vcv-btn vcv-yes" data-id="b" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
-          <button class="vcv-btn vcv-no"  data-id="b" data-type="no"  onclick="castVote(this)">No</button>
-        </div>
+      <div class="tally-track">
+        <div class="tally-fill" data-id="serp" style="width:0%"></div>
       </div>
-
-      <!-- Card 3 -->
-      <div class="vote-card">
-        <div class="vc-top">
-          <span class="vc-tag tag-health">🏥 Mental Health</span>
-          <span class="vc-region">📍 All School Districts</span>
-        </div>
-        <div class="vc-body">
-          <h3 class="vc-title">One Counselor Per 150 Students — No Exceptions</h3>
-          <p class="vc-desc">The current national average is 1 counselor per 408 students. This measure mandates a 1:150 ratio with dedicated state funding, prioritizing schools in underserved districts. Mental health support as a right, not a privilege.</p>
-          <div class="vc-chips">
-            <span class="vc-chip">1:150 ratio</span>
-            <span class="vc-chip">State funded</span>
-            <span class="vc-chip">Priority: underserved schools</span>
-          </div>
-          <div class="tally-wrap">
-            <div class="tally-labels">
-              <span>YES: <strong class="yesct" data-id="c">11,208</strong></span>
-              <span>NO: <strong class="noct" data-id="c">344</strong></span>
-            </div>
-            <div class="tally-track">
-              <div class="tally-fill" data-id="c" style="width:97%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vc-vote">
-          <button class="vcv-btn vcv-yes" data-id="c" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
-          <button class="vcv-btn vcv-no"  data-id="c" data-type="no"  onclick="castVote(this)">No</button>
-        </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="vote-card">
-        <div class="vc-top">
-          <span class="vc-tag tag-housing">🏠 Housing</span>
-          <span class="vc-region">📍 Nationwide</span>
-        </div>
-        <div class="vc-body">
-          <h3 class="vc-title">Veterans Housing First — Permanent Supportive Housing Act</h3>
-          <p class="vc-desc">Allocate 1.5% of the DoD discretionary budget to build permanent supportive housing for unhoused veterans. Housing first, services second — the evidence-based model proven to reduce veteran homelessness by over 80% in pilot cities.</p>
-          <div class="vc-chips">
-            <span class="vc-chip">Evidence-based model</span>
-            <span class="vc-chip">80% success rate</span>
-            <span class="vc-chip">DoD reallocation</span>
-          </div>
-          <div class="tally-wrap">
-            <div class="tally-labels">
-              <span>YES: <strong class="yesct" data-id="d">9,455</strong></span>
-              <span>NO: <strong class="noct" data-id="d">601</strong></span>
-            </div>
-            <div class="tally-track">
-              <div class="tally-fill" data-id="d" style="width:94%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vc-vote">
-          <button class="vcv-btn vcv-yes" data-id="d" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
-          <button class="vcv-btn vcv-no"  data-id="d" data-type="no"  onclick="castVote(this)">No</button>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="vote-card">
-        <div class="vc-top">
-          <span class="vc-tag tag-justice">⚖️ Food Access</span>
-          <span class="vc-region">📍 Urban Districts</span>
-        </div>
-        <div class="vc-body">
-          <h3 class="vc-title">Farmers Market Access in Food Deserts — SNAP Matching Program</h3>
-          <p class="vc-desc">Double SNAP benefits (up to $20/visit) when spent at certified farmers markets in food desert zip codes. Fund permanent covered market pavilions in the 200 worst-served urban food deserts in America. Fresh food is a right.</p>
-          <div class="vc-chips">
-            <span class="vc-chip">SNAP 2× matching</span>
-            <span class="vc-chip">200 target zip codes</span>
-            <span class="vc-chip">Permanent infrastructure</span>
-          </div>
-          <div class="tally-wrap">
-            <div class="tally-labels">
-              <span>YES: <strong class="yesct" data-id="e">7,812</strong></span>
-              <span>NO: <strong class="noct" data-id="e">290</strong></span>
-            </div>
-            <div class="tally-track">
-              <div class="tally-fill" data-id="e" style="width:96%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vc-vote">
-          <button class="vcv-btn vcv-yes" data-id="e" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
-          <button class="vcv-btn vcv-no"  data-id="e" data-type="no"  onclick="castVote(this)">No</button>
-        </div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="vote-card">
-        <div class="vc-top">
-          <span class="vc-tag tag-edu">📚 Education</span>
-          <span class="vc-region">📍 K–12 National</span>
-        </div>
-        <div class="vc-body">
-          <h3 class="vc-title">Civics &amp; Media Literacy — Mandatory K–12 Curriculum</h3>
-          <p class="vc-desc">Mandate comprehensive civics education including media literacy, how to evaluate sources, how local government works, and how to participate effectively in democracy — from 3rd grade through senior year. Required, not elective.</p>
-          <div class="vc-chips">
-            <span class="vc-chip">3rd grade through 12th</span>
-            <span class="vc-chip">Media literacy</span>
-            <span class="vc-chip">Mandatory curriculum</span>
-          </div>
-          <div class="tally-wrap">
-            <div class="tally-labels">
-              <span>YES: <strong class="yesct" data-id="f">13,091</strong></span>
-              <span>NO: <strong class="noct" data-id="f">872</strong></span>
-            </div>
-            <div class="tally-track">
-              <div class="tally-fill" data-id="f" style="width:94%"></div>
-            </div>
-          </div>
-        </div>
-        <div class="vc-vote">
-          <button class="vcv-btn vcv-yes" data-id="f" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
-          <button class="vcv-btn vcv-no"  data-id="f" data-type="no"  onclick="castVote(this)">No</button>
-        </div>
-      </div>
+    </div>
+  </div>
+  <div class="vc-vote">
+    <button class="vcv-btn vcv-yes" data-id="serp" data-type="yes" onclick="castVote(this)">✓ Yes — I Support This</button>
+    <button class="vcv-btn vcv-no"  data-id="serp" data-type="no"  onclick="castVote(this)">No</button>
+  </div>
+  <div class="vc-action-row">
+    <a href="https://nmcreditunionwatch.org/serpd-act.html#support" target="_blank" rel="noopener" class="vc-action-btn">
+      📋 Read the Full SERP'd Act &amp; Support It &rarr;
+    </a>
+    <a href="https://nmcreditunionwatch.org" target="_blank" rel="noopener" class="vc-action-secondary">
+      See the Credit Union Data
+    </a>
+  </div>
+</div>
 
     </div><!-- /votes-grid -->
   </div>
@@ -1038,8 +952,8 @@
 
 <!-- QUOTE BAND -->
 <div class="quote-band">
-  <blockquote>"Our soil's turning toxic, our river's running dry — all for someone else's cloud storage. We deserve a voice, and we deserve to be heard."</blockquote>
-  <cite>— Kathryn Haushalter, Ypsilanti Township Resident, January 2026</cite>
+  <blockquote>"If your organization takes money from the public, the public has a right to know where it goes. No exceptions. No fine print. No buried regulatory filings."</blockquote>
+  <cite>— The principle behind the SERP'd Act</cite>
 </div>
 
 <!-- POST A MEASURE -->
