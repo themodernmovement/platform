@@ -837,7 +837,7 @@ async function doRegister() {
   btn.disabled=true; btn.textContent='Creating account…';
   const { error } = await db.auth.signUp({
     email, password: pass,
-    options: { data: { fname, lname, location: loc } }
+    options: { emailRedirectTo: 'https://www.themodernmovement.org', data: { fname, lname, location: loc } }
   });
   btn.disabled=false; btn.textContent='Create Account →';
   if (error) { errEl.style.display='block'; errEl.textContent=error.message; return; }
@@ -1302,6 +1302,10 @@ async function submitInitiative() {
 
 /* ── MODERATION ──────────────────────────────────────────────────*/
 async function renderModQueue(c, type) {
+  if (!currentProfile || !['mod','admin'].includes(currentProfile.role)) {
+    c.innerHTML = emptyState('🔒','Access Restricted','You need moderator or admin access to view the moderation queue.');
+    return;
+  }
   c.innerHTML = loading(2);
   try {
     let query = db.from('initiatives')
@@ -1556,6 +1560,10 @@ async function renderAnalytics(c) {
 
 /* ── MEMBERS ─────────────────────────────────────────────────────*/
 async function renderMembers(c) {
+  if (!currentProfile || !['mod','admin'].includes(currentProfile.role)) {
+    c.innerHTML = emptyState('🔒','Access Restricted','You need moderator or admin access to view the member list.');
+    return;
+  }
   c.innerHTML = loading(4);
   const { data:members } = await db.from('profiles').select('*').order('created_at',{ascending:false});
   c.innerHTML=`
