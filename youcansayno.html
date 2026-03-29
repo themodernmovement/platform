@@ -112,12 +112,12 @@ nav{position:sticky;top:0;z-index:500;background:rgba(11,11,11,0.92);backdrop-fi
 .initiatives-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem;}
 .initiative-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color 0.2s,transform 0.2s;}
 .initiative-card:hover{border-color:var(--red);transform:translateY(-3px);}
-.card-header{padding:1.25rem 1.25rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;}
-.card-tag{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:3px;white-space:nowrap;}
+.card-header{padding:1.25rem 1.25rem 0;display:flex;align-items:flex-start;justify-content:space-between;gap:0.75rem;flex-wrap:wrap;}
+.card-tag{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.12em;text-transform:uppercase;padding:0.2rem 0.6rem;border-radius:3px;white-space:nowrap;flex-shrink:0;}
 .tag-urgent{background:var(--red-glow);color:var(--red);border:1px solid var(--red-dim);}
 .tag-active{background:rgba(34,197,94,0.1);color:var(--green);border:1px solid rgba(34,197,94,0.3);}
 .tag-pending{background:rgba(255,210,0,0.1);color:var(--yellow);border:1px solid rgba(255,210,0,0.3);}
-.card-location{font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.08em;text-align:right;}
+.card-location{font-family:var(--mono);font-size:0.65rem;color:var(--text-dim);letter-spacing:0.08em;text-align:right;flex-shrink:0;max-width:180px;word-break:break-word;line-height:1.4;}
 .card-body{padding:1rem 1.25rem;}
 .card-title{font-family:var(--cond);font-weight:700;font-size:1.2rem;line-height:1.2;margin-bottom:0.6rem;color:var(--text);}
 .card-desc{font-size:0.875rem;color:var(--text-dim);line-height:1.5;margin-bottom:0.85rem;}
@@ -214,6 +214,44 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
 @keyframes fadeDown{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:768px){.nav-links{display:none;}.hamburger{display:flex;}.form-grid{grid-template-columns:1fr;}.footer-inner{grid-template-columns:1fr;gap:2rem;}.footer-bottom{flex-direction:column;align-items:flex-start;}.hero h1{font-size:clamp(3.5rem,18vw,6rem);}}
 @media(max-width:480px){.initiatives-grid{grid-template-columns:1fr;}.how-grid{grid-template-columns:1fr;}.shame-grid{grid-template-columns:1fr;}}
+
+@media(max-width:600px){
+  .share-bar{flex-wrap:wrap;gap:0.4rem;}
+  .share-btn{font-size:0.65rem;padding:0.25rem 0.45rem;}
+  .vote-section{flex-direction:column;}
+  .vote-btn{width:100%;}
+  .pollution-meter{padding:0.5rem;}
+  .meter-row{flex-wrap:wrap;gap:0.2rem;}
+  .meter-label{width:100%;margin-bottom:0.1rem;}
+  .meter-val{width:auto;text-align:left;}
+  .initiatives-grid{grid-template-columns:1fr;}
+  .shame-grid{grid-template-columns:1fr;}
+  .card-impact{gap:0.35rem;}
+  .impact-chip{font-size:0.6rem;}
+  .card-backers{font-size:0.6rem;}
+  .hero h1{font-size:clamp(3rem,16vw,5.5rem);}
+  .stat-num{font-size:clamp(2rem,8vw,3rem);}
+  .section-title{font-size:clamp(1.6rem,8vw,2.5rem);}
+  .detail-panel{padding:1.25rem;}
+}
+.detail-modal{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.8);backdrop-filter:blur(4px);overflow-y:auto;padding:1rem;}
+.detail-modal.open{display:flex;align-items:flex-start;justify-content:center;padding-top:2rem;padding-bottom:2rem;}
+.detail-panel{background:var(--bg2);border:1px solid var(--border);border-radius:12px;max-width:780px;width:100%;position:relative;padding:2rem;}
+.detail-close{position:absolute;top:1rem;right:1rem;background:var(--bg3);border:1px solid var(--border);border-radius:6px;color:var(--text-dim);font-size:1.1rem;cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
+.detail-close:hover{background:var(--red);color:white;border-color:var(--red);}
+.detail-kicker{font-family:var(--mono);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:0.5rem;}
+.detail-title{font-family:var(--cond);font-weight:800;font-size:clamp(1.3rem,3.5vw,2rem);line-height:1.1;margin-bottom:1rem;}
+.detail-section{margin-bottom:1.25rem;}
+.detail-section h4{font-family:var(--cond);font-weight:700;font-size:0.95rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.4rem;border-bottom:1px solid var(--border);padding-bottom:0.3rem;}
+.detail-section p,.detail-section li{font-size:0.875rem;color:var(--text-dim);line-height:1.7;}
+.detail-section ul{list-style:none;padding:0;}
+.detail-section ul li{padding:0.25rem 0 0.25rem 1.25rem;position:relative;}
+.detail-section ul li::before{content:'\2192';position:absolute;left:0;color:var(--red);font-size:0.75rem;line-height:1.8;}
+.detail-section a{color:var(--red);}
+.detail-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:1.25rem;}
+.detail-actions{display:flex;gap:0.75rem;flex-wrap:wrap;border-top:1px solid var(--border);padding-top:1.25rem;margin-top:1.25rem;}
+.read-more-btn{display:inline-flex;align-items:center;gap:0.35rem;font-family:var(--mono);font-size:0.68rem;font-weight:600;letter-spacing:0.06em;color:var(--red);border:1px solid rgba(220,31,31,0.3);border-radius:4px;padding:0.3rem 0.65rem;cursor:pointer;background:rgba(220,31,31,0.05);transition:all 0.2s;text-decoration:none;}
+.read-more-btn:hover{background:var(--red);color:white;border-color:var(--red);}
 </style>
 </head>
 <body>
@@ -379,6 +417,7 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
           <a class="share-btn share-x" href="#" onclick="shareX(1);return false;">&#120143; / X</a>
           <a class="share-btn share-fb" href="#" onclick="shareFB(1);return false;">Facebook</a>
           <button class="share-btn share-link" onclick="copyLink(1)">Copy Link</button>
+          <button class="read-more-btn" onclick="openDetail('benson')">&#8594; Full Report</button>
         </div>
       </div>
 
@@ -442,6 +481,69 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
           <a class="share-btn share-x" href="#" onclick="shareX(2);return false;">&#120143; / X</a>
           <a class="share-btn share-fb" href="#" onclick="shareFB(2);return false;">Facebook</a>
           <button class="share-btn share-link" onclick="copyLink(2)">Copy Link</button>
+          <button class="read-more-btn" onclick="openDetail('jupiter')">&#8594; Full Report</button>
+        </div>
+      </div>
+
+
+      <!-- CARD 3: NM CREDIT UNION WATCH -->
+      <div class="initiative-card">
+        <div class="card-header">
+          <span class="card-tag tag-pending">&#9888; Financial Betrayal</span>
+          <span class="card-location">&#128205; New Mexico &#8212; Statewide</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">NM Credit Unions: Secret Executive Retirements Built on Member Deposits</h3>
+          <p class="card-desc">Fifteen New Mexico credit unions &#8212; member-owned, federally tax-exempt cooperatives &#8212; quietly funneled member deposits into secret executive retirement plans (SERPs) through Bank-Owned Life Insurance policies. No member vote. No disclosure. One institution placed 24% of all member equity into executive insurance. The overdraft fees charged to teachers, nurses and retirees living paycheck to paycheck funded these CEO windfalls.</p>
+          <div class="card-backers">&#9888; Institutions: Artesia CU (24.2%), State Employees CU (19.3%), U.S. Eagle FCU, Sunward FCU, Nusenda CU + 10 more</div>
+          <div class="pollution-meter">
+            <div class="meter-title">&#128176; Member Capital Diversion Rating</div>
+            <div class="meter-row">
+              <span class="meter-label">Artesia CU</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:97%"></div></div>
+              <span class="meter-val">24.2% equity</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">State Empl. CU</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:77%"></div></div>
+              <span class="meter-val">19.3% equity</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Member disclosure</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:2%"></div></div>
+              <span class="meter-val">Zero</span>
+            </div>
+            <div class="meter-row">
+              <span class="meter-label">Member vote held</span>
+              <div class="meter-bar-track"><div class="meter-bar-fill fill-red" style="width:2%"></div></div>
+              <span class="meter-val">Zero</span>
+            </div>
+          </div>
+          <div class="card-impact">
+            <span class="impact-chip chip-red">&#128200; Up to 24% member equity diverted</span>
+            <span class="impact-chip chip-red">&#128176; $25.6M &#8212; State Employees CU alone</span>
+            <span class="impact-chip chip-yellow">&#9888; Zero member votes. Zero disclosures.</span>
+            <span class="impact-chip">&#127970; 15 institutions flagged</span>
+            <span class="impact-chip">&#9878; Source: NCUA public filings</span>
+          </div>
+          <div class="vote-bar-wrap">
+            <div class="vote-bar-labels">
+              <span>&#9995; Demand Transparency: <strong class="yesct" data-id="3">0</strong></span>
+              <span>No Issue Here: <strong class="noct" data-id="3">0</strong></span>
+            </div>
+            <div class="vote-bar-track"><div class="vote-bar-fill" data-id="3" style="width:0%"></div></div>
+          </div>
+        </div>
+        <div class="vote-section">
+          <button class="vote-btn vote-no-project" data-id="3" data-type="no" onclick="castVote(this,3)">&#9995; Demand Transparency Now</button>
+          <button class="vote-btn vote-yes-project" data-id="3" data-type="yes" onclick="castVote(this,3)">No Issue Here</button>
+        </div>
+        <div class="share-bar" id="share3">
+          <span class="share-label">Share:</span>
+          <a class="share-btn share-x" href="#" onclick="shareX(3);return false;">&#120143; / X</a>
+          <a class="share-btn share-fb" href="#" onclick="shareFB(3);return false;">Facebook</a>
+          <button class="share-btn share-link" onclick="copyLink(3)">Copy Link</button>
+          <button class="read-more-btn" onclick="openDetail('cu')">&#8594; Full Investigation</button>
         </div>
       </div>
 
@@ -510,8 +612,22 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:3rem cla
         <div class="shame-stat">&#128200; Permit-split strategy: divide to conquer regulatory oversight</div>
       </div>
 
-      <div class="shame-card" style="border-style:dashed;opacity:0.6;">
-        <div class="shame-rank">?</div>
+      <div class="shame-card">
+        <div class="shame-rank">#5</div>
+        <div class="shame-company">NM Credit Union Boards</div>
+        <div class="shame-valuation">15 Institutions &#8226; $17B+ combined assets &#8226; All federally tax-exempt</div>
+        <ul class="shame-crimes">
+          <li>Diverted member deposits into secret executive retirement accounts &#8212; no member vote, no disclosure at any of the 15 institutions</li>
+          <li>Artesia CU: 24.2% of total member equity placed into executive insurance policies</li>
+          <li>State Employees CU: $25.6M in executive insurance. Sunward FCU: $26.9M. Nusenda CU: $21.3M</li>
+          <li>Overdraft fees extracted from the poorest members &#8212; teachers, nurses, retirees &#8212; redirected to CEO retirement accounts</li>
+          <li>Boards approved contracts in closed executive session. Members have never seen the minutes.</li>
+        </ul>
+        <div class="shame-stat">&#128176; $127M+ in member capital sitting in executive insurance accounts &#8212; none of it voted on, none of it disclosed</div>
+      </div>
+
+            <div class="shame-card" style="border-style:dashed;opacity:0.6;">
+        <div class="shame-rank">#6</div>
         <div class="shame-company">Your Town&#8217;s Project</div>
         <div class="shame-valuation">Is a billion-dollar company targeting your community?</div>
         <ul class="shame-crimes">
@@ -725,7 +841,7 @@ function closeMobile(){mobilenav.classList.remove('open');}
 
 // VOTING
 const votes = JSON.parse(localStorage.getItem('ycsnVotes2')||'{}');
-const counts = JSON.parse(localStorage.getItem('ycsnCounts2')||JSON.stringify({1:{no:0,yes:0},2:{no:0,yes:0}}));
+const counts = JSON.parse(localStorage.getItem('ycsnCounts2')||JSON.stringify({1:{no:0,yes:0},2:{no:0,yes:0},3:{no:0,yes:0}}));
 
 function castVote(btn, id) {
   if (votes[id]) { showToast('You already voted on this initiative.'); return; }
@@ -754,7 +870,7 @@ function updateCard(id) {
 
 // Restore on load
 document.addEventListener('DOMContentLoaded', function() {
-  [1,2].forEach(id => {
+  [1,2,3].forEach(id => {
     updateCard(id);
     if (votes[id]) {
       document.querySelectorAll('[data-id="'+id+'"].vote-btn').forEach(b=>{
@@ -774,16 +890,9 @@ function showToast(msg) {
 
 // SOCIAL SHARE
 const shareData = {
-  1: {
-    title: 'Stop the Benson Aluminum Smelter &#8212; San Pedro River at Risk',
-    text: 'Aluminum Dynamics wants to build a smelter on Arizona&#8217;s last free-flowing river, draining 388 gal/min, emitting PFCs next to a school. Say No. #YouCanSayNo #BensonAZ',
-    url: 'https://www.youcansayno.org/#initiatives'
-  },
-  2: {
-    title: 'Stop Project Jupiter &#8212; Gas Plants Polluting New Mexico',
-    text: 'OpenAI &#38; Oracle want gas plants in NM that emit = 2 full cities of greenhouse gases. $165B in public bonds. Zero clean tech. Say No. #YouCanSayNo #ProjectJupiter #NM',
-    url: 'https://www.youcansayno.org/#initiatives'
-  }
+  1: {title:'Stop the Benson Aluminum Smelter',text:'Aluminum Dynamics building a smelter on AZs last free-flowing river. 388 gal/min groundwater. PFCs next to a school. Say No. #YouCanSayNo #BensonAZ',url:'https://www.youcansayno.org/#initiatives'},
+  2: {title:'Stop Project Jupiter Gas Plants',text:'OpenAI & Oracle want gas plants in NM emitting = 2 full cities of GHG. $165B public bonds. Zero clean tech. Say No. #YouCanSayNo #ProjectJupiter',url:'https://www.youcansayno.org/#initiatives'},
+  3: {title:'NM Credit Unions: Secret Executive Retirements on Member Deposits',text:'15 NM credit unions funneled member deposits into secret CEO retirement accounts. No vote. No disclosure. Up to 24% of member equity. Demand transparency. #YouCanSayNo #NMCreditUnion',url:'https://www.youcansayno.org/#initiatives'}
 };
 
 function shareX(id) {
@@ -856,6 +965,88 @@ function toggleTheme() {
     if(label) label.textContent = 'Dark';
   }
 })();
+</script>
+
+<!-- PROJECT DETAIL MODALS -->
+<div class="detail-modal" id="modal-benson" role="dialog" aria-modal="true" aria-label="Benson Aluminum Smelter Report">
+  <div class="detail-panel">
+    <button class="detail-close" onclick="closeDetail('benson')" aria-label="Close">&#x2715;</button>
+    <div class="detail-kicker">&#128308; Urgent &#8212; Active Air Permit &#8212; Benson, AZ / Cochise County</div>
+    <h2 class="detail-title">Stop the Benson Aluminum Smelter &#8212; San Pedro River at Risk</h2>
+    <div class="detail-chips">
+      <span class="impact-chip chip-red">&#128567; PFCs &#8212; child asthma &amp; arthritis</span>
+      <span class="impact-chip chip-red">&#9888; HCl hazardous pollutant &#8212; major source</span>
+      <span class="impact-chip chip-blue">&#128166; 388 gal/min groundwater</span>
+      <span class="impact-chip chip-yellow">&#127968; School &lt; 0.5 mi away</span>
+      <span class="impact-chip">&#127860; Nursing home adjacent</span>
+      <span class="impact-chip">&#9878; Lawsuit filed Sept 2025</span>
+    </div>
+    <div class="detail-section"><h4>What Is Happening</h4><p>Mississippi-based Aluminum Dynamics, Inc. (ADI) proposes a 200-acre, 174,000 sq ft aluminum recycling facility in Benson, Arizona &#8212; on the banks of the San Pedro River, the last free-flowing river in the American Southwest. The facility melts aluminum scrap and casts it into recycled aluminum for an out-of-state mill. ADEQ issued a proposed final air quality permit in December 2025. Aluminum Dynamics was previously rejected by Gila Bend, AZ, and then targeted Benson &#8212; a lower-income rural community.</p></div>
+    <div class="detail-section"><h4>The Pollution</h4><ul><li>Emits <strong>perfluorocarbons (PFCs)</strong> &#8212; linked to asthma in children and arthritis in women. PFCs persist in the environment for thousands of years.</li><li>ADEQ&#8217;s July 2025 fact sheet states the facility has the potential to emit <strong>hydrogen chloride, a regulated hazardous air pollutant, in excess of the major source threshold.</strong></li><li>Less than half a mile from a school. Directly across from a nursing home.</li><li>Drains <strong>388 gallons per minute</strong> (558,720 gal/day) from an already-stressed desert aquifer and the San Pedro River watershed.</li></ul></div>
+    <div class="detail-section"><h4>Community Response</h4><ul><li>Arizona AG <strong>Kris Mayes</strong> held a packed town hall October 2025 &#8212; majority opposed. She is considering a public nuisance lawsuit.</li><li>Nonprofit <strong>Health Over Wealth Benson</strong> filed suit in September 2025 challenging the permitting process.</li><li>As of January 2026, a judge was weighing a motion to dismiss. The fight continues.</li><li>Clean tech alternatives exist &#8212; ADI refuses to invest in them.</li></ul></div>
+    <div class="detail-section"><h4>What You Can Do</h4><ul><li>Submit public comments to ADEQ on the air quality permit.</li><li>Contact Arizona AG Kris Mayes to support a nuisance lawsuit.</li><li>Visit <a href="https://nobensonaluminumplant.org" target="_blank">nobensonaluminumplant.org</a> to join the local effort.</li><li>Share this page widely.</li></ul></div>
+    <div class="detail-section"><h4>Sources</h4><ul><li><a href="https://azluminaria.org/2025/10/24/in-benson-a-fight-over-an-aluminum-plant-echoes-tucsons-project-blue/" target="_blank">AZ Luminaria &#8212; Full Investigation (Oct 2025)</a></li><li><a href="https://azdeq.gov/aqd/AluminumDynamics" target="_blank">ADEQ Official Permit Documentation</a></li></ul></div>
+    <div class="detail-actions">
+      <button class="vote-btn vote-no-project" style="max-width:240px;font-size:0.85rem;" onclick="closeDetail('benson');document.getElementById('initiatives').scrollIntoView({behavior:'smooth'})">&#9995; Vote on This Issue</button>
+      <a class="share-btn share-x" style="padding:0.55rem 0.9rem;" href="#" onclick="shareX(1);return false;">Share X</a>
+      <a class="share-btn share-fb" style="padding:0.55rem 0.9rem;" href="#" onclick="shareFB(1);return false;">Facebook</a>
+    </div>
+  </div>
+</div>
+
+<div class="detail-modal" id="modal-jupiter" role="dialog" aria-modal="true" aria-label="Project Jupiter Report">
+  <div class="detail-panel">
+    <button class="detail-close" onclick="closeDetail('jupiter')" aria-label="Close">&#x2715;</button>
+    <div class="detail-kicker">&#128308; Urgent &#8212; Public Hearing July 21, 2026 &#8212; Do&#241;a Ana County, NM</div>
+    <h2 class="detail-title">Stop Project Jupiter &#8212; AI Data Center Gas Plants Polluting New Mexico</h2>
+    <div class="detail-chips">
+      <span class="impact-chip chip-red">&#9925; GHG = NM&#8217;s 2 largest cities combined</span>
+      <span class="impact-chip chip-red">&#128200; Deliberate permit-split loophole</span>
+      <span class="impact-chip chip-yellow">&#128200; $165B in public bonds</span>
+      <span class="impact-chip chip-blue">&#127988; 17-mile / $60M gas pipeline</span>
+      <span class="impact-chip">Zero clean tech</span>
+    </div>
+    <div class="detail-section"><h4>What Is Happening</h4><p>Acoma LLC is developing a massive AI data center in Santa Teresa, New Mexico (Do&#241;a Ana County), backed by <strong>$165 billion in county bonds</strong> for OpenAI and Oracle. It needs its own power &#8212; so the developer applied for air quality permits for <strong>two private gas-fired microgrid power plants</strong>. They split the project across two permit applications to stay below the threshold that triggers stricter environmental review. A public hearing is now required &#8212; decision deadline: <strong>July 21, 2026.</strong></p></div>
+    <div class="detail-section"><h4>The Emissions</h4><ul><li>Twin gas plants would emit GHGs <strong>equal to New Mexico&#8217;s two largest cities combined</strong> &#8212; every year.</li><li>A <strong>17-mile, $60 million natural gas pipeline</strong> would feed the plants.</li><li>Zero carbon capture. Zero clean scrubbers. Zero renewables commitment.</li><li>The permit-split strategy &#8212; dividing one project across two applications &#8212; was designed to dodge stricter state review. Environmental groups flagged it publicly.</li></ul></div>
+    <div class="detail-section"><h4>Who&#8217;s Behind It</h4><ul><li><strong>OpenAI</strong> &#8212; $300B+ valuation. Backed by Microsoft, SoftBank. Chose gas over renewables.</li><li><strong>Oracle Corp</strong> &#8212; $490B+ market cap. Submitted letter to NMED supporting permit approval over community objections.</li><li><strong>Acoma LLC</strong> &#8212; Developer. Permit applications acknowledged worst-case pollution scenarios.</li><li>Funded by <strong>$165B in Do&#241;a Ana County public bonds</strong> &#8212; public risk, private profits.</li></ul></div>
+    <div class="detail-section"><h4>Community Response</h4><ul><li><strong>7,155 New Mexicans</strong> submitted comments &#8212; forcing a public hearing.</li><li>NMED Environment Secretary Kenney approved the hearing March 2026.</li><li>State Rep. Angelica Rubio demanded a bilingual hearing in Do&#241;a Ana County.</li><li>Court filings contradict developer&#8217;s promised job numbers.</li></ul></div>
+    <div class="detail-section"><h4>What You Can Do</h4><ul><li>Submit comments to NMED before July 21, 2026.</li><li>Attend the public hearing in Do&#241;a Ana County.</li><li>Contact your state representative. Demand renewable power alternatives.</li><li>Share this page now &#8212; the clock is running.</li></ul></div>
+    <div class="detail-section"><h4>Sources</h4><ul><li><a href="https://sourcenm.com" target="_blank">Source New Mexico &#8212; Project Jupiter Coverage</a></li></ul></div>
+    <div class="detail-actions">
+      <button class="vote-btn vote-no-project" style="max-width:240px;font-size:0.85rem;" onclick="closeDetail('jupiter');document.getElementById('initiatives').scrollIntoView({behavior:'smooth'})">&#9995; Vote on This Issue</button>
+      <a class="share-btn share-x" style="padding:0.55rem 0.9rem;" href="#" onclick="shareX(2);return false;">Share X</a>
+      <a class="share-btn share-fb" style="padding:0.55rem 0.9rem;" href="#" onclick="shareFB(2);return false;">Facebook</a>
+    </div>
+  </div>
+</div>
+
+<div class="detail-modal" id="modal-cu" role="dialog" aria-modal="true" aria-label="NM Credit Union Watch Report">
+  <div class="detail-panel">
+    <button class="detail-close" onclick="closeDetail('cu')" aria-label="Close">&#x2715;</button>
+    <div class="detail-kicker">&#9888; Financial Betrayal &#8212; New Mexico Statewide</div>
+    <h2 class="detail-title">NM Credit Unions: Secret Executive Retirements Built on Member Deposits</h2>
+    <div class="detail-chips">
+      <span class="impact-chip chip-red">&#128200; Up to 24.2% of member equity diverted</span>
+      <span class="impact-chip chip-red">Zero member votes. Zero disclosures. 15 institutions.</span>
+      <span class="impact-chip chip-yellow">Source: NCUA public call reports</span>
+    </div>
+    <div class="detail-section"><h4>What Is Happening</h4><p>Credit unions are member-owned, federally tax-exempt cooperatives. They pay <strong>zero federal income tax</strong> because they are supposed to exist solely for members&#8217; benefit. Fifteen New Mexico credit unions instead purchased <strong>SERPs (Supplemental Executive Retirement Plans)</strong> funded through Bank-Owned Life Insurance (BOLI) products &#8212; recording them in NCUA filings under account code 798E. Policies were taken out on executives, funded with member capital, designed to pay executives <strong>tax-free retirement income worth millions</strong>. No member voted. No disclosure was made at any of the 15 institutions.</p></div>
+    <div class="detail-section"><h4>The Numbers (from public NCUA filings)</h4><ul><li><strong>Artesia CU:</strong> 24.19% of member equity &#8212; $6,030,061</li><li><strong>State Employees CU:</strong> 19.28% &#8212; $25,601,254</li><li><strong>Roswell Community CU:</strong> 16.89% &#8212; $1,467,200</li><li><strong>Estacado FCU:</strong> 15.83% &#8212; $2,120,085</li><li><strong>U.S. Eagle FCU:</strong> 12.64% &#8212; $15,935,821</li><li><strong>Sunward FCU:</strong> 7.07% &#8212; $26,924,824</li><li><strong>Nusenda CU:</strong> 5.22% &#8212; $21,271,275</li><li>Plus 8 more institutions &#8212; all zero disclosure</li></ul></div>
+    <div class="detail-section"><h4>How They Paid for It</h4><p>The capital came from <strong>overdraft fees, NSF charges, and penalty fees</strong> &#8212; assessed disproportionately against members living paycheck to paycheck. The member who overdrafts $12 and pays a $35 fee. Charged again Thursday. To tens of thousands of members, year after year. That revenue was funneled into executive retirement accounts. The board of directors approved every single one &#8212; in closed executive session, with no member notice.</p></div>
+    <div class="detail-section"><h4>What You Can Do</h4><ul><li>Visit <a href="https://nmcreditunionwatch.org" target="_blank">nmcreditunionwatch.org</a> &#8212; full data + template letter for your board.</li><li>Attend your credit union&#8217;s annual meeting. Ask about 798E assets on the NCUA call report.</li><li>Contact the NCUA or the New Mexico Financial Institutions Division.</li><li>Share this page &#8212; most credit union members have no idea this is happening to their money.</li></ul></div>
+    <div class="detail-actions">
+      <button class="vote-btn vote-no-project" style="max-width:280px;font-size:0.85rem;" onclick="closeDetail('cu');document.getElementById('initiatives').scrollIntoView({behavior:'smooth'})">&#9995; Vote on This Issue</button>
+      <a class="share-btn share-x" style="padding:0.55rem 0.9rem;" href="#" onclick="shareX(3);return false;">Share X</a>
+      <a class="share-btn share-fb" style="padding:0.55rem 0.9rem;" href="#" onclick="shareFB(3);return false;">Facebook</a>
+    </div>
+  </div>
+</div>
+
+<script>
+function openDetail(id){const m=document.getElementById('modal-'+id);if(m){m.classList.add('open');document.body.style.overflow='hidden';}}
+function closeDetail(id){const m=document.getElementById('modal-'+id);if(m){m.classList.remove('open');document.body.style.overflow='';}}
+document.addEventListener('click',function(e){if(e.target.classList.contains('detail-modal')){e.target.classList.remove('open');document.body.style.overflow='';}});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){document.querySelectorAll('.detail-modal.open').forEach(m=>{m.classList.remove('open');document.body.style.overflow='';});}});
 </script>
 </body>
 </html>
