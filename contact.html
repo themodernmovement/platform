@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Contact The Modern Movement Network. Have a story tip, a local issue to report, or questions? Reach out here."/>
+  <title>Contact Us — The Modern Movement Network</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231a3d2e'/><polyline points='14,34 26,46 50,20' stroke='%2386efac' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --forest: #1a3d2e; --leaf: #2d6a4f; --mint: #86efac;
+      --cream: #f4f1ea; --sand: #e8e0d0; --charcoal: #1c1c1c; --mid: #555;
+      --red: #c8362a;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--charcoal); line-height: 1.7; }
+    .network-bar { background: var(--charcoal); color: rgba(255,255,255,0.7); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; padding: 0.4rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .network-bar a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    .network-bar a:hover { color: #86efac; }
+    .network-bar .sep { color: rgba(255,255,255,0.2); }
+    nav { background: var(--forest); padding: 1rem clamp(1rem,4vw,2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-brand { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: white; text-decoration: none; }
+    .nav-brand span { color: var(--mint); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.75); text-decoration: none; }
+    .nav-links a:hover { color: white; }
+    .page-hero { background: var(--forest); color: white; padding: 4rem clamp(1rem,4vw,2.5rem) 3rem; }
+    .page-hero .eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mint); margin-bottom: 0.75rem; }
+    .page-hero h1 { font-family: var(--serif); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; }
+    .page-hero p { color: rgba(255,255,255,0.7); margin-top: 0.75rem; max-width: 600px; }
+
+    /* CONTACT GRID */
+    .contact-wrap { max-width: 1000px; margin: 0 auto; padding: 4rem clamp(1rem,4vw,2rem); display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+    @media (max-width: 700px) { .contact-wrap { grid-template-columns: 1fr; } }
+
+    /* ROUTES */
+    .route-card { background: white; border-radius: 10px; padding: 2rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); border-top: 4px solid var(--leaf); }
+    .route-card .icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .route-card h2 { font-family: var(--serif); font-size: 1.4rem; margin-bottom: 0.5rem; color: var(--forest); }
+    .route-card p { color: var(--mid); font-size: 0.95rem; margin-bottom: 1.25rem; }
+    .btn-go { display: inline-block; background: var(--forest); color: white; padding: 0.65rem 1.5rem; border-radius: 6px; font-weight: 700; font-size: 0.9rem; text-decoration: none; transition: background 0.2s; }
+    .btn-go:hover { background: var(--leaf); }
+    .btn-go.red { background: var(--red); }
+    .btn-go.red:hover { background: #a02820; }
+
+    /* FULL WIDTH SECTION */
+    .full-section { max-width: 1000px; margin: 0 auto; padding: 0 clamp(1rem,4vw,2rem) 4rem; }
+    .full-section h2 { font-family: var(--serif); font-size: 1.5rem; color: var(--forest); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--sand); }
+
+    /* EMBED FRAME */
+    .form-embed { background: white; border-radius: 10px; padding: 2.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+    .form-embed label { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.4rem; }
+    .form-embed input, .form-embed textarea, .form-embed select {
+      width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid var(--sand);
+      border-radius: 6px; font-family: var(--sans); font-size: 0.95rem;
+      background: var(--cream); color: var(--charcoal); margin-bottom: 1.25rem;
+      transition: border-color 0.2s;
+    }
+    .form-embed input:focus, .form-embed textarea:focus, .form-embed select:focus {
+      outline: none; border-color: var(--leaf);
+    }
+    .form-embed textarea { min-height: 140px; resize: vertical; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    .form-embed .submit-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .form-embed button { background: var(--forest); color: white; padding: 0.75rem 2rem; border: none; border-radius: 6px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .form-embed button:hover { background: var(--leaf); }
+    .form-embed .note { font-size: 0.8rem; color: var(--mid); }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--forest); color: white; padding: 1rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 999; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    footer { background: var(--charcoal); color: rgba(255,255,255,0.65); padding: 2rem clamp(1rem,4vw,2.5rem); text-align: center; font-size: 0.875rem; }
+    footer a { color: var(--mint); text-decoration: none; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    @media (max-width: 600px) { .nav-links { display: none; } }
+  </style>
+</head>
+<body>
+
+<div class="network-bar">
+  <span>&#9679; THE MODERN MOVEMENT NETWORK</span>
+  <span class="sep">|</span>
+  <a href="https://www.themodernmovement.org">THEMODERNMOVEMENT.ORG</a>
+  <a href="https://www.icansayyes.org">ICANSAYYES.ORG</a>
+  <a href="https://www.youcansayno.org">YOUCANSAYNO.ORG</a>
+</div>
+
+<nav>
+  <a class="nav-brand" href="https://www.icansayyes.org">ICan <span>SayYes</span> .org</a>
+  <ul class="nav-links">
+    <li><a href="https://www.icansayyes.org/#initiatives">Vote Now</a></li>
+    <li><a href="https://www.icansayyes.org/#post">Propose</a></li>
+    <li><a href="/mission.html">Mission</a></li>
+    <li><a href="https://www.youcansayno.org">YouCanSayNo.org</a></li>
+  </ul>
+</nav>
+
+<section class="page-hero">
+  <p class="eyebrow">// Get in Touch</p>
+  <h1>Contact Us</h1>
+  <p>We are a volunteer-run network. We read everything. We respond to what we can. The fastest way to reach us is through the right channel below.</p>
+</section>
+
+<div class="contact-wrap">
+  <div class="route-card">
+    <div class="icon">&#9889;</div>
+    <h2>Submit a Local Issue</h2>
+    <p>Know of a harmful project in your community &mdash; a polluting facility, a corrupt institution, a data center targeting your water supply? Submit it to YouCanSayNo.org and we will research, verify, and publish it.</p>
+    <a class="btn-go red" href="https://www.youcansayno.org/#post">&#43; Post Your Issue</a>
+  </div>
+  <div class="route-card">
+    <div class="icon">&#10003;</div>
+    <h2>Propose a Measure</h2>
+    <p>Have a specific, actionable community measure you want people to vote on &mdash; a policy, a budget item, an accountability mechanism? Propose it on ICanSayYes.org for public voting.</p>
+    <a class="btn-go" href="https://www.icansayyes.org/#post">&#43; Propose a Measure</a>
+  </div>
+</div>
+
+<div class="full-section">
+  <h2>Send Us a Message</h2>
+  <div class="form-embed">
+    <div class="form-grid">
+      <div>
+        <label for="cname">Your Name</label>
+        <input type="text" id="cname" placeholder="Full name" autocomplete="name"/>
+      </div>
+      <div>
+        <label for="cemail">Your Email</label>
+        <input type="email" id="cemail" placeholder="you@example.com" autocomplete="email"/>
+      </div>
+    </div>
+    <label for="csubject">Subject</label>
+    <select id="csubject">
+      <option value="">Select a topic...</option>
+      <option value="issue">I have a local issue to report</option>
+      <option value="press">Press / media inquiry</option>
+      <option value="partner">Partnership or collaboration</option>
+      <option value="privacy">Privacy or data request</option>
+      <option value="tech">Technical problem</option>
+      <option value="other">Other</option>
+    </select>
+    <label for="cmessage">Message</label>
+    <textarea id="cmessage" placeholder="Tell us what's happening. Be as specific as possible &mdash; location, company names, what you've observed, any sources or documents you have."></textarea>
+    <div class="submit-row">
+      <button onclick="submitContact()">Send Message</button>
+      <span class="note">No account required. We typically respond within 3&ndash;5 business days.</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/mission.html">Our Mission</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/contact.html">Contact Us</a>
+    <a href="/press.html">Press Inquiries</a>
+  </div>
+  <p>&copy; 2025 The Modern Movement Network &mdash; Nonpartisan. Community-owned. No corporate funding.</p>
+</footer>
+
+<script>
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+function submitContact() {
+  const name = document.getElementById('cname').value.trim();
+  const email = document.getElementById('cemail').value.trim();
+  const subject = document.getElementById('csubject').value;
+  const message = document.getElementById('cmessage').value.trim();
+  if (!name || !email || !subject || !message) {
+    showToast('Please fill in all fields before sending.');
+    return;
+  }
+  // Build mailto as fallback (Supabase edge function can replace this later)
+  const body = encodeURIComponent('Name: ' + name + '\nSubject: ' + subject + '\n\n' + message);
+  const mailto = 'mailto:contact@themodernmovement.org?subject=' + encodeURIComponent('[Modern Movement] ' + subject) + '&body=' + body;
+  window.location.href = mailto;
+  showToast('&#10003; Opening your email client...');
+}
+</script>
+
+</body>
+</html>
