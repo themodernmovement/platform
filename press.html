@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Press Inquiries — The Modern Movement Network. Journalists covering corporate accountability, civic technology, and community organizing."/>
+  <title>Press Inquiries — The Modern Movement Network</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='10' fill='%231a3d2e'/><polyline points='14,34 26,46 50,20' stroke='%2386efac' stroke-width='7' stroke-linecap='round' stroke-linejoin='round' fill='none'/></svg>"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --forest: #1a3d2e; --leaf: #2d6a4f; --mint: #86efac;
+      --cream: #f4f1ea; --sand: #e8e0d0; --charcoal: #1c1c1c; --mid: #555;
+      --red: #c8362a;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--cream); color: var(--charcoal); line-height: 1.7; }
+    .network-bar { background: var(--charcoal); color: rgba(255,255,255,0.7); font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em; padding: 0.4rem 1.5rem; display: flex; align-items: center; gap: 1.5rem; flex-wrap: wrap; }
+    .network-bar a { color: rgba(255,255,255,0.7); text-decoration: none; }
+    .network-bar a:hover { color: #86efac; }
+    .network-bar .sep { color: rgba(255,255,255,0.2); }
+    nav { background: var(--forest); padding: 1rem clamp(1rem,4vw,2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+    .nav-brand { font-family: var(--serif); font-size: 1.4rem; font-weight: 700; color: white; text-decoration: none; }
+    .nav-brand span { color: var(--mint); }
+    .nav-links { display: flex; align-items: center; gap: 1.5rem; list-style: none; }
+    .nav-links a { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: rgba(255,255,255,0.75); text-decoration: none; }
+    .nav-links a:hover { color: white; }
+
+    .page-hero { background: var(--charcoal); color: white; padding: 4.5rem clamp(1rem,4vw,2.5rem) 3.5rem; }
+    .page-hero .eyebrow { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--mint); margin-bottom: 0.75rem; }
+    .page-hero h1 { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .page-hero h1 em { color: var(--mint); font-style: italic; }
+    .page-hero p { color: rgba(255,255,255,0.75); max-width: 620px; font-size: 1.05rem; }
+
+    .content-wrap { max-width: 960px; margin: 0 auto; padding: 4rem clamp(1rem,4vw,2rem); }
+
+    /* QUICK STATS */
+    .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1.25rem; margin-bottom: 4rem; }
+    .stat-box { background: white; border-radius: 8px; padding: 1.5rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+    .stat-box .num { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--forest); }
+    .stat-box .label { font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-top: 0.25rem; }
+
+    /* KEY FACTS */
+    .section-block { margin-bottom: 3rem; }
+    .section-block h2 { font-family: var(--serif); font-size: 1.6rem; font-weight: 700; color: var(--forest); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--sand); }
+    .section-block p { color: var(--mid); margin-bottom: 0.85rem; font-size: 0.975rem; }
+    .section-block ul { list-style: none; margin-bottom: 1rem; }
+    .section-block ul li { padding: 0.45rem 0 0.45rem 1.5rem; position: relative; color: var(--mid); font-size: 0.95rem; border-bottom: 1px solid var(--sand); }
+    .section-block ul li::before { content: '&#9654;'; position: absolute; left: 0; color: var(--leaf); font-size: 0.7rem; top: 0.6rem; }
+
+    /* COVERAGE */
+    .coverage-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 1.5rem; }
+    .coverage-card { background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid var(--leaf); }
+    .coverage-card .outlet { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--leaf); margin-bottom: 0.4rem; }
+    .coverage-card h3 { font-family: var(--serif); font-size: 1rem; margin-bottom: 0.4rem; color: var(--charcoal); }
+    .coverage-card p { font-size: 0.85rem; color: var(--mid); }
+
+    /* PRESS FORM */
+    .press-form { background: white; border-radius: 10px; padding: 2.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); margin-top: 1.5rem; }
+    .press-form label { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); margin-bottom: 0.4rem; }
+    .press-form input, .press-form textarea, .press-form select {
+      width: 100%; padding: 0.65rem 0.85rem; border: 1.5px solid var(--sand);
+      border-radius: 6px; font-family: var(--sans); font-size: 0.95rem;
+      background: var(--cream); color: var(--charcoal); margin-bottom: 1.25rem; transition: border-color 0.2s;
+    }
+    .press-form input:focus, .press-form textarea:focus, .press-form select:focus { outline: none; border-color: var(--leaf); }
+    .press-form textarea { min-height: 140px; resize: vertical; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1rem; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    .press-form .submit-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .press-form button { background: var(--charcoal); color: white; padding: 0.75rem 2rem; border: none; border-radius: 6px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+    .press-form button:hover { background: var(--forest); }
+    .press-form .note { font-size: 0.8rem; color: var(--mid); }
+
+    /* BOILERPLATE */
+    .boilerplate { background: var(--forest); color: rgba(255,255,255,0.85); border-radius: 10px; padding: 2rem; margin-top: 1.5rem; }
+    .boilerplate h3 { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--mint); margin-bottom: 1rem; }
+    .boilerplate p { font-size: 0.9rem; line-height: 1.7; }
+
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--forest); color: white; padding: 1rem 1.5rem; border-radius: 8px; font-weight: 600; font-size: 0.9rem; transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 999; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+
+    footer { background: var(--charcoal); color: rgba(255,255,255,0.65); padding: 2rem clamp(1rem,4vw,2.5rem); text-align: center; font-size: 0.875rem; }
+    footer a { color: var(--mint); text-decoration: none; }
+    .footer-links { display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
+    @media (max-width: 600px) { .nav-links { display: none; } .stat-strip { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<div class="network-bar">
+  <span>&#9679; THE MODERN MOVEMENT NETWORK</span>
+  <span class="sep">|</span>
+  <a href="https://www.themodernmovement.org">THEMODERNMOVEMENT.ORG</a>
+  <a href="https://www.icansayyes.org">ICANSAYYES.ORG</a>
+  <a href="https://www.youcansayno.org">YOUCANSAYNO.ORG</a>
+</div>
+
+<nav>
+  <a class="nav-brand" href="https://www.icansayyes.org">ICan <span>SayYes</span> .org</a>
+  <ul class="nav-links">
+    <li><a href="https://www.icansayyes.org/#initiatives">Vote Now</a></li>
+    <li><a href="https://www.icansayyes.org/#post">Propose</a></li>
+    <li><a href="/mission.html">Mission</a></li>
+    <li><a href="https://www.youcansayno.org">YouCanSayNo.org</a></li>
+  </ul>
+</nav>
+
+<section class="page-hero">
+  <p class="eyebrow">// For Journalists and Researchers</p>
+  <h1>Press &amp; <em>Media Inquiries</em></h1>
+  <p>We are a public-interest civic platform. Our data, our issues, and our methodology are open for scrutiny. If you are covering corporate accountability, civic technology, or community organizing, we want to talk to you.</p>
+</section>
+
+<main class="content-wrap">
+
+  <div class="stat-strip">
+    <div class="stat-box"><div class="num">3</div><div class="label">Active Platforms</div></div>
+    <div class="stat-box"><div class="num">388</div><div class="label">Gal/Min at Stake</div></div>
+    <div class="stat-box"><div class="num">7,155</div><div class="label">NM Comments Filed</div></div>
+    <div class="stat-box"><div class="num">$165B</div><div class="label">Public Bonds — Project Jupiter</div></div>
+    <div class="stat-box"><div class="num">0</div><div class="label">Corporate Funders</div></div>
+  </div>
+
+  <div class="section-block">
+    <h2>About the Network</h2>
+    <p>The Modern Movement Network is a nonpartisan, volunteer-run civic technology platform with three connected properties:</p>
+    <ul>
+      <li><strong>YouCanSayNo.org</strong> &mdash; public opposition platform exposing harmful corporate projects with sourced pollution metrics, corporate accountability rankings, and community voting</li>
+      <li><strong>ICanSayYes.org</strong> &mdash; community proposal and voting platform where citizens propose real, specific measures for governing bodies to act on</li>
+      <li><strong>TheModernMovement.org</strong> &mdash; the member hub, admin platform, and community backbone</li>
+    </ul>
+    <p>We accept no corporate funding. We run no advertising. We are powered by Supabase (open-source database), Vercel (hosting), and the conviction that communities have the right to fight back.</p>
+  </div>
+
+  <div class="section-block">
+    <h2>Active Issues We Are Tracking</h2>
+    <ul>
+      <li><strong>Benson, AZ Aluminum Smelter</strong> &mdash; Aluminum Dynamics, Inc. (Mississippi) proposes a 174,000 sq ft aluminum recycling facility on the San Pedro River. ADEQ air quality permit issued December 2025. Emits PFCs and hydrogen chloride exceeding major source threshold. 388 gal/min groundwater draw. Less than 0.5 miles from a school. Health Over Wealth Benson lawsuit filed September 2025. Arizona AG Kris Mayes considering public nuisance action.</li>
+      <li><strong>Project Jupiter &mdash; Do&ntilde;a Ana County, NM</strong> &mdash; OpenAI and Oracle backing $165B in public bonds to build a massive AI data center in Santa Teresa, NM. Powered by twin private gas-fired microgrid plants. Combined GHG equal to Albuquerque + Las Cruces annually. Permit split across two separate applications to dodge state review thresholds. 7,155 public comments filed. Hearing scheduled July 21, 2026.</li>
+      <li><strong>NM Credit Union Watch</strong> &mdash; Fifteen New Mexico federally tax-exempt credit unions funneled member deposits into secret executive retirement plans (SERPs) via Bank-Owned Life Insurance. Artesia CU: 24.2% of total equity. State Employees CU: $25.8M. Zero member votes held. Zero public disclosure. NCUA public filings sourced.</li>
+    </ul>
+  </div>
+
+  <div class="section-block">
+    <h2>Coverage We Welcome</h2>
+    <div class="coverage-grid">
+      <div class="coverage-card">
+        <div class="outlet">Corporate Accountability</div>
+        <h3>Who is behind these projects?</h3>
+        <p>We name the companies, the investors, the lobbyists, and the permit-splitting strategies. Our Corporate Hall of Shame is fully sourced.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="outlet">Environmental / Health</div>
+        <h3>What are the real pollution numbers?</h3>
+        <p>Every pollution rating on our platform is sourced to permit filings, ADEQ fact sheets, or NMED documents. We provide the source links.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="outlet">Civic Technology</div>
+        <h3>How does the platform work?</h3>
+        <p>Open-source stack, no bot protection bypass, anonymous voting by design. We are happy to explain the architecture and methodology.</p>
+      </div>
+      <div class="coverage-card">
+        <div class="outlet">Financial / Consumer</div>
+        <h3>Credit union accountability</h3>
+        <p>The NM Credit Union Watch data comes from NCUA public filings. All figures are verifiable by any journalist with FOIA access.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Media Inquiry Form</h2>
+    <div class="press-form">
+      <div class="form-grid">
+        <div>
+          <label for="pname">Your Name</label>
+          <input type="text" id="pname" placeholder="Full name"/>
+        </div>
+        <div>
+          <label for="poutlet">Publication / Outlet</label>
+          <input type="text" id="poutlet" placeholder="e.g. Source NM, ProPublica"/>
+        </div>
+      </div>
+      <div class="form-grid">
+        <div>
+          <label for="pemail">Email</label>
+          <input type="email" id="pemail" placeholder="press@outlet.com"/>
+        </div>
+        <div>
+          <label for="pdeadline">Deadline (if applicable)</label>
+          <input type="text" id="pdeadline" placeholder="e.g. Friday 5pm MT"/>
+        </div>
+      </div>
+      <label for="ptopic">Topic / Issue</label>
+      <select id="ptopic">
+        <option value="">Select the story area...</option>
+        <option value="benson">Benson Aluminum Smelter (AZ)</option>
+        <option value="jupiter">Project Jupiter &mdash; AI Data Center (NM)</option>
+        <option value="cuwatch">NM Credit Union Watch</option>
+        <option value="platform">The Platform Itself / Civic Tech</option>
+        <option value="other">Other</option>
+      </select>
+      <label for="pmessage">Your Request</label>
+      <textarea id="pmessage" placeholder="What are you working on? What do you need from us? Interview, data, source documents, background?"></textarea>
+      <div class="submit-row">
+        <button onclick="submitPress()">Send Inquiry</button>
+        <span class="note">We respond to press within 24 hours. For urgent requests, note your deadline above.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-block">
+    <h2>Official Boilerplate</h2>
+    <div class="boilerplate">
+      <h3>About The Modern Movement Network</h3>
+      <p>The Modern Movement Network is a nonpartisan, volunteer-operated civic technology platform. Its properties &mdash; YouCanSayNo.org, ICanSayYes.org, and TheModernMovement.org &mdash; provide communities with tools to oppose harmful corporate projects, vote on community measures, and hold institutions accountable. The Network accepts no corporate funding, runs no advertising, and does not sell user data. All issue data is sourced to public records, permit filings, or investigative journalism. The Network was founded on the belief that enough ordinary people, organized around a clear and verifiable message, can still change things.</p>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="footer-links">
+    <a href="/mission.html">Our Mission</a>
+    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/contact.html">Contact Us</a>
+    <a href="/press.html">Press Inquiries</a>
+  </div>
+  <p>&copy; 2025 The Modern Movement Network &mdash; Nonpartisan. Community-owned. No corporate funding.</p>
+</footer>
+
+<script>
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+function submitPress() {
+  const name = document.getElementById('pname').value.trim();
+  const outlet = document.getElementById('poutlet').value.trim();
+  const email = document.getElementById('pemail').value.trim();
+  const topic = document.getElementById('ptopic').value;
+  const message = document.getElementById('pmessage').value.trim();
+  if (!name || !email || !topic || !message) {
+    showToast('Please fill in all required fields.');
+    return;
+  }
+  const deadline = document.getElementById('pdeadline').value.trim();
+  const body = encodeURIComponent('Name: ' + name + '\nOutlet: ' + outlet + '\nDeadline: ' + (deadline || 'none') + '\nTopic: ' + topic + '\n\n' + message);
+  const mailto = 'mailto:press@themodernmovement.org?subject=' + encodeURIComponent('[Press] ' + topic + ' &mdash; ' + outlet) + '&body=' + body;
+  window.location.href = mailto;
+  showToast('Opening your email client...');
+}
+</script>
+
+</body>
+</html>
